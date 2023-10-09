@@ -32,6 +32,15 @@ Invitations between 1st May 2020 and 30th April 2022
 
 "IMPORTANT: The small numbers of positive test results recorded for NHS Orkney, NHS Western Isles and NHS Shetland (due to their small population sizes) require that caution "
 
+"Uptake (KPI 1)
+Uptake is defined as the proportion of invites which are returned as a correctly
+completed kit (i.e. a positive or negative test result). It is a key measure of the
+acceptability of the test to the public."
+Data: Sheet: KPI_1
+
+
+
+
 *Definitions	*				
 Adenoma		a benign epithelial tumour			
 Colorectal cancer		Also referred to as bowel cancer. For the purposes of this publication bowel/colorectal cancer refers to colorectal cancers			
