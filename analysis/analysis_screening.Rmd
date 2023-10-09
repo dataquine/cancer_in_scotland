@@ -1,0 +1,71 @@
+---
+title: 'Analysis: Screening'
+author: "Lesley Duff"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+---
+# Analysis: Screening
+
+```{r}
+library(here)
+library(skimr)
+library(tidyverse)
+```
+
+
+## Bowel Cancer
+
+### Take up (KP1)
+```{r}
+screening_bowel_cancer_takeup <- read_csv(here::here("data_clean/phs/screening/bowel/phs_screening_bowel_uptake.csv"))
+```
+
+```{r}
+dim(screening_bowel_cancer_takeup)
+# 45 rows 3 columns
+
+# Examine data
+glimpse(screening_bowel_cancer_takeup)
+skimr::skim(screening_bowel_cancer_takeup)
+
+# The area column represents both health boards and all of Scotland so be
+# careful to filter our results if e.g. only health boards requires
+```
+
+```{r}
+View(screening_bowel_cancer_takeup)
+```
+
+```{r}
+head(screening_bowel_cancer_takeup)
+```
+
+```{r}
+screening_filter_persons_scotland <- "All persons"
+screening_filter_persons_male <- "Males"
+screening_filter_persons_female <- "Females"
+
+screening_filter_area_scotland <- "Scotland"
+
+# Default to all of Scotland only
+get_screening_bowel_cancer_takeup <- function(df, 
+  filter_persons = screening_filter_persons_scotland,
+  filter_area = screening_filter_area_scotland) {
+  bowel_cancer_takeup <- df %>%
+    filter(persons %in% filter_persons) %>% 
+    filter(area %in% filter_area)
+  return(bowel_cancer_takeup)
+}
+
+screening_bowel_cancer_takeup_scotland <- get_screening_bowel_cancer_takeup(screening_bowel_cancer_takeup)
+screening_bowel_cancer_takeup_scotland
+
+screening_bowel_cancer_takeup_kpi <- get_screening_bowel_cancer_takeup(
+  screening_bowel_cancer_takeup, filter_persons = 
+    c(screening_filter_persons_scotland, screening_filter_persons_male, screening_filter_persons_female)) #%>% 
+ # select(-area)
+
+screening_bowel_cancer_takeup_kpi
+```
