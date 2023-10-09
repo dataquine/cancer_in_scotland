@@ -13,7 +13,10 @@ output:
 #### Scottish Bowel Screening Programme
 [Scottish bowel screening programme statistics For the period of invitations from May 2020 to April 2022](https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/)
 
-Data: 2023-02-21-bowel-screening-kpi-report
+Data: [2023-02-21-bowel-screening-kpi-report.xlsx](https://publichealthscotland.scot/media/17689/2023-02-21-bowel-screening-kpi-report.xlsx)
+
+Key Performance Indicators Report: Nov 2022 data submission
+Invitations between 1st May 2020 and 30th April 2022
 
 "Men and women registered with a Community Health Index number aged between 50-74 years who are invited to participate..."
 
@@ -26,3 +29,18 @@ Data: 2023-02-21-bowel-screening-kpi-report
 "All colorectal cancers and adenomas in this report were detected through the screening programme."
 
 "Any reference to colorectal cancer includes polyp cancers but excludes non-invasive lesions."
+
+"IMPORTANT: The small numbers of positive test results recorded for NHS Orkney, NHS Western Isles and NHS Shetland (due to their small population sizes) require that caution "
+
+*Definitions	*				
+Adenoma		a benign epithelial tumour			
+Colorectal cancer		Also referred to as bowel cancer. For the purposes of this publication bowel/colorectal cancer refers to colorectal cancers			
+		 (including polyp cancers, but excluding non-invasive lesions).			
+Colonoscopy		endoscopic examination of the colon			
+Dukes' stage		a system devised by Cuthbert Dukes that describes the spread of the tumour and forms the main component in identifying the ‘stage’ of bowel cancer			
+FIT test		Faecal Immunochemical Test			
+FOBT		Faecal Occult Blood Test			
+Histology		the study of cells and tissue at a microscopic level			
+Polyp		a cluster of cells which project as a growth, usually on a stalk, from the mucosal lining of the bowel			
+PPV		Positive Predictive Value - the proportion of those who have a positive test who actually have disease			
+SIMD		Scottish Index of Multiple Deprivation			

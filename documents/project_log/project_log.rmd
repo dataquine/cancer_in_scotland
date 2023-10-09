@@ -1,6 +1,15 @@
+---
+title: "Project Log"
+subtitle: "Cancer in Scotland"
+author: "Lesley Duff"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+---
 # Project Log: Cancer in Scotland
 
-Log of actions taken during project
+Log of actions taken during project.
 
 ## 2023-10-09 Monday
 * Standup
@@ -8,6 +17,12 @@ Log of actions taken during project
 * Created project log file (this document)
 * Data - researching bowel cancer screening data. https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/
   * Created data_sources document to track info around datasets
-  * Downloading latest report
+  * Downloading latest report 
+  * Relevant
+    * "Overall uptake of screening" KP1,
+    * "Overall uptake of screening by deprivation area" KP2, 
+    * "Percentage of people with a positive screening test result" KP3 
+    * "Percentage of people that had a cancer detected" - percentage of people with colorectal cancer, out of those with a final outright screening test result.
+    
 
 
