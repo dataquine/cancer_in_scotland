@@ -1,0 +1,13 @@
+# Project Log: Cancer in Scotland
+
+Log of actions taken during project
+
+## 2023-10-09 Monday
+* Standup
+* Discussion with instructors over choice of brief and plan
+* Created project log file (this document)
+* Data - researching bowel cancer screening data. https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/
+  * Created data_sources document to track info around datasets
+  * Downloading latest report
+
+
