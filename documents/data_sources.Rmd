@@ -1,0 +1,28 @@
+---
+title: "Data Sources"
+output:
+  html_document:
+    df_print: paged
+---
+# Data Sources
+
+## Public Health Scotland
+
+### Screening
+
+#### Scottish Bowel Screening Programme
+[Scottish bowel screening programme statistics For the period of invitations from May 2020 to April 2022](https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/)
+
+Data: 2023-02-21-bowel-screening-kpi-report
+
+"Men and women registered with a Community Health Index number aged between 50-74 years who are invited to participate..."
+
+"Data are submitted to Public Health Scotland by BoSS (the bowel screening IT system) and by NHS boards twice per year in May and November. "
+
+"All data are presented by NHS board and sex. "
+
+"This report contains the Key Performance Indicators for the Nov 2022 data submission"
+
+"All colorectal cancers and adenomas in this report were detected through the screening programme."
+
+"Any reference to colorectal cancer includes polyp cancers but excludes non-invasive lesions."
