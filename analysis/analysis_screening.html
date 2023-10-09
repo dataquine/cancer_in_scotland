@@ -1644,6 +1644,8 @@ library(tidyverse)</code></pre>
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>source(here::here(&quot;R/screening.R&quot;))
+# Retrieve helper functions for manipulating bowel cancer screenining data</code></pre>
 <div id="bowel-cancer" class="section level2">
 <h2>Bowel Cancer</h2>
 <div id="take-up-kp1" class="section level3">
@@ -1812,38 +1814,12 @@ glimpse(screening_bowel_cancer_takeup)</code></pre>
 {"columns":[{"label":["persons"],"name":[1],"type":["chr"],"align":["left"]},{"label":["area"],"name":[2],"type":["chr"],"align":["left"]},{"label":["uptake_pct"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Males","2":"Ayrshire and Arran","3":"63.91602"},{"1":"Males","2":"Borders","3":"69.47501"},{"1":"Males","2":"Dumfries and Galloway","3":"68.06297"},{"1":"Males","2":"Fife","3":"64.74853"},{"1":"Males","2":"Forth Valley","3":"65.36215"},{"1":"Males","2":"Grampian","3":"68.91567"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<pre class="r"><code>screening_filter_persons_scotland &lt;- &quot;All persons&quot;
-screening_filter_persons_male &lt;- &quot;Males&quot;
-screening_filter_persons_female &lt;- &quot;Females&quot;
-
-screening_filter_area_scotland &lt;- &quot;Scotland&quot;
-
-# Default to all of Scotland only
-get_screening_bowel_cancer_takeup &lt;- function(df, 
-  filter_persons = screening_filter_persons_scotland,
-  filter_area = screening_filter_area_scotland) {
-  bowel_cancer_takeup &lt;- df %&gt;%
-    filter(persons %in% filter_persons) %&gt;% 
-    filter(area %in% filter_area)
-  return(bowel_cancer_takeup)
-}
-
-screening_bowel_cancer_takeup_scotland &lt;- get_screening_bowel_cancer_takeup(screening_bowel_cancer_takeup)
-screening_bowel_cancer_takeup_scotland</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["persons"],"name":[1],"type":["chr"],"align":["left"]},{"label":["area"],"name":[2],"type":["chr"],"align":["left"]},{"label":["uptake_pct"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"All persons","2":"Scotland","3":"66.71273"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<pre class="r"><code>screening_bowel_cancer_takeup_kpi &lt;- get_screening_bowel_cancer_takeup(
-  screening_bowel_cancer_takeup, filter_persons = 
-    c(screening_filter_persons_scotland, screening_filter_persons_male, screening_filter_persons_female)) #%&gt;% 
- # select(-area)
-
+<pre class="r"><code>screening_bowel_cancer_takeup_kpi &lt;- 
+  get_screening_bowel_cancer_takeup_kp1(screening_bowel_cancer_takeup)
 screening_bowel_cancer_takeup_kpi</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["persons"],"name":[1],"type":["chr"],"align":["left"]},{"label":["area"],"name":[2],"type":["chr"],"align":["left"]},{"label":["uptake_pct"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Males","2":"Scotland","3":"64.31097"},{"1":"Females","2":"Scotland","3":"69.05392"},{"1":"All persons","2":"Scotland","3":"66.71273"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["sex"],"name":[1],"type":["chr"],"align":["left"]},{"label":["uptake_pct"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Males","2":"64.31097"},{"1":"Females","2":"69.05392"},{"1":"All persons","2":"66.71273"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>

@@ -14,6 +14,10 @@ library(skimr)
 library(tidyverse)
 ```
 
+```{r}
+source(here::here("R/screening.R"))
+# Retrieve helper functions for manipulating bowel cancer screenining data
+```
 
 ## Bowel Cancer
 
@@ -43,29 +47,8 @@ head(screening_bowel_cancer_takeup)
 ```
 
 ```{r}
-screening_filter_persons_scotland <- "All persons"
-screening_filter_persons_male <- "Males"
-screening_filter_persons_female <- "Females"
 
-screening_filter_area_scotland <- "Scotland"
-
-# Default to all of Scotland only
-get_screening_bowel_cancer_takeup <- function(df, 
-  filter_persons = screening_filter_persons_scotland,
-  filter_area = screening_filter_area_scotland) {
-  bowel_cancer_takeup <- df %>%
-    filter(persons %in% filter_persons) %>% 
-    filter(area %in% filter_area)
-  return(bowel_cancer_takeup)
-}
-
-screening_bowel_cancer_takeup_scotland <- get_screening_bowel_cancer_takeup(screening_bowel_cancer_takeup)
-screening_bowel_cancer_takeup_scotland
-
-screening_bowel_cancer_takeup_kpi <- get_screening_bowel_cancer_takeup(
-  screening_bowel_cancer_takeup, filter_persons = 
-    c(screening_filter_persons_scotland, screening_filter_persons_male, screening_filter_persons_female)) #%>% 
- # select(-area)
-
+screening_bowel_cancer_takeup_kpi <- 
+  get_screening_bowel_cancer_takeup_kp1(screening_bowel_cancer_takeup)
 screening_bowel_cancer_takeup_kpi
 ```
