@@ -5,23 +5,57 @@
 # Description:
 #   Clean Public Health Scotland datasets for Bowel Cancer Screening
 #
-# Source: 
-#   Report data: 
+# Source:
+#   Report data:
 #     https://publichealthscotland.scot/media/17689/2023-02-21-bowel-screening-kpi-report.xlsx
-#   Background information: 
+#   Background information:
 #     https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/
 
 library(here)
+library(janitor) # For cleaning column names
+library(readxl) # For processing Excel spreadsheets
+library(readr) # For writing clean CSV
+library(tidyr)
 
-phs_screening_bowel_filename <- "data_raw/phs/screening/bowel/2023-02-21-bowel-screening-kpi-report.xlsx"
+source(here::here("cleaning_scripts/phs_data_info.R"))
 
 # Uptake (KPI 1)
-bowel_sheet_uptake <- "KPI_1"
+screening_bowel_uptake_sheet <- "KPI_1"
+# screening_bowel_uptake_sheet_skip <- 14
+# Table 1, rows 16-20, columns Persons and a column for each Health Board and
+# a total for Scotland (column q)
+screening_bowel_uptake_range <- "B16:Q20"
 
-# Uptake ----
-# Read in raw spreadsheet
+# Table 1.1 Overall uptake of screening, by two-year reporting period and sex
 
-# Extract Sheet for Uptake ----
+# Uptake KP1 ----
 
+# ?read_excel
+# Extract Sheet for Uptake
+screening_bowel_uptake_raw <- read_excel(
+  here::here("data_raw", phs_screening_bowel_raw_filename),
+  sheet = bowel_sheet_uptake,
+  range = screening_bowel_uptake_range
+) %>%
+  # Turn health boards column names into values
+  pivot_longer("Ayrshire and Arran":"Scotland",
+    names_to = "area",
+    values_to = "uptake_pct"
+  )
 
-# Write Clean data ----
+screening_bowel_uptake <- screening_bowel_uptake_raw %>%
+  janitor::clean_names() %>%
+  drop_na() %>%
+  rename(persons = x1)
+
+# View(screening_bowel_uptake)
+# screening_bowel_uptake
+
+# Write KP1 data ----
+write_csv(
+  screening_bowel_uptake,
+  here::here(
+    "data_clean",
+    phs_screening_bowel_uptake_clean_filename
+  )
+)
