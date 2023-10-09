@@ -1,0 +1,17 @@
+---
+title: "Cancer in Scotland"
+author: "Lesley Duff"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+---
+# Cancer in Scotland
+
+## Screening
+
+### Scottish Bowel Screening Programme
+
+Commenced in 2007 with a full rollout across all health boards by 2009.
+
+
