@@ -23,6 +23,8 @@ Log of actions taken during project.
     * "Overall uptake of screening by deprivation area" KP2, 
     * "Percentage of people with a positive screening test result" KP3 
     * "Percentage of people that had a cancer detected" - percentage of people with colorectal cancer, out of those with a final outright screening test result.
-    
+	* Experimented with extracting a range for KP1
+	* Wrote cleaning script for KP1
+* DETOUR: WAITING FOR BRITISH GAS ADVISOR..."Now 201st in line"
 
 
