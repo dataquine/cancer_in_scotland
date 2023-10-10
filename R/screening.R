@@ -6,31 +6,93 @@
 #   Helper functions to manipulate cancer screening information
 #
 
-screening_filter_persons_scotland <- "All persons"
-screening_filter_persons_male <- "Males"
-screening_filter_persons_female <- "Females"
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+screening_filter_sex_scotland <- "All persons"
+screening_filter_sex_male <- "Males"
+screening_filter_sex_female <- "Females"
 
 screening_filter_area_scotland <- "Scotland"
 
-# Default to all of Scotland only
+# Default to all of Scotland only and all sexes
 get_screening_bowel_cancer_takeup <- function(df,
-                                              filter_persons = c(screening_filter_persons_scotland),
-                                              filter_area = c(screening_filter_area_scotland)) {
-  bowel_cancer_takeup <- df %>%
-    filter(persons %in% filter_persons) %>%
-    filter(area %in% filter_area)
-  return(bowel_cancer_takeup)
+                                              filter_sex = c(),
+                                              filter_area = c(),
+                                              remove_scotland = FALSE,
+                                              alphabetical_sex = TRUE,
+                                              alphabetical_area = TRUE) {
+  screening_bowel_cancer_takeup <- df
+
+  if (length(filter_sex) > 0) {
+    screening_bowel_cancer_takeup <- screening_bowel_cancer_takeup %>%
+      filter(sex %in% filter_sex)
+  }
+  if (length(filter_area) > 0) {
+    screening_bowel_cancer_takeup <- screening_bowel_cancer_takeup %>%
+      filter(area %in% filter_area)
+  }
+  if (remove_scotland == TRUE) {
+    screening_bowel_cancer_takeup <- screening_bowel_cancer_takeup %>%
+      filter(!(area %in% screening_filter_area_scotland))
+  }
+  if (alphabetical_sex == TRUE) {
+    screening_bowel_cancer_takeup <- screening_bowel_cancer_takeup %>%
+      arrange(sex)
+  }
+  if (alphabetical_area == TRUE) {
+    screening_bowel_cancer_takeup <- screening_bowel_cancer_takeup %>%
+      arrange(area)
+  }
+  # View(screening_bowel_cancer_takeup)
+  return(screening_bowel_cancer_takeup)
 }
 
-get_screening_bowel_cancer_takeup_kp1 <- function(df
-    ){
-  screening_bowel_cancer_takeup_kp1 <- get_screening_bowel_cancer_takeup(df,
-    filter_persons = c(screening_filter_persons_scotland, 
-                       screening_filter_persons_male,
-                       screening_filter_persons_female)) %>% 
-    select(-area) %>% 
-    # all scotland so remove redundant column
-    
-    rename(sex = persons)
-  return (screening_bowel_cancer_takeup_kp1)
+get_screening_bowel_cancer_takeup_scotland <- function(df) {
+  
+  screening_bowel_cancer_takeup_scotland <- get_screening_bowel_cancer_takeup(
+    df,
+    remove_scotland = FALSE
+  ) %>%
+    # Only Show results for whole of Scotland
+    filter(area == screening_filter_area_scotland)
+  return(screening_bowel_cancer_takeup_scotland)
+}
+
+
+get_screening_bowel_cancer_takeup_kpi1 <- function(df) {
+  screening_bowel_cancer_takeup_kpi1 <- get_screening_bowel_cancer_takeup(
+    screening_bowel_cancer_takeup_all,
+    # filter_sex = c("Females","Males"),
+    filter_sex = c("All persons"),
+    # filter_area = c("Grampian", "Fife"),
+    remove_scotland = TRUE
+  )
+
+  #  screening_bowel_cancer_takeup_kp1 <- get_screening_bowel_cancer_takeup(df,
+  #    filter_sex = c(
+  #      screening_filter_sex_scotland,
+  #      screening_filter_sex_male,
+  #      screening_filter_sex_female
+  #    )
+  #  ) %>%
+  # select(-area) # %>%
+  # all scotland so remove redundant column
+
+  return(screening_bowel_cancer_takeup_kpi1)
+}
+
+
+plot_screening_bowel_cancer_takeup_scotland = function (df) {
+  #plot_screening <- df %>% 
+  df %>% 
+    mutate(uptake_pct = round(uptake_pct, digits= 2)) %>% 
+    ggplot(aes(sex, uptake_pct))+
+    geom_col()+
+    geom_text(aes(label = uptake_pct), vjust = 1.5,  colour = "white")+
+      scale_y_continuous(label = scales::label_percent(scale = 1),
+                         limits=c(0,100))#+
+    #scale_fill_continuous(labels = scales::label_comma())
+ # return(plot)
 }
