@@ -1,0 +1,71 @@
+---
+title: 'Analysis: Death'
+author: "Lesley Duff"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+---
+# Analysis: Death
+
+```{r}
+library(here)
+library(skimr)
+library(tidyverse)
+```
+
+```{r}
+source(here::here("R/nrs_data_info.R"))
+source(here::here("R/death.R"))
+# Retrieve helper functions for manipulating cause of death data
+```
+## Death
+
+The National Records of Scotland maintain official death statistics for 
+Scotland. We wish to see where cancer fits into the overall pattern of death.
+How big is the problem.
+
+### All causes of death and selected causes
+```{r}
+death_cause <- read_csv(here::here(
+  "data_clean", nrs_death_cause_filepath
+))
+```
+
+```{r}
+dim(death_cause)
+# 45 rows 3 columns
+
+# Examine data
+glimpse(death_cause)
+skimr::skim(death_cause)
+
+# The area column represents both health boards and all of Scotland so be
+# careful to filter our results if e.g. only health boards requires
+```
+
+```{r}
+#View(death_cause)
+head(death_cause)
+```
+
+## All Scotland
+### All causes
+
+```{r}
+death_all_cause <- get_death_all_cause(death_cause)
+head(death_all_cause)
+
+plot_death_all_cause <- plot_death_cause(death_all_cause) 
+plot_death_all_cause
+```
+
+### Selected causes
+
+```{r}
+death_selected_cause <- get_death_selected_cause(death_cause)
+head(death_selected_cause)
+
+plot_death_selectect_cause <- plot_death_cause(death_selected_cause) 
+plot_death_selectect_cause
+```
