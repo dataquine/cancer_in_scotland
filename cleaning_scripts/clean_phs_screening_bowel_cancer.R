@@ -11,13 +11,14 @@
 #   Background information:
 #     https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/
 
+library(dplyr)
 library(here)
 library(janitor) # For cleaning column names
 library(readxl) # For processing Excel spreadsheets
 library(readr) # For writing clean CSV
 library(tidyr)
 
-source(here::here("cleaning_scripts/phs_data_info.R"))
+source(here::here("R/phs_data_info.R"))
 
 # Uptake (KPI 1)
 screening_bowel_uptake_sheet <- "KPI_1"
@@ -33,8 +34,8 @@ screening_bowel_uptake_range <- "B16:Q20"
 # ?read_excel
 # Extract Sheet for Uptake
 screening_bowel_uptake_raw <- read_excel(
-  here::here("data_raw", phs_screening_bowel_raw_filename),
-  sheet = bowel_sheet_uptake,
+  here::here("data_raw", phs_screening_bowel_raw_filepath),
+  sheet = screening_bowel_uptake_sheet,
   range = screening_bowel_uptake_range
 ) %>%
   # Turn health boards column names into values
@@ -46,7 +47,7 @@ screening_bowel_uptake_raw <- read_excel(
 screening_bowel_uptake <- screening_bowel_uptake_raw %>%
   janitor::clean_names() %>%
   drop_na() %>%
-  rename(persons = x1)
+  rename(sex = x1)
 
 # View(screening_bowel_uptake)
 # screening_bowel_uptake
@@ -56,6 +57,13 @@ write_csv(
   screening_bowel_uptake,
   here::here(
     "data_clean",
-    phs_screening_bowel_uptake_clean_filename
+    phs_screening_bowel_uptake_filepath
   )
 )
+
+# Write KP1 data for shiny app ----
+saveRDS(screening_bowel_uptake, file = here::here(
+  phs_screening_bowel_uptake_shiny_filepath
+))
+
+rm(screening_bowel_uptake)
