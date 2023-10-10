@@ -15,40 +15,76 @@ library(tidyverse)
 ```
 
 ```{r}
+source(here::here("R/phs_data_info.R"))
 source(here::here("R/screening.R"))
-# Retrieve helper functions for manipulating bowel cancer screenining data
+# Retrieve helper functions for manipulating bowel cancer screening data
 ```
 
 ## Bowel Cancer
 
 ### Take up (KP1)
 ```{r}
-screening_bowel_cancer_takeup <- read_csv(here::here("data_clean/phs/screening/bowel/phs_screening_bowel_uptake.csv"))
+screening_bowel_cancer_takeup_all <- read_csv(here::here(
+  "data_clean", phs_screening_bowel_uptake_filepath
+))
 ```
 
 ```{r}
-dim(screening_bowel_cancer_takeup)
+dim(screening_bowel_cancer_takeup_all)
 # 45 rows 3 columns
 
 # Examine data
-glimpse(screening_bowel_cancer_takeup)
-skimr::skim(screening_bowel_cancer_takeup)
+glimpse(screening_bowel_cancer_takeup_all)
+skimr::skim(screening_bowel_cancer_takeup_all)
 
 # The area column represents both health boards and all of Scotland so be
 # careful to filter our results if e.g. only health boards requires
 ```
 
 ```{r}
-View(screening_bowel_cancer_takeup)
+#View(screening_bowel_cancer_takeup)
+head(screening_bowel_cancer_takeup_all)
 ```
 
+## All scotland
 ```{r}
-head(screening_bowel_cancer_takeup)
+screening_bowel_cancer_takeup_scotland <-get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
+
+screening_bowel_cancer_takeup_scotland
 ```
 
+Bowel Cancer Screening around 2/3 of the people invited via the screening 
+programme are taking up the offer.
+
+Females are more likely to return the tests than males.
+
+## All people by health board
 ```{r}
 
-screening_bowel_cancer_takeup_kpi <- 
-  get_screening_bowel_cancer_takeup_kp1(screening_bowel_cancer_takeup)
-screening_bowel_cancer_takeup_kpi
+
+screening_bowel_cancer_takeup_health_boards <- get_screening_bowel_cancer_takeup(
+  screening_bowel_cancer_takeup_all, 
+ # filter_sex = c("Females","Males"), 
+  filter_sex = c("All persons"), 
+ # filter_area = c("Grampian", "Fife"),
+  remove_scotland = TRUE
+)
+
+screening_bowel_cancer_takeup_health_boards 
+```
+
+
+```{r}
+#screening_bowel_cancer_takeup_kpi <- 
+#  get_screening_bowel_cancer_takeup_kpi1(screening_bowel_cancer_takeup)
+#screening_bowel_cancer_takeup_kpi
+
+#View(screening_bowel_cancer_takeup_kpi)
+#screening_bowel_cancer_takeup_kpi %>% 
+#  ggplot()
+#hist(x = uptake_pct,
+#   col = "#75AADB", border = "white",
+#         xlab = "Waiting time to next eruption (in mins)",
+#         main = "Histogram of waiting times")
+
 ```
