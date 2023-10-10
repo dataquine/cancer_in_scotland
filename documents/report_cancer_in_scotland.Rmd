@@ -25,7 +25,19 @@ screening_bowel_cancer_takeup_all <- read_csv(here::here(
 ```{r}
 theme_set(theme_minimal())
 ```
+# Overview
 
+## Data Quality
+https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/deaths-background-information/quality-of-nrs-data-on-deaths
+
+# Analysis
+
+## Death
+
+When a death is registered, it is common for a number of diseases or conditions to
+be recorded on the death certificate. National Records of Scotland apply the WHO
+rules to determine which of these conditions is the underlying cause of death." - 
+[Death Certificates and Coding the Causes of Death](https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/deaths-background-information/death-certificates-and-coding-the-causes-of-death)
 
 ## Screening
 
@@ -36,11 +48,11 @@ Commenced in 2007 with a full rollout across all health boards by 2009.
 People aged 50-74 years are invited every two years to complete a home bowel screening test. 75 and over can self-refer,
 
 #### Uptake
-"Uptake is defined as the proportion of invites which are returned as a correctly
+Based on [Scottish bowel screening programme statistics For the period of invitations from May 2020 to April 2022](https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/)
+
+"The proportion of invites which are returned as a correctly
 completed kit (i.e. a positive or negative test result). It is a key measure of the
 acceptability of the test to the public."
-
-Based on [Scottish bowel screening programme statistics For the period of invitations from May 2020 to April 2022](https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/)
 
 Healtth Improvement Scotland [Bowel screening standards: August 2023]() 
 

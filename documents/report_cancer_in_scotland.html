@@ -1660,6 +1660,24 @@ screening_bowel_cancer_takeup_all &lt;- read_csv(here::here(
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>theme_set(theme_minimal())</code></pre>
+</div>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<div id="data-quality" class="section level2">
+<h2>Data Quality</h2>
+<p><a href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/deaths-background-information/quality-of-nrs-data-on-deaths" class="uri">https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/deaths-background-information/quality-of-nrs-data-on-deaths</a></p>
+</div>
+</div>
+<div id="analysis" class="section level1">
+<h1>Analysis</h1>
+<div id="death" class="section level2">
+<h2>Death</h2>
+<p>When a death is registered, it is common for a number of diseases or
+conditions to be recorded on the death certificate. National Records of
+Scotland apply the WHO rules to determine which of these conditions is
+the underlying cause of death.” - <a href="https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/deaths-background-information/death-certificates-and-coding-the-causes-of-death">Death
+Certificates and Coding the Causes of Death</a></p>
+</div>
 <div id="screening" class="section level2">
 <h2>Screening</h2>
 <div id="scottish-bowel-screening-programme" class="section level3">
@@ -1670,12 +1688,12 @@ screening_bowel_cancer_takeup_all &lt;- read_csv(here::here(
 home bowel screening test. 75 and over can self-refer,</p>
 <div id="uptake" class="section level4">
 <h4>Uptake</h4>
-<p>“Uptake is defined as the proportion of invites which are returned as
-a correctly completed kit (i.e. a positive or negative test result). It
-is a key measure of the acceptability of the test to the public.”</p>
 <p>Based on <a href="https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/">Scottish
 bowel screening programme statistics For the period of invitations from
 May 2020 to April 2022</a></p>
+<p>“The proportion of invites which are returned as a correctly
+completed kit (i.e. a positive or negative test result). It is a key
+measure of the acceptability of the test to the public.”</p>
 <p>Healtth Improvement Scotland <a href>Bowel screening standards:
 August 2023</a></p>
 <pre class="r"><code>screening_bowel_cancer_takeup_scotland &lt;-get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
