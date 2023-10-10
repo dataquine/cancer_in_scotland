@@ -14,145 +14,99 @@
 # https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/age-standardised-death-rates-calculated-using-the-esp
 
 library(dplyr)
+library(ggplot2)
 library(here)
 library(janitor)
+library(lubridate)
 library(readxl) # For processing Excel spreadsheets
 library(readr)
 library(tidyr)
-#library(tidyverse)
+library(tidyverse)
 
 source(here::here("R/nrs_data_info.R"))
 
-
-#death_cause <- read_csv(
-#  here::here("data_raw", nrs_death_cause_raw_filepath),
- #            skip = 3
-#)
-#?read_excel
-nrs_death_cause_range
 death_cause_raw <- read_excel(
-  here::here("data_raw", nrs_death_cause_raw_filepath),
- sheet = nrs_death_cause_sheet,
+  here::here(
+    "data_raw",
+    nrs_death_cause_raw_filepath
+  ),
+  sheet = nrs_death_cause_sheet,
   range = nrs_death_cause_range,
- # skip = 3
+  .name_repair = "unique_quiet"
+  # col_names = TRUE
+  # skip = 3
 )
 
 cause_labels <- death_cause_raw[1]
 rate_labels <- death_cause_raw[2]
-cause_labels
-rate_labels
 
 
-death_cause <- death_cause_raw %>% 
-  pivot_longer(3:last_col() , names_to = "cause", values_to = "rate") %>% 
-  janitor::clean_names() %>% 
-  filter(rate != "rate") %>% 
-  mutate(rate = as.numeric(rate)) %>% 
-#  rename(
- #   "year" <- "x1"
-#     = cancer_malignant_neoplasms_140_208_c00_97#
-  #) %>% 
+
+
+death_cause <- death_cause_raw %>%
+  pivot_longer(
+    cols = 2:last_col(),
+    names_to = "cause",
+    values_to = "rate"
+  ) %>%
+  janitor::clean_names() %>%
   # remove first row
-  .[-1, ] #%>% 
- 
-names(death_cause)[1] = "year"
-#rename(death_cause, "x1"="x1")
+  .[-1, ] %>%
+  filter(rate != "rate") %>%
+  rename(year = x1) %>%
+  mutate(rate = as.numeric(rate),
+         year = as.numeric(year)) 
 
-head(death_cause)
-View(death_cause)
-#problems(death_cause) 
+
 names(death_cause)
-summary(death_cause)
 
-# Names are like "Cancer (malignant neoplasms: 140-208 /C00-97)"  
-# Would like to
-# strip out  ' ()' at end of string and extract into separate column
+summary(death_cause$rate)
 
-# Uptake (KPI 1)
-# screening_bowel_uptake_sheet <- "KPI_1"
-# screening_bowel_uptake_sheet_skip <- 14
-# Table 1, rows 16-20, columns Persons and a column for each Health Board and
-# a total for Scotland (column q)
-# screening_bowel_uptake_range <- "B16:Q20"
+print(n = 5, death_cause)
 
-# death_cause_raw1 <- read_excel(
-#  here::here("data_raw", nrs_death_cause_raw_filepath),
-# sheet = nrs_death_cause_sheet,
-#  range = nrs_death_cause_range1
-# )
+## newd <- death_cause %>%
+# mutate(year = as(year))
 
-# death_cause_raw2 <- read_excel(
-#  here::here("data_raw", nrs_death_cause_raw_filepath),
-#  sheet = nrs_death_cause_sheet,
-#  range = nrs_death_cause_range2
-# )
+#print(newd)
 
-# Combine tables vertically and delete first row all nas
-# death_cause_raw <- rbind(death_cause_raw1, death_cause_raw2) [-1,]
+all_causes <- death_cause %>%
+  filter(cause == "All causes")
 
-# death_cause_raw2 <- death_cause_raw %>%
-
-# fill(`year`)
-# View(death_cause_raw)
-# View(death_cause_raw2)
-
-# Consider extracting first 3 rows into separate table?
-
-# View(death_cause_raw)
+individual_causes <- death_cause %>%
+  filter(cause != "All causes")
 
 
-# death_csv <- read_csv(
-#   here::here(
-#     "data_raw",
-#     "nrs/death/vital-events-22-ref-tabs-6_6.01.csv"
-#   ),
-#   skip = 2
-# )
-# 
-# # names(death_csv)
-# 
-# # View(death_csv)
-# 
-# # names(death_csv)
-# 
-# 
-# icd10label <- names(death_csv)[1]
-# icd10label
-# # death_csv[1, 1]  <- icd10label
-# 
-# 
-# # Delete Rows matching the label
-# death_csv2 <- death_csv %>%
-#   janitor::clean_names() %>%
-#   rename("sex" = "x3") %>%
-#   .[-1, ] %>% # Remove the empty row at the start
-#   #  .[1,1] %>%  #= icd10label %>%
-#   # .[, 1] <- icd10label %>%
-# 
-#   filter(!is.na(sex)) %>%
-#   # There are some empty columns at the end, remove them
-#   discard(~ all(is.na(.) | . == "")) %>%
-#   mutate(
-#     icd10_summary_list = as.factor(icd10_summary_list),
-#     cause_of_death = as.factor(cause_of_death),
-#     sex = as.factor(sex)
-#   ) # %>%
-# 
-# #death_csv2[1, 1]  <- c(icd10label)
-# 
-# # Year columns are Character columns - cahnge to numeric
-# # mutate_if(is.character, as.numeric)
-# 
-# # Move all the year
-# # pivot_longer(cols = starts_with("x"), names_to = "exam_question", values_to = "score")
-# 
-# # Manually set something in the first row and column
-# 
-# head(death_csv2)
-# #
-# # filter(`ICD10 Summary list` != "ICD10 Summary list")
-# 
-# 
-# View(death_csv2)
-# 
-# death_csv2
+
+
+plot_causes <- function(df) {
+  df %>%
+    ggplot(aes(x = year, y = rate)) +
+     geom_point(color = "darkorchid4") +
+ #   geom_bar(aes(fill = cause), stat = "identity") +
+    #geom_col(aes(fill = cause)) +
+    # facet_wrap(~year) +
+    geom_line(aes(x = year, y = rate, colour=cause), group =1)+
+    # adjust the x axis breaks
+    # ?scale_x_date
+    #  scale_x_date(date_breaks = "5 years", date_labels = "%m-%Y") %>%
+    labs(
+      title = "Age-standardised death rates",
+      subtitle = " All causes and certain selected causes, Scotland, 1994 to 2022",
+      y = "Rate",
+      x = "Year",
+      caption = "National Records of Scotland"
+    ) +
+    theme_bw(base_size = 15)
+}
+all_causes
+
+individual_causes
+
+#names(all_causes)
+
+plot_causes(all_causes)
+
+plot_causes(individual_causes)
+
+
+
