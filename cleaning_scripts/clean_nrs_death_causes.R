@@ -55,9 +55,8 @@ death_cause <- death_cause_raw %>%
   # remove first row
   .[-1, ] #%>% 
  
-#death_cause[1, 1] <- "yassa"
-
-#rename(death_cause, "qwerty"="x1")
+names(death_cause)[1] = "year"
+#rename(death_cause, "x1"="x1")
 
 head(death_cause)
 View(death_cause)
