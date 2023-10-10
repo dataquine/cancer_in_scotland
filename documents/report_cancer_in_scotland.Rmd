@@ -8,15 +8,69 @@ output:
 ---
 # Cancer in Scotland
 
+```{r}
+library(readr)
+```
+
+
+```{r}
+source(here::here("R/phs_data_info.R"))
+source(here::here("R/screening.R"))
+# Retrieve helper functions for manipulating bowel cancer screening data
+
+screening_bowel_cancer_takeup_all <- read_csv(here::here(
+  "data_clean", phs_screening_bowel_uptake_filepath
+))
+```
+```{r}
+theme_set(theme_minimal())
+```
+
+
 ## Screening
 
 ### Scottish Bowel Screening Programme
 
 Commenced in 2007 with a full rollout across all health boards by 2009.
 
-#### Uptake (KPI 1)
+People aged 50-74 years are invited every two years to complete a home bowel screening test. 75 and over can self-refer,
+
+#### Uptake
 "Uptake is defined as the proportion of invites which are returned as a correctly
 completed kit (i.e. a positive or negative test result). It is a key measure of the
 acceptability of the test to the public."
 
+Based on [Scottish bowel screening programme statistics For the period of invitations from May 2020 to April 2022](https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/)
 
+Healtth Improvement Scotland [Bowel screening standards: August 2023]() 
+
+```{r}
+screening_bowel_cancer_takeup_scotland <-get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
+
+#screening_bowel_cancer_takeup_scotland
+#screening_bowel_cancer_takeup_all
+
+plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
+
+#plot_bowel
+#plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
+```
+
+
+
+Bowel Cancer Screening around 2/3 of the people invited via the screening 
+programme are taking up the offer.
+
+Females are more likely to return the tests than males.
+
+Conclusion: 
+
+Generally good take up but still room for improvement.
+
+* Continue to enhance communication with the general public making more efforts 
+to target males.
+
+
+# Conclusion
+
+Bowel Cancer Screening is used 
