@@ -25,6 +25,10 @@ library(tidyverse)
 
 source(here::here("R/nrs_data_info.R"))
 
+cause_column <- "cause"
+cause_simple_column <- "cause_simple"
+rate_column <- "rate"
+
 death_cause_raw <- read_excel(
   here::here(
     "data_raw",
@@ -33,80 +37,47 @@ death_cause_raw <- read_excel(
   sheet = nrs_death_cause_sheet,
   range = nrs_death_cause_range,
   .name_repair = "unique_quiet"
-  # col_names = TRUE
-  # skip = 3
 )
 
-cause_labels <- death_cause_raw[1]
-rate_labels <- death_cause_raw[2]
-
-
-
+#cause_labels <- death_cause_raw[1]
+#rate_labels <- death_cause_raw[2]
 
 death_cause <- death_cause_raw %>%
   pivot_longer(
     cols = 2:last_col(),
-    names_to = "cause",
-    values_to = "rate"
+    names_to = cause_column,
+    values_to = rate_column
   ) %>%
   janitor::clean_names() %>%
   # remove first row
   .[-1, ] %>%
-  filter(rate != "rate") %>%
+  filter(rate != rate_column) %>%
   rename(year = x1) %>%
   mutate(rate = as.numeric(rate),
          year = as.numeric(year)) 
 
-
-names(death_cause)
-
-summary(death_cause$rate)
+#names(death_cause)
 
 print(n = 5, death_cause)
-
-## newd <- death_cause %>%
-# mutate(year = as(year))
-
-#print(newd)
-
-all_causes <- death_cause %>%
-  filter(cause == "All causes")
-
-individual_causes <- death_cause %>%
-  filter(cause != "All causes")
-
-
-
-
-plot_causes <- function(df) {
-  df %>%
-    ggplot(aes(x = year, y = rate)) +
-     geom_point(color = "darkorchid4") +
- #   geom_bar(aes(fill = cause), stat = "identity") +
-    #geom_col(aes(fill = cause)) +
-    # facet_wrap(~year) +
-    geom_line(aes(x = year, y = rate, colour=cause), group =1)+
-    # adjust the x axis breaks
-    # ?scale_x_date
-    #  scale_x_date(date_breaks = "5 years", date_labels = "%m-%Y") %>%
-    labs(
-      title = "Age-standardised death rates",
-      subtitle = " All causes and certain selected causes, Scotland, 1994 to 2022",
-      y = "Rate",
-      x = "Year",
-      caption = "National Records of Scotland"
-    ) +
-    theme_bw(base_size = 15)
-}
-all_causes
-
-individual_causes
-
-#names(all_causes)
-
+all_causes <- get_death_all_causes(death_cause)
+selected_causes <- get_death_selected_causes(death_cause)
 plot_causes(all_causes)
+plot_causes(selected_causes)
+rm(selected_causes)
 
-plot_causes(individual_causes)
+write_csv(
+  death_cause,
+  here::here(
+    "data_clean",
+    nrs_death_cause_filepath
+  )
+)
 
+# Write death data for shiny app ----
+saveRDS(death_cause, file = here::here(
+  nrs_death_cause_shiny_filepath
+))
+
+rm(death_cause)
 
 

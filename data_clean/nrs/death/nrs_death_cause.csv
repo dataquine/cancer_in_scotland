@@ -1,0 +1,378 @@
+year,cause,rate
+1994,All causes,1559.6
+1994,Cancer (malignant neoplasms: 140-208 /C00-97),378.3
+1994,Diseases of the circulatory system(390-459 / I00-I99),730.2
+1994,Ischaemic (coronary) heart disease(410-414 / I20-25),398.5
+1994,Cerebrovascular disease (stroke:430-438 / I60-69),214.9
+1994,Diseases of the respiratory system(460-519 / J00-99),197
+1994,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",60.2
+1994,Alcohol-specific,12.2
+1994,Accidents,33.3
+1994,Probable suicide,16.6
+1994,Dementia and Alzheimer's,19.4
+1994,drug related,NA
+1994,Covid-19,NA
+1995,All causes,1572.3
+1995,Cancer (malignant neoplasms: 140-208 /C00-97),377.8
+1995,Diseases of the circulatory system(390-459 / I00-I99),717.9
+1995,Ischaemic (coronary) heart disease(410-414 / I20-25),386.6
+1995,Cerebrovascular disease (stroke:430-438 / I60-69),213.2
+1995,Diseases of the respiratory system(460-519 / J00-99),211.8
+1995,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",66.2
+1995,Alcohol-specific,14
+1995,Accidents,33.9
+1995,Probable suicide,16.6
+1995,Dementia and Alzheimer's,21.3
+1995,drug related,NA
+1995,Covid-19,NA
+1996,All causes,1564.1
+1996,Cancer (malignant neoplasms: 140-208 /C00-97),374.1
+1996,Diseases of the circulatory system(390-459 / I00-I99),704.1
+1996,Ischaemic (coronary) heart disease(410-414 / I20-25),377.3
+1996,Cerebrovascular disease (stroke:430-438 / I60-69),194
+1996,Diseases of the respiratory system(460-519 / J00-99),215.5
+1996,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",63.7
+1996,Alcohol-specific,17.3
+1996,Accidents,33.3
+1996,Probable suicide,16.9
+1996,Dementia and Alzheimer's,22.7
+1996,drug related,NA
+1996,Covid-19,NA
+1997,All causes,1527.4
+1997,Cancer (malignant neoplasms: 140-208 /C00-97),365.6
+1997,Diseases of the circulatory system(390-459 / I00-I99),679.9
+1997,Ischaemic (coronary) heart disease(410-414 / I20-25),359.1
+1997,Cerebrovascular disease (stroke:430-438 / I60-69),189.2
+1997,Diseases of the respiratory system(460-519 / J00-99),214.5
+1997,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",65.5
+1997,Alcohol-specific,18.8
+1997,Accidents,31.4
+1997,Probable suicide,17.1
+1997,Dementia and Alzheimer's,23.9
+1997,drug related,NA
+1997,Covid-19,NA
+1998,All causes,1507.3
+1998,Cancer (malignant neoplasms: 140-208 /C00-97),359.7
+1998,Diseases of the circulatory system(390-459 / I00-I99),654.4
+1998,Ischaemic (coronary) heart disease(410-414 / I20-25),341
+1998,Cerebrovascular disease (stroke:430-438 / I60-69),185.3
+1998,Diseases of the respiratory system(460-519 / J00-99),215.9
+1998,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",66.7
+1998,Alcohol-specific,19.9
+1998,Accidents,31.5
+1998,Probable suicide,17.3
+1998,Dementia and Alzheimer's,24.1
+1998,drug related,NA
+1998,Covid-19,NA
+1999,All causes,1528.8
+1999,Cancer (malignant neoplasms: 140-208 /C00-97),358.8
+1999,Diseases of the circulatory system(390-459 / I00-I99),642
+1999,Ischaemic (coronary) heart disease(410-414 / I20-25),337.8
+1999,Cerebrovascular disease (stroke:430-438 / I60-69),181.6
+1999,Diseases of the respiratory system(460-519 / J00-99),237.1
+1999,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",73.4
+1999,Alcohol-specific,21.9
+1999,Accidents,33.3
+1999,Probable suicide,17.2
+1999,Dementia and Alzheimer's,26.5
+1999,drug related,NA
+1999,Covid-19,NA
+2000,All causes,1443.5
+2000,Cancer (malignant neoplasms: 140-208 /C00-97),360.7
+2000,Diseases of the circulatory system(390-459 / I00-I99),603.5
+2000,Ischaemic (coronary) heart disease(410-414 / I20-25),310
+2000,Cerebrovascular disease (stroke:430-438 / I60-69),178.9
+2000,Diseases of the respiratory system(460-519 / J00-99),170.1
+2000,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",69.6
+2000,Alcohol-specific,24.5
+2000,Accidents,32.3
+2000,Probable suicide,17.2
+2000,Dementia and Alzheimer's,56
+2000,drug related,5.3
+2000,Covid-19,NA
+2001,All causes,1414.6
+2001,Cancer (malignant neoplasms: 140-208 /C00-97),362
+2001,Diseases of the circulatory system(390-459 / I00-I99),571.9
+2001,Ischaemic (coronary) heart disease(410-414 / I20-25),295
+2001,Cerebrovascular disease (stroke:430-438 / I60-69),171.8
+2001,Diseases of the respiratory system(460-519 / J00-99),165.6
+2001,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",69.4
+2001,Alcohol-specific,26.1
+2001,Accidents,31.4
+2001,Probable suicide,17.4
+2001,Dementia and Alzheimer's,58.2
+2001,drug related,6.2
+2001,Covid-19,NA
+2002,All causes,1421.6
+2002,Cancer (malignant neoplasms: 140-208 /C00-97),354.9
+2002,Diseases of the circulatory system(390-459 / I00-I99),567.8
+2002,Ischaemic (coronary) heart disease(410-414 / I20-25),286.7
+2002,Cerebrovascular disease (stroke:430-438 / I60-69),173.4
+2002,Diseases of the respiratory system(460-519 / J00-99),173.2
+2002,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",69
+2002,Alcohol-specific,28.1
+2002,Accidents,31
+2002,Probable suicide,17.6
+2002,Dementia and Alzheimer's,58.9
+2002,drug related,7.1
+2002,Covid-19,NA
+2003,All causes,1429.4
+2003,Cancer (malignant neoplasms: 140-208 /C00-97),354.5
+2003,Diseases of the circulatory system(390-459 / I00-I99),553.2
+2003,Ischaemic (coronary) heart disease(410-414 / I20-25),280.3
+2003,Cerebrovascular disease (stroke:430-438 / I60-69),167.5
+2003,Diseases of the respiratory system(460-519 / J00-99),189.6
+2003,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",72.7
+2003,Alcohol-specific,28.3
+2003,Accidents,31.2
+2003,Probable suicide,15.6
+2003,Dementia and Alzheimer's,64.1
+2003,drug related,5.9
+2003,Covid-19,NA
+2004,All causes,1359.3
+2004,Cancer (malignant neoplasms: 140-208 /C00-97),349.4
+2004,Diseases of the circulatory system(390-459 / I00-I99),516.5
+2004,Ischaemic (coronary) heart disease(410-414 / I20-25),261.6
+2004,Cerebrovascular disease (stroke:430-438 / I60-69),157.7
+2004,Diseases of the respiratory system(460-519 / J00-99),170
+2004,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",65.8
+2004,Alcohol-specific,27.3
+2004,Accidents,32.5
+2004,Probable suicide,16.3
+2004,Dementia and Alzheimer's,63.9
+2004,drug related,6.7
+2004,Covid-19,NA
+2005,All causes,1329.3
+2005,Cancer (malignant neoplasms: 140-208 /C00-97),346.9
+2005,Diseases of the circulatory system(390-459 / I00-I99),489.3
+2005,Ischaemic (coronary) heart disease(410-414 / I20-25),246.7
+2005,Cerebrovascular disease (stroke:430-438 / I60-69),145.9
+2005,Diseases of the respiratory system(460-519 / J00-99),175.8
+2005,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",67.4
+2005,Alcohol-specific,27.6
+2005,Accidents,29.6
+2005,Probable suicide,14.8
+2005,Dementia and Alzheimer's,60.1
+2005,drug related,6.3
+2005,Covid-19,NA
+2006,All causes,1293.4
+2006,Cancer (malignant neoplasms: 140-208 /C00-97),342.1
+2006,Diseases of the circulatory system(390-459 / I00-I99),450.5
+2006,Ischaemic (coronary) heart disease(410-414 / I20-25),225.1
+2006,Cerebrovascular disease (stroke:430-438 / I60-69),134.7
+2006,Diseases of the respiratory system(460-519 / J00-99),175.1
+2006,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",66.2
+2006,Alcohol-specific,28.5
+2006,Accidents,28.7
+2006,Probable suicide,14.7
+2006,Dementia and Alzheimer's,66.7
+2006,drug related,7.9
+2006,Covid-19,NA
+2007,All causes,1302.5
+2007,Cancer (malignant neoplasms: 140-208 /C00-97),342.4
+2007,Diseases of the circulatory system(390-459 / I00-I99),440.7
+2007,Ischaemic (coronary) heart disease(410-414 / I20-25),216.7
+2007,Cerebrovascular disease (stroke:430-438 / I60-69),130.5
+2007,Diseases of the respiratory system(460-519 / J00-99),178.5
+2007,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",66.7
+2007,Alcohol-specific,25.5
+2007,Accidents,29.4
+2007,Probable suicide,16.1
+2007,Dementia and Alzheimer's,77.5
+2007,drug related,8.5
+2007,Covid-19,NA
+2008,All causes,1282.7
+2008,Cancer (malignant neoplasms: 140-208 /C00-97),337.6
+2008,Diseases of the circulatory system(390-459 / I00-I99),419.1
+2008,Ischaemic (coronary) heart disease(410-414 / I20-25),203.6
+2008,Cerebrovascular disease (stroke:430-438 / I60-69),129.4
+2008,Diseases of the respiratory system(460-519 / J00-99),178.7
+2008,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",64.5
+2008,Alcohol-specific,25.9
+2008,Accidents,28.6
+2008,Probable suicide,16.1
+2008,Dementia and Alzheimer's,82.2
+2008,drug related,10.7
+2008,Covid-19,NA
+2009,All causes,1222.5
+2009,Cancer (malignant neoplasms: 140-208 /C00-97),330.9
+2009,Diseases of the circulatory system(390-459 / I00-I99),389.3
+2009,Ischaemic (coronary) heart disease(410-414 / I20-25),187.8
+2009,Cerebrovascular disease (stroke:430-438 / I60-69),117.5
+2009,Diseases of the respiratory system(460-519 / J00-99),167.9
+2009,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",62.5
+2009,Alcohol-specific,23
+2009,Accidents,29.4
+2009,Probable suicide,14
+2009,Dementia and Alzheimer's,81
+2009,drug related,10.1
+2009,Covid-19,NA
+2010,All causes,1198.2
+2010,Cancer (malignant neoplasms: 140-208 /C00-97),328.7
+2010,Diseases of the circulatory system(390-459 / I00-I99),373.1
+2010,Ischaemic (coronary) heart disease(410-414 / I20-25),181
+2010,Cerebrovascular disease (stroke:430-438 / I60-69),109.9
+2010,Diseases of the respiratory system(460-519 / J00-99),158.7
+2010,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",57.5
+2010,Alcohol-specific,22.8
+2010,Accidents,28.4
+2010,Probable suicide,14.7
+2010,Dementia and Alzheimer's,82.8
+2010,drug related,9
+2010,Covid-19,NA
+2011,All causes,1164.2
+2011,Cancer (malignant neoplasms: 140-208 /C00-97),326.2
+2011,Diseases of the circulatory system(390-459 / I00-I99),351.4
+2011,Ischaemic (coronary) heart disease(410-414 / I20-25),166.2
+2011,Cerebrovascular disease (stroke:430-438 / I60-69),103.7
+2011,Diseases of the respiratory system(460-519 / J00-99),150.7
+2011,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",61.4
+2011,Alcohol-specific,21.9
+2011,Accidents,34.7
+2011,Probable suicide,16.6
+2011,Dementia and Alzheimer's,91.6
+2011,drug related,10.9
+2011,Covid-19,NA
+2012,All causes,1173.4
+2012,Cancer (malignant neoplasms: 140-208 /C00-97),329.7
+2012,Diseases of the circulatory system(390-459 / I00-I99),343.8
+2012,Ischaemic (coronary) heart disease(410-414 / I20-25),160.4
+2012,Cerebrovascular disease (stroke:430-438 / I60-69),98.9
+2012,Diseases of the respiratory system(460-519 / J00-99),156.7
+2012,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",64.2
+2012,Alcohol-specific,18.4
+2012,Accidents,33.2
+2012,Probable suicide,15.5
+2012,Dementia and Alzheimer's,105.4
+2012,drug related,10.9
+2012,Covid-19,NA
+2013,All causes,1152.3
+2013,Cancer (malignant neoplasms: 140-208 /C00-97),324.7
+2013,Diseases of the circulatory system(390-459 / I00-I99),332.2
+2013,Ischaemic (coronary) heart disease(410-414 / I20-25),152.4
+2013,Cerebrovascular disease (stroke:430-438 / I60-69),96.5
+2013,Diseases of the respiratory system(460-519 / J00-99),151.5
+2013,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",61.4
+2013,Alcohol-specific,19
+2013,Accidents,33.7
+2013,Probable suicide,14.9
+2013,Dementia and Alzheimer's,108.3
+2013,drug related,9.9
+2013,Covid-19,NA
+2014,All causes,1116.9
+2014,Cancer (malignant neoplasms: 140-208 /C00-97),318.6
+2014,Diseases of the circulatory system(390-459 / I00-I99),312.9
+2014,Ischaemic (coronary) heart disease(410-414 / I20-25),141.5
+2014,Cerebrovascular disease (stroke:430-438 / I60-69),87.4
+2014,Diseases of the respiratory system(460-519 / J00-99),140.4
+2014,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",59.3
+2014,Alcohol-specific,19.5
+2014,Accidents,35
+2014,Probable suicide,13
+2014,Dementia and Alzheimer's,107.3
+2014,drug related,11.5
+2014,Covid-19,NA
+2015,All causes,1177.3
+2015,Cancer (malignant neoplasms: 140-208 /C00-97),320.3
+2015,Diseases of the circulatory system(390-459 / I00-I99),326
+2015,Ischaemic (coronary) heart disease(410-414 / I20-25),145.7
+2015,Cerebrovascular disease (stroke:430-438 / I60-69),90.4
+2015,Diseases of the respiratory system(460-519 / J00-99),159.8
+2015,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",65.7
+2015,Alcohol-specific,19.5
+2015,Accidents,37.6
+2015,Probable suicide,12.6
+2015,Dementia and Alzheimer's,124
+2015,drug related,13.3
+2015,Covid-19,NA
+2016,All causes,1136.4
+2016,Cancer (malignant neoplasms: 140-208 /C00-97),311.3
+2016,Diseases of the circulatory system(390-459 / I00-I99),305.9
+2016,Ischaemic (coronary) heart disease(410-414 / I20-25),133.6
+2016,Cerebrovascular disease (stroke:430-438 / I60-69),84.9
+2016,Diseases of the respiratory system(460-519 / J00-99),148.5
+2016,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",62.3
+2016,Alcohol-specific,21.1
+2016,Accidents,43.6
+2016,Probable suicide,13.4
+2016,Dementia and Alzheimer's,117.9
+2016,drug related,16.4
+2016,Covid-19,NA
+2017,All causes,1142.9
+2017,Cancer (malignant neoplasms: 140-208 /C00-97),312.6
+2017,Diseases of the circulatory system(390-459 / I00-I99),300.4
+2017,Ischaemic (coronary) heart disease(410-414 / I20-25),131.8
+2017,Cerebrovascular disease (stroke:430-438 / I60-69),79.4
+2017,Diseases of the respiratory system(460-519 / J00-99),137.1
+2017,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",61.3
+2017,Alcohol-specific,20.5
+2017,Accidents,46
+2017,Probable suicide,12.6
+2017,Dementia and Alzheimer's,135.7
+2017,drug related,17.7
+2017,Covid-19,NA
+2018,All causes,1139.5
+2018,Cancer (malignant neoplasms: 140-208 /C00-97),308.4
+2018,Diseases of the circulatory system(390-459 / I00-I99),290.9
+2018,Ischaemic (coronary) heart disease(410-414 / I20-25),127.8
+2018,Cerebrovascular disease (stroke:430-438 / I60-69),76.5
+2018,Diseases of the respiratory system(460-519 / J00-99),141
+2018,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",60.9
+2018,Alcohol-specific,20.8
+2018,Accidents,48.8
+2018,Probable suicide,14.4
+2018,Dementia and Alzheimer's,132.7
+2018,drug related,22.5
+2018,Covid-19,NA
+2019,All causes,1107.6
+2019,Cancer (malignant neoplasms: 140-208 /C00-97),306.9
+2019,Diseases of the circulatory system(390-459 / I00-I99),282.8
+2019,Ischaemic (coronary) heart disease(410-414 / I20-25),124.1
+2019,Cerebrovascular disease (stroke:430-438 / I60-69),72.7
+2019,Diseases of the respiratory system(460-519 / J00-99),125.6
+2019,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",56.4
+2019,Alcohol-specific,18.6
+2019,Accidents,52.4
+2019,Probable suicide,15.2
+2019,Dementia and Alzheimer's,127.7
+2019,drug related,24.4
+2019,Covid-19,NA
+2020,All causes,1212
+2020,Cancer (malignant neoplasms: 140-208 /C00-97),301
+2020,Diseases of the circulatory system(390-459 / I00-I99),290.9
+2020,Ischaemic (coronary) heart disease(410-414 / I20-25),125.9
+2020,Cerebrovascular disease (stroke:430-438 / I60-69),75.5
+2020,Diseases of the respiratory system(460-519 / J00-99),104.2
+2020,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",47.1
+2020,Alcohol-specific,21.5
+2020,Accidents,52.5
+2020,Probable suicide,14.8
+2020,Dementia and Alzheimer's,125.2
+2020,drug related,25.2
+2020,Covid-19,115.4
+2021,All causes,1180.6
+2021,Cancer (malignant neoplasms: 140-208 /C00-97),301.1
+2021,Diseases of the circulatory system(390-459 / I00-I99),293
+2021,Ischaemic (coronary) heart disease(410-414 / I20-25),129.7
+2021,Cerebrovascular disease (stroke:430-438 / I60-69),72.09999999999998
+2021,Diseases of the respiratory system(460-519 / J00-99),100.6
+2021,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",46
+2021,Alcohol-specific,22.3
+2021,Accidents,51.7
+2021,Probable suicide,13.7
+2021,Dementia and Alzheimer's,116.9
+2021,drug related,25
+2021,Covid-19,89.4
+2022,All causes,1171.2
+2022,Cancer (malignant neoplasms: 140-208 /C00-97),298
+2022,Diseases of the circulatory system(390-459 / I00-I99),302.4
+2022,Ischaemic (coronary) heart disease(410-414 / I20-25),131.4
+2022,Cerebrovascular disease (stroke:430-438 / I60-69),73.09999999999998
+2022,Diseases of the respiratory system(460-519 / J00-99),114.5
+2022,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",52
+2022,Alcohol-specific,22.9
+2022,Accidents,50.6
+2022,Probable suicide,13.9
+2022,Dementia and Alzheimer's,121.2
+2022,drug related,19.8
+2022,Covid-19,43.6
