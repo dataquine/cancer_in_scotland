@@ -33,3 +33,18 @@ Log of actions taken during project.
 * Bowel Cancer screening
   * Plots
   * Add to main report
+  
+* NRS Death data
+  * Found better table for causes of death but more processing required
+  * Puzzling over why they have split one table in two? Programatically what's
+  the best way of handling? Have gone down the road of extracting two tables by
+  range then combining.
+  * Rows with columns with empty values but the value is in a previous row?
+  I'm going to experiment with 'fill' - is this the best way? https://tidyr.tidyverse.org/reference/fill.html
+  * Tried contacting Jamie and David (hadn't noticed David not working afternoon)
+  * Spoke to Jamie, general catch up, mooted doing decision tree
+  * Switching general death dataset to Age-standardised Death Rates Calculated Using the European Standard Population
+  https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/age-standardised-death-rates-calculated-using-the-esp. Better because of age standardised, NB rate not numbers and
+  nicer breakdown of simpler naming of causes and public-friendly labels.
+  
+  
