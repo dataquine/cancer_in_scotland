@@ -26,5 +26,10 @@ Log of actions taken during project.
 	* Experimented with extracting a range for KP1
 	* Wrote cleaning script for KP1
 * DETOUR: WAITING FOR BRITISH GAS ADVISOR..."Now 201st in line"
+  * Testing shiny demos https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html
 
-
+## 2023-10-10 Tuesday
+* Standup
+* Bowel Cancer screening
+  * Plots
+  * Add to main report
