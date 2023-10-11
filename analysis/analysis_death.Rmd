@@ -1,17 +1,28 @@
 ---
-title: 'Analysis: Death'
+title: 'Analysis: Death from cancer in Scotland'
 author: "Lesley Duff"
 date: "`r format(Sys.Date())`"
 output:
   html_document:
     df_print: paged
 ---
-# Analysis: Death
+```{r setup, include=FALSE, warning = FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+# Death
 
 ```{r}
+library(dplyr)
 library(here)
+library(readr)
 library(skimr)
-library(tidyverse)
+library(stringr)
+library(tidyr)
+# library(tidyverse)
 ```
 
 ```{r}
@@ -19,35 +30,152 @@ source(here::here("R/nrs_data_info.R"))
 source(here::here("R/death.R"))
 # Retrieve helper functions for manipulating cause of death data
 ```
-## Death
 
-The National Records of Scotland maintain official death statistics for 
-Scotland. We wish to see where cancer fits into the overall pattern of death.
-How big is the problem.
-
-### All causes of death and selected causes
 ```{r}
+# Read in clean cancer death data
 death_cause <- read_csv(here::here(
   "data_clean", nrs_death_cause_filepath
 ))
 ```
 
 ```{r}
+# View(death_cause)
+# Extract list of names of causes of death
+causes_of_death <- death_cause %>%
+  distinct(cause) %>%
+  arrange(str_to_upper(cause)) %>%
+  pull()
+# causes_of_death
+
+causes_of_death_simple <- death_cause %>%
+  arrange(str_to_upper(cause_simple)) %>%
+  distinct(cause_simple) %>%
+  pull()
+
+# causes_of_death
+# Helper variables
+label_cause_cancer <- "Cancer"
+label_cause_all_causes <- "All causes"
+label_cause_non_cancer <- "Non-cancer"
+
+latest_year_nrs_data <- 2022
+
+theme_set(theme_minimal())
+```
+## Background
+
+We wish to see where cancer fits into the overall pattern of death in Scotland.
+The [National Records of Scotland](https://www.nrscotland.gov.uk/) (NRS) 
+maintain official death statistics for Scotland. 
+This analysis utilises NRS data.
+
+**Source:**  
+[Table 1: All ages age-standardised death rates for all causes and certain selected causes, Scotland, 1994 to 2022](https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/age-standardised-death-rates-calculated-using-the-esp).  
+NRS Last update: 19 September 2023.
+
+Definition: `rate` is deaths per 100,000 people in Scotland using. The NRS data is 
+ age-standardised using the European Standard Population.
+
+There are `r length(causes_of_death)` categories of causes recorded in the data 
+set.
+
+```{r results='asis'}
+paste(causes_of_death)
+```
+
+As you can see these are formal technical names. For simplifying ongoing work 
+the following substitutions have been made and called `cause_simple`.
+
+```{r results='asis'}
+paste(causes_of_death_simple)
+```
+
+## Analysis
+
+```{r include=FALSE}
 dim(death_cause)
 # 45 rows 3 columns
 
 # Examine data
 glimpse(death_cause)
 skimr::skim(death_cause)
+```
+### How does death from cancer in Scotland compare to other causes?
+```{r}
+# View(death_cause)
+# death_cause
 
-# The area column represents both health boards and all of Scotland so be
-# careful to filter our results if e.g. only health boards requires
+# Create table of available death causes ordered by year high to low to show
+# most recent first, then by rate high to low, then alphabetical by cause_simple
+death_cause_recent <- death_cause %>%
+  select(year, rate, cause_simple) %>%
+  mutate(rate = round(rate, 2)) %>%
+  arrange(desc(year), desc(rate), cause_simple)
+# death_cause_recent
 ```
 
 ```{r}
-#View(death_cause)
-head(death_cause)
+# #### Cancer death rate as a percentage of death rate from all causes.
+death_rate_average <- death_cause_recent %>%
+  group_by(cause_simple) %>%
+  summarise(average_rate = mean(rate)) %>%
+  arrange(desc(average_rate)) %>%
+  ungroup()
+# death_rate_average
+
+cancer_death_rate_latest <- get_death_by_year_cause_simple(death_cause_recent,
+  filter_cause_simple = label_cause_all_causes,
+  filter_year = latest_year_nrs_data
+)
+
+# cancer_death_rate_latest
+cancer_death_rate_cancer_latest <- get_death_by_year_cause_simple(death_cause_recent,
+  filter_cause_simple = label_cause_cancer,
+  filter_year = latest_year_nrs_data
+)
+# cancer_death_rate_cancer_latest
+
+cancer_death_rate_cancer_percent <- cancer_death_rate_cancer_latest / cancer_death_rate_latest * 100
+
+cancer_death_proportion <- tibble(
+  category = c(label_cause_cancer, label_cause_non_cancer),
+  percent = c(cancer_death_rate_cancer_percent, 100 - cancer_death_rate_cancer_percent),
+  round(100 - cancer_death_rate_cancer_percent, 1)
+) %>%
+  mutate(
+    percent_labels =
+      scales::percent(percent, accuracy = 0.1, scale = 1)
+  )
+
+# cancer_death_proportion %>%
+#   # Basic piechart with percentage labels
+#   ggplot(aes(x = "", y = percent, fill = category)) +
+#   geom_col(color = "white", width = 1) +
+#   geom_label(aes(label = percent_labels),
+#     position = position_stack(vjust = 0.5),
+#     show.legend = FALSE # hide the 'a' symbol
+#   ) +
+#   #   scale_fill_manual(values = c("red", "yellow")) +
+# 
+#   coord_polar(theta = "y") + # ?coord_polar
+#   labs(
+#     title = "Death rate from cancer as percentage of death rate all causes",
+#     x = "",
+#     y = "Percent",
+#     fill = ""
+#   )
+plot_death_rate_cancer(cancer_death_proportion)
 ```
+
+#### Table: Rate of death compared to other causes
+```{r}
+# ?DT::datatable
+DT::datatable(death_cause_recent,
+  caption = "Data for 1994 - 2022"
+)
+```
+
+
 
 ## All Scotland
 ### All causes
@@ -56,7 +184,7 @@ head(death_cause)
 death_all_cause <- get_death_all_cause(death_cause)
 head(death_all_cause)
 
-plot_death_all_cause <- plot_death_cause(death_all_cause) 
+plot_death_all_cause <- plot_death_cause(death_all_cause)
 plot_death_all_cause
 ```
 
@@ -67,6 +195,7 @@ death_selected_cause <- get_death_selected_cause(death_cause)
 head(death_selected_cause)
 
 plot_death_selectect_cause <- plot_death_cause(death_selected_cause,
-                          plot_title = "Death rates for selected causes") 
+  plot_title = "Death rates for selected causes"
+)
 plot_death_selectect_cause
 ```
