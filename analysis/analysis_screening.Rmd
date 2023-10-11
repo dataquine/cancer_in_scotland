@@ -49,7 +49,9 @@ head(screening_bowel_cancer_takeup_all)
 ## All scotland
 ```{r}
 screening_bowel_cancer_takeup_scotland <-get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
+screening_bowel_cancer_takeup_scotland
 
+screening_bowel_cancer_takeup_scotland <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
 screening_bowel_cancer_takeup_scotland
 ```
 
@@ -71,6 +73,9 @@ screening_bowel_cancer_takeup_health_boards <- get_screening_bowel_cancer_takeup
 )
 
 screening_bowel_cancer_takeup_health_boards 
+
+
+
 ```
 
 
