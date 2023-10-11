@@ -66,6 +66,7 @@ plot_death_all_cause
 death_selected_cause <- get_death_selected_cause(death_cause)
 head(death_selected_cause)
 
-plot_death_selectect_cause <- plot_death_cause(death_selected_cause) 
+plot_death_selectect_cause <- plot_death_cause(death_selected_cause,
+                          plot_title = "Death rates for selected causes") 
 plot_death_selectect_cause
 ```
