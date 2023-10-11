@@ -34,9 +34,12 @@ get_death_selected_cause <- function(df) {
 plot_death_cause <- function(df, plot_title = plot_death_cause_title,
                              plot_subtitle = plot_death_cause_subtitle,
                              plot_xaxis_title = plot_death_cause_xaxis_title,
-                             plot_yaxis_title = plot_death_cause_yaxis_title) {
+                             plot_yaxis_title = plot_death_cause_yaxis_title,
+                             plot_year_start = 1994,
+                             plot_year_end = 2022,
+                             plot_year_by = 2){
   plot <- df %>%
-    mutate(cause = str_trunc(cause, 15)) %>% 
+    mutate(cause = str_trunc(cause, 20)) %>% 
     ggplot(aes(x = year, y = rate)) +
     geom_col(aes(fill = cause), na.rm = TRUE, position = "fill")+
     #geom_point(color = "darkorchid4", na.rm = TRUE) +
@@ -45,7 +48,9 @@ plot_death_cause <- function(df, plot_title = plot_death_cause_title,
     #facet_wrap(~year) +
     #geom_line(aes(x = year, y = rate, colour = cause), group = 1, na.rm = TRUE) +
     scale_y_continuous(label = scales::label_comma(scale = 1)) +
-    scale_x_continuous(breaks = seq(from = 1990, to = 2025, by = 5)) +
+    scale_x_continuous(breaks = seq(from = plot_year_start, 
+                                    to = plot_year_end, 
+                                    by = plot_year_by)) +
     labs(
       title = plot_title,
       subtitle = plot_subtitle,
