@@ -14,7 +14,7 @@
 # https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/age-standardised-death-rates-calculated-using-the-esp
 
 library(dplyr)
-#library(ggplot2)
+# library(ggplot2)
 library(here)
 library(janitor)
 library(lubridate)
@@ -39,8 +39,8 @@ death_cause_raw <- read_excel(
   .name_repair = "unique_quiet"
 )
 
-#cause_labels <- death_cause_raw[1]
-#rate_labels <- death_cause_raw[2]
+# cause_labels <- death_cause_raw[1]
+# rate_labels <- death_cause_raw[2]
 
 death_cause <- death_cause_raw %>%
   pivot_longer(
@@ -53,17 +53,30 @@ death_cause <- death_cause_raw %>%
   .[-1, ] %>%
   filter(rate != rate_column) %>%
   rename(year = x1) %>%
-  mutate(rate = as.numeric(rate),
-         year = as.numeric(year)) 
+  # We want to create simplified labels
+  mutate(
+    rate = as.numeric(rate),
+    year = as.numeric(year),
+    cause_simple = case_when(
+      cause == "Cancer (malignant neoplasms: 140-208 /C00-97)" ~ "Cancer",
+      cause == "Cerebrovascular disease (stroke:430-438 / I60-69)" ~ "Cerebrovascular disease",
+      cause == "Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)" ~ "Chronic Obstructive Pulmonary Disease",
+      cause == "Diseases of the circulatory system(390-459 / I00-I99)" ~ "Circulatory",
+      cause == "Diseases of the respiratory system(460-519 / J00-99)" ~ "Respiratory",
+      cause == "drug related" ~ "Drug related",
+      cause == "Ischaemic (coronary) heart disease(410-414 / I20-25)" ~ "Heart",
+      .default = cause
+    ), .after = cause
+  )
 
-#names(death_cause)
+# names(death_cause)
 
-#print(n = 5, death_cause)
-#all_causes <- get_death_all_causes(death_cause)
-#selected_causes <- get_death_selected_causes(death_cause)
-#plot_causes(all_causes)
-#plot_causes(selected_causes)
-#rm(selected_causes)
+# print(n = 5, death_cause)
+# all_causes <- get_death_all_causes(death_cause)
+# selected_causes <- get_death_selected_causes(death_cause)
+# plot_causes(all_causes)
+# plot_causes(selected_causes)
+# rm(selected_causes)
 
 write_csv(
   death_cause,
@@ -79,5 +92,3 @@ saveRDS(death_cause, file = here::here(
 ))
 
 rm(death_cause)
-
-
