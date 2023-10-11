@@ -14,7 +14,7 @@
 # https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/age-standardised-death-rates-calculated-using-the-esp
 
 library(dplyr)
-library(ggplot2)
+#library(ggplot2)
 library(here)
 library(janitor)
 library(lubridate)
@@ -58,12 +58,12 @@ death_cause <- death_cause_raw %>%
 
 #names(death_cause)
 
-print(n = 5, death_cause)
-all_causes <- get_death_all_causes(death_cause)
-selected_causes <- get_death_selected_causes(death_cause)
-plot_causes(all_causes)
-plot_causes(selected_causes)
-rm(selected_causes)
+#print(n = 5, death_cause)
+#all_causes <- get_death_all_causes(death_cause)
+#selected_causes <- get_death_selected_causes(death_cause)
+#plot_causes(all_causes)
+#plot_causes(selected_causes)
+#rm(selected_causes)
 
 write_csv(
   death_cause,
