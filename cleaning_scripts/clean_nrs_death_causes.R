@@ -14,7 +14,6 @@
 # https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/age-standardised-death-rates-calculated-using-the-esp
 
 library(dplyr)
-# library(ggplot2)
 library(here)
 library(janitor)
 library(lubridate)
@@ -39,9 +38,6 @@ death_cause_raw <- read_excel(
   .name_repair = "unique_quiet"
 )
 
-# cause_labels <- death_cause_raw[1]
-# rate_labels <- death_cause_raw[2]
-
 death_cause <- death_cause_raw %>%
   pivot_longer(
     cols = 2:last_col(),
@@ -52,7 +48,12 @@ death_cause <- death_cause_raw %>%
   # remove first row
   .[-1, ] %>%
   filter(rate != rate_column) %>%
-  rename(year = x1) %>%
+  rename(year = x1) %>% 
+  
+  # Weird lines of just a fullstop - not available e.g. covid in 1994
+  mutate(rate = na_if(rate, ".")) %>% 
+  drop_na() %>% 
+
   # We want to create simplified labels
   mutate(
     rate = as.numeric(rate),
@@ -70,13 +71,6 @@ death_cause <- death_cause_raw %>%
   )
 
 # names(death_cause)
-
-# print(n = 5, death_cause)
-# all_causes <- get_death_all_causes(death_cause)
-# selected_causes <- get_death_selected_causes(death_cause)
-# plot_causes(all_causes)
-# plot_causes(selected_causes)
-# rm(selected_causes)
 
 write_csv(
   death_cause,
