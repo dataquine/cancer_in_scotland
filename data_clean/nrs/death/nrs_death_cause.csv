@@ -10,8 +10,6 @@ year,cause,cause_simple,rate
 1994,Accidents,Accidents,33.3
 1994,Probable suicide,Probable suicide,16.6
 1994,Dementia and Alzheimer's,Dementia and Alzheimer's,19.4
-1994,drug related,Drug related,NA
-1994,Covid-19,Covid-19,NA
 1995,All causes,All causes,1572.3
 1995,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,377.8
 1995,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,717.9
@@ -23,8 +21,6 @@ year,cause,cause_simple,rate
 1995,Accidents,Accidents,33.9
 1995,Probable suicide,Probable suicide,16.6
 1995,Dementia and Alzheimer's,Dementia and Alzheimer's,21.3
-1995,drug related,Drug related,NA
-1995,Covid-19,Covid-19,NA
 1996,All causes,All causes,1564.1
 1996,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,374.1
 1996,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,704.1
@@ -36,8 +32,6 @@ year,cause,cause_simple,rate
 1996,Accidents,Accidents,33.3
 1996,Probable suicide,Probable suicide,16.9
 1996,Dementia and Alzheimer's,Dementia and Alzheimer's,22.7
-1996,drug related,Drug related,NA
-1996,Covid-19,Covid-19,NA
 1997,All causes,All causes,1527.4
 1997,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,365.6
 1997,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,679.9
@@ -49,8 +43,6 @@ year,cause,cause_simple,rate
 1997,Accidents,Accidents,31.4
 1997,Probable suicide,Probable suicide,17.1
 1997,Dementia and Alzheimer's,Dementia and Alzheimer's,23.9
-1997,drug related,Drug related,NA
-1997,Covid-19,Covid-19,NA
 1998,All causes,All causes,1507.3
 1998,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,359.7
 1998,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,654.4
@@ -62,8 +54,6 @@ year,cause,cause_simple,rate
 1998,Accidents,Accidents,31.5
 1998,Probable suicide,Probable suicide,17.3
 1998,Dementia and Alzheimer's,Dementia and Alzheimer's,24.1
-1998,drug related,Drug related,NA
-1998,Covid-19,Covid-19,NA
 1999,All causes,All causes,1528.8
 1999,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,358.8
 1999,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,642
@@ -75,8 +65,6 @@ year,cause,cause_simple,rate
 1999,Accidents,Accidents,33.3
 1999,Probable suicide,Probable suicide,17.2
 1999,Dementia and Alzheimer's,Dementia and Alzheimer's,26.5
-1999,drug related,Drug related,NA
-1999,Covid-19,Covid-19,NA
 2000,All causes,All causes,1443.5
 2000,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,360.7
 2000,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,603.5
@@ -89,7 +77,6 @@ year,cause,cause_simple,rate
 2000,Probable suicide,Probable suicide,17.2
 2000,Dementia and Alzheimer's,Dementia and Alzheimer's,56
 2000,drug related,Drug related,5.3
-2000,Covid-19,Covid-19,NA
 2001,All causes,All causes,1414.6
 2001,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,362
 2001,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,571.9
@@ -102,7 +89,6 @@ year,cause,cause_simple,rate
 2001,Probable suicide,Probable suicide,17.4
 2001,Dementia and Alzheimer's,Dementia and Alzheimer's,58.2
 2001,drug related,Drug related,6.2
-2001,Covid-19,Covid-19,NA
 2002,All causes,All causes,1421.6
 2002,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,354.9
 2002,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,567.8
@@ -115,7 +101,6 @@ year,cause,cause_simple,rate
 2002,Probable suicide,Probable suicide,17.6
 2002,Dementia and Alzheimer's,Dementia and Alzheimer's,58.9
 2002,drug related,Drug related,7.1
-2002,Covid-19,Covid-19,NA
 2003,All causes,All causes,1429.4
 2003,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,354.5
 2003,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,553.2
@@ -128,7 +113,6 @@ year,cause,cause_simple,rate
 2003,Probable suicide,Probable suicide,15.6
 2003,Dementia and Alzheimer's,Dementia and Alzheimer's,64.1
 2003,drug related,Drug related,5.9
-2003,Covid-19,Covid-19,NA
 2004,All causes,All causes,1359.3
 2004,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,349.4
 2004,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,516.5
@@ -141,7 +125,6 @@ year,cause,cause_simple,rate
 2004,Probable suicide,Probable suicide,16.3
 2004,Dementia and Alzheimer's,Dementia and Alzheimer's,63.9
 2004,drug related,Drug related,6.7
-2004,Covid-19,Covid-19,NA
 2005,All causes,All causes,1329.3
 2005,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,346.9
 2005,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,489.3
@@ -154,7 +137,6 @@ year,cause,cause_simple,rate
 2005,Probable suicide,Probable suicide,14.8
 2005,Dementia and Alzheimer's,Dementia and Alzheimer's,60.1
 2005,drug related,Drug related,6.3
-2005,Covid-19,Covid-19,NA
 2006,All causes,All causes,1293.4
 2006,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,342.1
 2006,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,450.5
@@ -167,7 +149,6 @@ year,cause,cause_simple,rate
 2006,Probable suicide,Probable suicide,14.7
 2006,Dementia and Alzheimer's,Dementia and Alzheimer's,66.7
 2006,drug related,Drug related,7.9
-2006,Covid-19,Covid-19,NA
 2007,All causes,All causes,1302.5
 2007,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,342.4
 2007,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,440.7
@@ -180,7 +161,6 @@ year,cause,cause_simple,rate
 2007,Probable suicide,Probable suicide,16.1
 2007,Dementia and Alzheimer's,Dementia and Alzheimer's,77.5
 2007,drug related,Drug related,8.5
-2007,Covid-19,Covid-19,NA
 2008,All causes,All causes,1282.7
 2008,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,337.6
 2008,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,419.1
@@ -193,7 +173,6 @@ year,cause,cause_simple,rate
 2008,Probable suicide,Probable suicide,16.1
 2008,Dementia and Alzheimer's,Dementia and Alzheimer's,82.2
 2008,drug related,Drug related,10.7
-2008,Covid-19,Covid-19,NA
 2009,All causes,All causes,1222.5
 2009,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,330.9
 2009,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,389.3
@@ -206,7 +185,6 @@ year,cause,cause_simple,rate
 2009,Probable suicide,Probable suicide,14
 2009,Dementia and Alzheimer's,Dementia and Alzheimer's,81
 2009,drug related,Drug related,10.1
-2009,Covid-19,Covid-19,NA
 2010,All causes,All causes,1198.2
 2010,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,328.7
 2010,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,373.1
@@ -219,7 +197,6 @@ year,cause,cause_simple,rate
 2010,Probable suicide,Probable suicide,14.7
 2010,Dementia and Alzheimer's,Dementia and Alzheimer's,82.8
 2010,drug related,Drug related,9
-2010,Covid-19,Covid-19,NA
 2011,All causes,All causes,1164.2
 2011,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,326.2
 2011,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,351.4
@@ -232,7 +209,6 @@ year,cause,cause_simple,rate
 2011,Probable suicide,Probable suicide,16.6
 2011,Dementia and Alzheimer's,Dementia and Alzheimer's,91.6
 2011,drug related,Drug related,10.9
-2011,Covid-19,Covid-19,NA
 2012,All causes,All causes,1173.4
 2012,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,329.7
 2012,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,343.8
@@ -245,7 +221,6 @@ year,cause,cause_simple,rate
 2012,Probable suicide,Probable suicide,15.5
 2012,Dementia and Alzheimer's,Dementia and Alzheimer's,105.4
 2012,drug related,Drug related,10.9
-2012,Covid-19,Covid-19,NA
 2013,All causes,All causes,1152.3
 2013,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,324.7
 2013,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,332.2
@@ -258,7 +233,6 @@ year,cause,cause_simple,rate
 2013,Probable suicide,Probable suicide,14.9
 2013,Dementia and Alzheimer's,Dementia and Alzheimer's,108.3
 2013,drug related,Drug related,9.9
-2013,Covid-19,Covid-19,NA
 2014,All causes,All causes,1116.9
 2014,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,318.6
 2014,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,312.9
@@ -271,7 +245,6 @@ year,cause,cause_simple,rate
 2014,Probable suicide,Probable suicide,13
 2014,Dementia and Alzheimer's,Dementia and Alzheimer's,107.3
 2014,drug related,Drug related,11.5
-2014,Covid-19,Covid-19,NA
 2015,All causes,All causes,1177.3
 2015,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,320.3
 2015,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,326
@@ -284,7 +257,6 @@ year,cause,cause_simple,rate
 2015,Probable suicide,Probable suicide,12.6
 2015,Dementia and Alzheimer's,Dementia and Alzheimer's,124
 2015,drug related,Drug related,13.3
-2015,Covid-19,Covid-19,NA
 2016,All causes,All causes,1136.4
 2016,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,311.3
 2016,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,305.9
@@ -297,7 +269,6 @@ year,cause,cause_simple,rate
 2016,Probable suicide,Probable suicide,13.4
 2016,Dementia and Alzheimer's,Dementia and Alzheimer's,117.9
 2016,drug related,Drug related,16.4
-2016,Covid-19,Covid-19,NA
 2017,All causes,All causes,1142.9
 2017,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,312.6
 2017,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,300.4
@@ -310,7 +281,6 @@ year,cause,cause_simple,rate
 2017,Probable suicide,Probable suicide,12.6
 2017,Dementia and Alzheimer's,Dementia and Alzheimer's,135.7
 2017,drug related,Drug related,17.7
-2017,Covid-19,Covid-19,NA
 2018,All causes,All causes,1139.5
 2018,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,308.4
 2018,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,290.9
@@ -323,7 +293,6 @@ year,cause,cause_simple,rate
 2018,Probable suicide,Probable suicide,14.4
 2018,Dementia and Alzheimer's,Dementia and Alzheimer's,132.7
 2018,drug related,Drug related,22.5
-2018,Covid-19,Covid-19,NA
 2019,All causes,All causes,1107.6
 2019,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,306.9
 2019,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,282.8
@@ -336,7 +305,6 @@ year,cause,cause_simple,rate
 2019,Probable suicide,Probable suicide,15.2
 2019,Dementia and Alzheimer's,Dementia and Alzheimer's,127.7
 2019,drug related,Drug related,24.4
-2019,Covid-19,Covid-19,NA
 2020,All causes,All causes,1212
 2020,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,301
 2020,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,290.9
