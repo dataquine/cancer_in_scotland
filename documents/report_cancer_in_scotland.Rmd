@@ -6,6 +6,9 @@ output:
   html_document:
     df_print: paged
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = FALSE, message = FALSE)
+```
 # Cancer in Scotland
 
 ```{r}
@@ -45,7 +48,10 @@ rules to determine which of these conditions is the underlying cause of death." 
 
 Commenced in 2007 with a full rollout across all health boards by 2009.
 
-People aged 50-74 years are invited every two years to complete a home bowel screening test. 75 and over can self-refer,
+People aged 50-74 years are invited every two years to complete a home bowel screening test. 75 and over can self-refer. The Healthcare Improvement Scotland (HIS) standard 
+and bowel screening programme target for uptake is 60%. 
+
+
 
 #### Uptake
 Based on [Scottish bowel screening programme statistics For the period of invitations from May 2020 to April 2022](https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/)
@@ -68,16 +74,14 @@ plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotla
 #plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
 ```
 
-
-
 Bowel Cancer Screening around 2/3 of the people invited via the screening 
 programme are taking up the offer.
 
 Females are more likely to return the tests than males.
 
 Conclusion: 
-
-Generally good take up but still room for improvement.
+Generally a majority take up but still room for improvement. For the most 
+recent round of testing the 60% target has been met and exceeded.
 
 * Continue to enhance communication with the general public making more efforts 
 to target males.
