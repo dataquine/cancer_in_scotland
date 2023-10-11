@@ -47,4 +47,11 @@ Log of actions taken during project.
   https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/age-standardised-death-rates-calculated-using-the-esp. Better because of age standardised, NB rate not numbers and
   nicer breakdown of simpler naming of causes and public-friendly labels.
   
-  
+## 2023-10-11 Wednesday
+* Standup
+* Death:
+    * Continuing on NRS death data, comparing Cancer to other non-cancer deaths
+    - created a pie chart, ha!
+    * Had a bit of a faff removing NAs. NRS have fields with "." in them for
+    things like COVID in 1994 - assuming they just mean not available.
+* Looking at DT::DataTable options for presenting info in analysis
