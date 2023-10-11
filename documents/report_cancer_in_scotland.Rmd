@@ -86,6 +86,10 @@ recent round of testing the 60% target has been met and exceeded.
 * Continue to enhance communication with the general public making more efforts 
 to target males.
 
+# Assumptions
+* NRS use "." in some columns - I'm assuming they just mean not available. It's
+in things like columns for COVID in year 1994 etc. Or changes in what's 
+recorded.
 
 # Conclusion
 
