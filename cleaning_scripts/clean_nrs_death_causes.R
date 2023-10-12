@@ -28,11 +28,19 @@ cause_column <- "cause"
 cause_simple_column <- "cause_simple"
 rate_column <- "rate"
 
+# Download the file from the remote source ----
+# Should onely need to do this once
+# Warning be mindful of not runing scipt too frequently
+download.file(nrs_death_cause_url, 
+              destfile = here::here(
+                "data_raw",nrs_death_cause_raw_filepath))
+?download.file
+# Read raw death data ----
 death_cause_raw <- read_excel(
-  here::here(
-    "data_raw",
-    nrs_death_cause_raw_filepath
-  ),
+ here::here(
+   "data_raw",
+   nrs_death_cause_raw_filepath
+ ),
   sheet = nrs_death_cause_sheet,
   range = nrs_death_cause_range,
   .name_repair = "unique_quiet"
@@ -72,7 +80,7 @@ death_cause <- death_cause_raw %>%
   )
 
 # names(death_cause)
-
+# Write our clean version of death cause data ----
 write_csv(
   death_cause,
   here::here(
@@ -86,4 +94,6 @@ saveRDS(death_cause, file = here::here(
   nrs_death_cause_shiny_filepath
 ))
 
-rm(death_cause)
+rm(list = ls(pattern = "nrs_death"))
+rm(list = ls(pattern = "cause"))
+rm(rate_column)
