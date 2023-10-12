@@ -5,7 +5,7 @@ year,cause,cause_simple,rate
 1994,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,398.5
 1994,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,214.9
 1994,Diseases of the respiratory system(460-519 / J00-99),Respiratory,197
-1994,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,60.2
+1994,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),60.2
 1994,Alcohol-specific,Alcohol-specific,12.2
 1994,Accidents,Accidents,33.3
 1994,Probable suicide,Probable suicide,16.6
@@ -16,7 +16,7 @@ year,cause,cause_simple,rate
 1995,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,386.6
 1995,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,213.2
 1995,Diseases of the respiratory system(460-519 / J00-99),Respiratory,211.8
-1995,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,66.2
+1995,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),66.2
 1995,Alcohol-specific,Alcohol-specific,14
 1995,Accidents,Accidents,33.9
 1995,Probable suicide,Probable suicide,16.6
@@ -27,7 +27,7 @@ year,cause,cause_simple,rate
 1996,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,377.3
 1996,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,194
 1996,Diseases of the respiratory system(460-519 / J00-99),Respiratory,215.5
-1996,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,63.7
+1996,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),63.7
 1996,Alcohol-specific,Alcohol-specific,17.3
 1996,Accidents,Accidents,33.3
 1996,Probable suicide,Probable suicide,16.9
@@ -38,7 +38,7 @@ year,cause,cause_simple,rate
 1997,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,359.1
 1997,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,189.2
 1997,Diseases of the respiratory system(460-519 / J00-99),Respiratory,214.5
-1997,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,65.5
+1997,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),65.5
 1997,Alcohol-specific,Alcohol-specific,18.8
 1997,Accidents,Accidents,31.4
 1997,Probable suicide,Probable suicide,17.1
@@ -49,7 +49,7 @@ year,cause,cause_simple,rate
 1998,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,341
 1998,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,185.3
 1998,Diseases of the respiratory system(460-519 / J00-99),Respiratory,215.9
-1998,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,66.7
+1998,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),66.7
 1998,Alcohol-specific,Alcohol-specific,19.9
 1998,Accidents,Accidents,31.5
 1998,Probable suicide,Probable suicide,17.3
@@ -60,7 +60,7 @@ year,cause,cause_simple,rate
 1999,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,337.8
 1999,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,181.6
 1999,Diseases of the respiratory system(460-519 / J00-99),Respiratory,237.1
-1999,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,73.4
+1999,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),73.4
 1999,Alcohol-specific,Alcohol-specific,21.9
 1999,Accidents,Accidents,33.3
 1999,Probable suicide,Probable suicide,17.2
@@ -71,7 +71,7 @@ year,cause,cause_simple,rate
 2000,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,310
 2000,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,178.9
 2000,Diseases of the respiratory system(460-519 / J00-99),Respiratory,170.1
-2000,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,69.6
+2000,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),69.6
 2000,Alcohol-specific,Alcohol-specific,24.5
 2000,Accidents,Accidents,32.3
 2000,Probable suicide,Probable suicide,17.2
@@ -83,7 +83,7 @@ year,cause,cause_simple,rate
 2001,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,295
 2001,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,171.8
 2001,Diseases of the respiratory system(460-519 / J00-99),Respiratory,165.6
-2001,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,69.4
+2001,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),69.4
 2001,Alcohol-specific,Alcohol-specific,26.1
 2001,Accidents,Accidents,31.4
 2001,Probable suicide,Probable suicide,17.4
@@ -95,7 +95,7 @@ year,cause,cause_simple,rate
 2002,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,286.7
 2002,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,173.4
 2002,Diseases of the respiratory system(460-519 / J00-99),Respiratory,173.2
-2002,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,69
+2002,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),69
 2002,Alcohol-specific,Alcohol-specific,28.1
 2002,Accidents,Accidents,31
 2002,Probable suicide,Probable suicide,17.6
@@ -107,7 +107,7 @@ year,cause,cause_simple,rate
 2003,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,280.3
 2003,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,167.5
 2003,Diseases of the respiratory system(460-519 / J00-99),Respiratory,189.6
-2003,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,72.7
+2003,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),72.7
 2003,Alcohol-specific,Alcohol-specific,28.3
 2003,Accidents,Accidents,31.2
 2003,Probable suicide,Probable suicide,15.6
@@ -119,7 +119,7 @@ year,cause,cause_simple,rate
 2004,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,261.6
 2004,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,157.7
 2004,Diseases of the respiratory system(460-519 / J00-99),Respiratory,170
-2004,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,65.8
+2004,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),65.8
 2004,Alcohol-specific,Alcohol-specific,27.3
 2004,Accidents,Accidents,32.5
 2004,Probable suicide,Probable suicide,16.3
@@ -131,7 +131,7 @@ year,cause,cause_simple,rate
 2005,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,246.7
 2005,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,145.9
 2005,Diseases of the respiratory system(460-519 / J00-99),Respiratory,175.8
-2005,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,67.4
+2005,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),67.4
 2005,Alcohol-specific,Alcohol-specific,27.6
 2005,Accidents,Accidents,29.6
 2005,Probable suicide,Probable suicide,14.8
@@ -143,7 +143,7 @@ year,cause,cause_simple,rate
 2006,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,225.1
 2006,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,134.7
 2006,Diseases of the respiratory system(460-519 / J00-99),Respiratory,175.1
-2006,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,66.2
+2006,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),66.2
 2006,Alcohol-specific,Alcohol-specific,28.5
 2006,Accidents,Accidents,28.7
 2006,Probable suicide,Probable suicide,14.7
@@ -155,7 +155,7 @@ year,cause,cause_simple,rate
 2007,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,216.7
 2007,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,130.5
 2007,Diseases of the respiratory system(460-519 / J00-99),Respiratory,178.5
-2007,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,66.7
+2007,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),66.7
 2007,Alcohol-specific,Alcohol-specific,25.5
 2007,Accidents,Accidents,29.4
 2007,Probable suicide,Probable suicide,16.1
@@ -167,7 +167,7 @@ year,cause,cause_simple,rate
 2008,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,203.6
 2008,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,129.4
 2008,Diseases of the respiratory system(460-519 / J00-99),Respiratory,178.7
-2008,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,64.5
+2008,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),64.5
 2008,Alcohol-specific,Alcohol-specific,25.9
 2008,Accidents,Accidents,28.6
 2008,Probable suicide,Probable suicide,16.1
@@ -179,7 +179,7 @@ year,cause,cause_simple,rate
 2009,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,187.8
 2009,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,117.5
 2009,Diseases of the respiratory system(460-519 / J00-99),Respiratory,167.9
-2009,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,62.5
+2009,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),62.5
 2009,Alcohol-specific,Alcohol-specific,23
 2009,Accidents,Accidents,29.4
 2009,Probable suicide,Probable suicide,14
@@ -191,7 +191,7 @@ year,cause,cause_simple,rate
 2010,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,181
 2010,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,109.9
 2010,Diseases of the respiratory system(460-519 / J00-99),Respiratory,158.7
-2010,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,57.5
+2010,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),57.5
 2010,Alcohol-specific,Alcohol-specific,22.8
 2010,Accidents,Accidents,28.4
 2010,Probable suicide,Probable suicide,14.7
@@ -203,7 +203,7 @@ year,cause,cause_simple,rate
 2011,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,166.2
 2011,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,103.7
 2011,Diseases of the respiratory system(460-519 / J00-99),Respiratory,150.7
-2011,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,61.4
+2011,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),61.4
 2011,Alcohol-specific,Alcohol-specific,21.9
 2011,Accidents,Accidents,34.7
 2011,Probable suicide,Probable suicide,16.6
@@ -215,7 +215,7 @@ year,cause,cause_simple,rate
 2012,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,160.4
 2012,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,98.9
 2012,Diseases of the respiratory system(460-519 / J00-99),Respiratory,156.7
-2012,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,64.2
+2012,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),64.2
 2012,Alcohol-specific,Alcohol-specific,18.4
 2012,Accidents,Accidents,33.2
 2012,Probable suicide,Probable suicide,15.5
@@ -227,7 +227,7 @@ year,cause,cause_simple,rate
 2013,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,152.4
 2013,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,96.5
 2013,Diseases of the respiratory system(460-519 / J00-99),Respiratory,151.5
-2013,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,61.4
+2013,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),61.4
 2013,Alcohol-specific,Alcohol-specific,19
 2013,Accidents,Accidents,33.7
 2013,Probable suicide,Probable suicide,14.9
@@ -239,7 +239,7 @@ year,cause,cause_simple,rate
 2014,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,141.5
 2014,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,87.4
 2014,Diseases of the respiratory system(460-519 / J00-99),Respiratory,140.4
-2014,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,59.3
+2014,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),59.3
 2014,Alcohol-specific,Alcohol-specific,19.5
 2014,Accidents,Accidents,35
 2014,Probable suicide,Probable suicide,13
@@ -251,7 +251,7 @@ year,cause,cause_simple,rate
 2015,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,145.7
 2015,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,90.4
 2015,Diseases of the respiratory system(460-519 / J00-99),Respiratory,159.8
-2015,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,65.7
+2015,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),65.7
 2015,Alcohol-specific,Alcohol-specific,19.5
 2015,Accidents,Accidents,37.6
 2015,Probable suicide,Probable suicide,12.6
@@ -263,7 +263,7 @@ year,cause,cause_simple,rate
 2016,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,133.6
 2016,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,84.9
 2016,Diseases of the respiratory system(460-519 / J00-99),Respiratory,148.5
-2016,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,62.3
+2016,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),62.3
 2016,Alcohol-specific,Alcohol-specific,21.1
 2016,Accidents,Accidents,43.6
 2016,Probable suicide,Probable suicide,13.4
@@ -275,7 +275,7 @@ year,cause,cause_simple,rate
 2017,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,131.8
 2017,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,79.4
 2017,Diseases of the respiratory system(460-519 / J00-99),Respiratory,137.1
-2017,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,61.3
+2017,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),61.3
 2017,Alcohol-specific,Alcohol-specific,20.5
 2017,Accidents,Accidents,46
 2017,Probable suicide,Probable suicide,12.6
@@ -287,7 +287,7 @@ year,cause,cause_simple,rate
 2018,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,127.8
 2018,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,76.5
 2018,Diseases of the respiratory system(460-519 / J00-99),Respiratory,141
-2018,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,60.9
+2018,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),60.9
 2018,Alcohol-specific,Alcohol-specific,20.8
 2018,Accidents,Accidents,48.8
 2018,Probable suicide,Probable suicide,14.4
@@ -299,7 +299,7 @@ year,cause,cause_simple,rate
 2019,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,124.1
 2019,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,72.7
 2019,Diseases of the respiratory system(460-519 / J00-99),Respiratory,125.6
-2019,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,56.4
+2019,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),56.4
 2019,Alcohol-specific,Alcohol-specific,18.6
 2019,Accidents,Accidents,52.4
 2019,Probable suicide,Probable suicide,15.2
@@ -311,7 +311,7 @@ year,cause,cause_simple,rate
 2020,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,125.9
 2020,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,75.5
 2020,Diseases of the respiratory system(460-519 / J00-99),Respiratory,104.2
-2020,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,47.1
+2020,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),47.1
 2020,Alcohol-specific,Alcohol-specific,21.5
 2020,Accidents,Accidents,52.5
 2020,Probable suicide,Probable suicide,14.8
@@ -324,7 +324,7 @@ year,cause,cause_simple,rate
 2021,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,129.7
 2021,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,72.09999999999998
 2021,Diseases of the respiratory system(460-519 / J00-99),Respiratory,100.6
-2021,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,46
+2021,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),46
 2021,Alcohol-specific,Alcohol-specific,22.3
 2021,Accidents,Accidents,51.7
 2021,Probable suicide,Probable suicide,13.7
@@ -337,7 +337,7 @@ year,cause,cause_simple,rate
 2022,Ischaemic (coronary) heart disease(410-414 / I20-25),Heart,131.4
 2022,Cerebrovascular disease (stroke:430-438 / I60-69),Cerebrovascular disease,73.09999999999998
 2022,Diseases of the respiratory system(460-519 / J00-99),Respiratory,114.5
-2022,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Chronic Obstructive Pulmonary Disease,52
+2022,"Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)",Pulmonary (COPD),52
 2022,Alcohol-specific,Alcohol-specific,22.9
 2022,Accidents,Accidents,50.6
 2022,Probable suicide,Probable suicide,13.9

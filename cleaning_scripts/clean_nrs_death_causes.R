@@ -61,7 +61,7 @@ death_cause <- death_cause_raw %>%
     cause_simple = case_when(
       cause == "Cancer (malignant neoplasms: 140-208 /C00-97)" ~ "Cancer",
       cause == "Cerebrovascular disease (stroke:430-438 / I60-69)" ~ "Cerebrovascular disease",
-      cause == "Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)" ~ "Chronic Obstructive Pulmonary Disease",
+      cause == "Chronic Obstructive Pulmonary Disease NEW DEF(490-492,496 / J40-44)" ~ "Pulmonary (COPD)",
       cause == "Diseases of the circulatory system(390-459 / I00-I99)" ~ "Circulatory",
       cause == "Diseases of the respiratory system(460-519 / J00-99)" ~ "Respiratory",
       cause == "drug related" ~ "Drug related",
