@@ -52,9 +52,17 @@ Polyp		a cluster of cells which project as a growth, usually on a stalk, from th
 PPV		Positive Predictive Value - the proportion of those who have a positive test who actually have disease			
 SIMD		Scottish Index of Multiple Deprivation			
 
-## Death
 
-### All causes of death and selected causes
+### Cases
+For determining changes in types of cancer ovfer time
+[Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325).  
+https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv
+
+## National Records of Scotland
+
+### Death
+
+#### All causes of death and selected causes
 
 Table 1: All ages age-standardised death rates for all causes and certain selected causes, Scotland, 1994 to 2022
 https://www.nrscotland.gov.uk/files//statistics/age-standardised-death-rates-esp/2022/age-standard-death-rates-22-tab1.zip
@@ -67,3 +75,4 @@ https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme
 * NRS use "." in some columns - I'm assuming they just mean not available. It's
 in things like columns for COVID in year 1994 etc. Or changes in what's 
 recorded.
+
