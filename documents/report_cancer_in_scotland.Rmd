@@ -44,6 +44,9 @@ https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme
 ```{r, child=c('../analysis/analysis_death.Rmd')}
 ```
 
+```{r, child=c('../analysis/analysis_incidence.Rmd')}
+```
+
 ```{r, child=c('../analysis/analysis_screening.Rmd')}
 ```
 
