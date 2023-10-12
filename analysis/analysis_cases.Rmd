@@ -1,0 +1,19 @@
+---
+title: "Analysis: cancer cases by type of cancer in Scotland"
+author: "Lesley Duff"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_depth: 4
+---
+```{r setup_death, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  error = FALSE,
+  message = FALSE
+)
+```
+# Cases
+
