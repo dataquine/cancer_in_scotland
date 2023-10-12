@@ -31,6 +31,15 @@ screening_bowel_uptake_range <- "B16:Q20"
 
 # Uptake KP1 ----
 
+# Download the file from the remote source ----
+# Should onely need to do this once
+# Warning be mindful of not runing scipt too frequently
+download.file(phs_screening_bowel_url,
+              destfile = here::here(
+                "data_raw", phs_screening_bowel_raw_filepath
+              )
+)
+
 # ?read_excel
 # Extract Sheet for Uptake
 screening_bowel_uptake_raw <- read_excel(
@@ -66,4 +75,6 @@ saveRDS(screening_bowel_uptake, file = here::here(
   phs_screening_bowel_uptake_shiny_filepath
 ))
 
-rm(screening_bowel_uptake)
+rm(list = ls(pattern = "screening_bowel_"))
+rm(list = ls(pattern = "phs_"))
+

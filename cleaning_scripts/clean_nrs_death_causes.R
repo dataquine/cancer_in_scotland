@@ -31,16 +31,18 @@ rate_column <- "rate"
 # Download the file from the remote source ----
 # Should onely need to do this once
 # Warning be mindful of not runing scipt too frequently
-download.file(nrs_death_cause_url, 
-              destfile = here::here(
-                "data_raw",nrs_death_cause_raw_filepath))
-?download.file
+download.file(nrs_death_cause_url,
+  destfile = here::here(
+    "data_raw", nrs_death_cause_raw_filepath
+  )
+)
+
 # Read raw death data ----
 death_cause_raw <- read_excel(
- here::here(
-   "data_raw",
-   nrs_death_cause_raw_filepath
- ),
+  here::here(
+    "data_raw",
+    nrs_death_cause_raw_filepath
+  ),
   sheet = nrs_death_cause_sheet,
   range = nrs_death_cause_range,
   .name_repair = "unique_quiet"
@@ -56,12 +58,10 @@ death_cause <- death_cause_raw %>%
   # remove first row
   .[-1, ] %>%
   filter(rate != rate_column) %>%
-  rename(year = x1) %>% 
-  
+  rename(year = x1) %>%
   # Weird lines of just a fullstop - not available e.g. covid in 1994
-  mutate(rate = na_if(rate, ".")) %>% 
-  drop_na() %>% 
-
+  mutate(rate = na_if(rate, ".")) %>%
+  drop_na() %>%
   # We want to create simplified labels
   mutate(
     rate = as.numeric(rate),

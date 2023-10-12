@@ -25,4 +25,4 @@ nrs_death_cause_sheet <- "data for chart"
 nrs_death_cause_range <- "A4:N34"
 
 # There are confidence intervals not sure about how to use
-#nrs_death_cause_range2 <- "A78:O150"
+# nrs_death_cause_range2 <- "A78:O150"
