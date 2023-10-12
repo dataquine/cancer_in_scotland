@@ -66,8 +66,6 @@ label_cause_all_causes <- "All causes"
 label_cause_non_cancer <- "Non-cancer"
 
 latest_year_nrs_data <- 2022
-
-theme_set(theme_cancer_in_scotland())
 ```
 ## Background
 
@@ -154,10 +152,43 @@ cancer_death_proportion <- tibble(
       scales::percent(percent, accuracy = 0.1, scale = 1)
   )
 
-#   #   scale_fill_manual(values = c("red", "yellow")) +
-
 plot_death_rate_cancer(cancer_death_proportion)
 ```
+
+```{r}
+### Selected causes
+death_selected_cause_simple <- get_death_selected_cause_simple(death_cause_recent)
+#death_cause_simple)
+#head(death_selected_cause_simple)
+
+plot_death_selected_cause_simple <- plot_death_cause_simple(death_selected_cause_simple)
+plot_death_selected_cause_simple
+```
+
+This shows how the **proportion** of deaths is changing over time by cause.  
+Cancer is the 3rd bar from the top outlined in black. After 2020, cancer and many other 
+non-COVID-19 conditions are once again worsening.
+
+N.B. This **does not** show changes in *amount*. What it does show is the 
+relationship between all possible causes. If a particular cause bar is 
+getting larger like dementia it is becoming worse or if it is decreasing like circulatory then people are becoming less likely to die from that cause.
+
+For the latter it would indicate change in that a condition that people used to 
+die of more in the past they're now dying of *something else* instead, so in 
+those cases it's the 'something else' that has worsened and would be the things 
+to take especial note of and investigate further. And another interpretation 
+can be that treatments other factors are improving things. E.g. we might 
+comment that things lke circulatory/heart/cerebrovascular disease have improved 
+over the long term considerably since the start of the data in 1994 - could 
+this be an example of improved emphasis on preventative work treating thingss
+like e.g. High Blood Pressure with medication and lifestyle changes? Is so, 
+that would be an encouraging example that change is possible.
+
+A good example is the emergence in 2020 of COVID-19 - a new cause of death marked 
+with a dotted red vertical line. People were dying from this new cause instead of 
+the kind of thing they would normally have died of. 
+
+
 
 #### Table: Rate of death compared to other causes by year
 ```{r}
@@ -169,26 +200,15 @@ DT::datatable(death_cause_recent,
 
 
 
-## All Scotland
-### All causes
 
 ```{r}
-death_all_cause_simple <- get_death_all_cause_simple(death_cause_recent)
-#death_cause_simple)
-head(death_all_cause_simple)
+## All Scotland
 
-#plot_death_all_cause_simple <- plot_death_cause_simple(death_all_cause)
+### All causes
+#death_all_cause_simple <- get_death_all_cause_simple(death_cause_recent)
+#death_cause_simple)
+#head(death_all_cause_simple)
+
+#plot_death_all_cause_simple <- plot_death_cause_simple(death_all_cause_simple)
 #plot_death_all_cause_simple
 ```
-
-### Selected causes
-
-```{r}
-death_selected_cause_simple <- get_death_selected_cause_simple(death_cause_recent)
-#death_cause_simple)
-head(death_selected_cause_simple)
-
-plot_death_selected_cause_simple <- plot_death_cause_simple(death_selected_cause_simple)
-plot_death_selected_cause_simple
-```
-This plot shows how
