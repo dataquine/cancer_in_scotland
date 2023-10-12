@@ -16,6 +16,7 @@ death_all_cause_simple_value <- "All causes"
 death_cancer_cause_simple_value <- "Cancer"
 
 # Plot: cancer death against death from all causes
+plot_death_cause_simple_plot_filepath <- "images/plot/plot_death_cause_simple.png"
 plot_death_cause_simple_title <- "Death rate from cancer as percentage all causes"
 plot_death_cause_simple_subtitle <- ""
 plot_death_cause_simple_caption <- plot_source_nrs
