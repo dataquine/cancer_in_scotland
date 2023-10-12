@@ -16,6 +16,8 @@ screening_filter_sex_female <- "Females"
 
 screening_filter_area_scotland <- "Scotland"
 
+screening_bowel_cancer_uptake_target = 60
+
 # Default to all of Scotland only and all sexes
 get_screening_bowel_cancer_takeup <- function(df,
                                               filter_sex = c(),
@@ -115,6 +117,20 @@ plot_screening_bowel_cancer_takeup_scotland <- function(df) {
     ggplot(aes(sex, uptake_pct)) +
     geom_col(na.rm = TRUE) +
     # geom_text(aes(label = uptake_pct), vjust = 1.5,  colour = "white")+
+    geom_hline(
+      colour = "red",
+      alpha = 0.7,
+      linetype = 3,
+      yintercept = screening_bowel_cancer_uptake_target
+    )+
+    geom_text(
+      mapping = aes(label = paste(round(uptake_pct, 1),"%")),
+      position = position_dodge(width = 0.7),
+      vjust = 1.5,
+      size = 5,
+      fontface = "bold",
+      colour = "white"
+    )+
     scale_y_continuous(
       label = scales::label_percent(scale = 1),
       limits = c(0, 100)
