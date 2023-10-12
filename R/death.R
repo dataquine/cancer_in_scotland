@@ -21,7 +21,7 @@ plot_death_cause_simple_subtitle <- ""
 plot_death_cause_simple_caption <- plot_source_nrs
 
 # Plot: cancer death against all causes
-plot_death_cause_simple_all_causes_title <- "Death rate from cancer against all causes"
+plot_death_cause_simple_all_causes_title <- "Death rate from cancer - all causes"
 plot_death_cause_simple_all_causes_subtitle <- "Scotland. Age-standardised"
 plot_death_cause_simple_all_causes_caption <- plot_source_nrs
 plot_death_cause_simple_all_causes_xaxis_title <- "Year"
@@ -57,16 +57,17 @@ plot_death_cause_simple <- function(df, plot_title = plot_death_cause_simple_all
         cause_simple == death_cancer_cause_simple_value ~ "yes",
         TRUE ~ "no"
       ),
-    alpha_cancer = case_when(
+      alpha_cancer = case_when(
         cause_simple == death_cancer_cause_simple_value ~ TRUE,
         TRUE ~ FALSE
-      )      
+      )
     ) %>%
-    ggplot(aes(x = year, y = rate, colour = highlight, alpha=alpha_cancer)) +
+    ggplot(aes(x = year, y = rate, colour = highlight, alpha = alpha_cancer)) +
     geom_col(aes(fill = cause_simple), position = "fill") +
-    scale_colour_manual(values = c("no" = "white", "yes" = "black"), guide = FALSE) +
-    scale_alpha_manual(values = c("TRUE" = 1, "FALSE" =0.9), guide = FALSE) +
-    
+    scale_colour_manual(values = c("no" = "white", "yes" = "black"), 
+                        guide = "none") +
+    scale_alpha_manual(values = c("TRUE" = 1, "FALSE" = 0.9), guide = "none") +
+
     #  case_match(
     #    highlight == "yes" ~ geom_text(),
     #    .default = FALSE
