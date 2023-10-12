@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
+library(readr)
+```
+
+```{r}
 source(here::here("R/phs_data_info.R"))
 source(here::here("R/theming.R"))
 ```
@@ -31,10 +35,8 @@ theme_set(theme_cancer_in_scotland())
 # Incidence
 ## Background
 
-Cancer is a category of multiple different types of cancer. We would like to 
-find out which types have been recorded in Scotland and how these have changed 
-over time
-We want where cancer fits into the overall pattern of death in Scotland.
+There are multiple different types of cancer. We would like to find out which 
+types have been recorded in Scotland and how these have changed over time
 
 The Scottish Cancer Registry (SMR06) collates this information but it can only 
 be directly accessed by people in the NHS.
@@ -56,10 +58,13 @@ This analysis utilises PHS data.
 ## Analysis
 
 ```{r}
-#incidence_raw <- read_csv()
 # Read in clean cancer death data
 incidence <- read_csv(here::here(
   "data_clean", phs_incidence_filepath
 ))
+```
+
+```{r}
+incidence
 ```
 
