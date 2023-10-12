@@ -8,13 +8,26 @@ output:
     toc: true
     toc_depth: 4
 ---
-```{r setup_death, include=FALSE}
+```{r setup_incidence, include=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,
   error = FALSE,
   message = FALSE
 )
 ```
+
+```{r}
+source(here::here("R/phs_data_info.R"))
+source(here::here("R/theming.R"))
+```
+
+```{r}
+# Set custom theme
+theme_set(theme_cancer_in_scotland())
+```
+
+
+
 # Incidence
 ## Background
 
@@ -25,6 +38,8 @@ We want where cancer fits into the overall pattern of death in Scotland.
 
 The Scottish Cancer Registry (SMR06) collates this information but it can only 
 be directly accessed by people in the NHS.
+
+Terminology: `cancer site` - the place where a cancer starts in the body
 
 Public Health Scotland (PHS) makes available aggregated opendata extracted from 
 the registry via 
@@ -37,4 +52,14 @@ registrations in Scotland by sex and age.
 PHS Last update: 29 March 2023
  
 This analysis utilises PHS data.
+
+## Analysis
+
+```{r}
+#incidence_raw <- read_csv()
+# Read in clean cancer death data
+incidence <- read_csv(here::here(
+  "data_clean", phs_incidence_filepath
+))
+```
 
