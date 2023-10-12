@@ -77,14 +77,19 @@ skimr::skim(screening_bowel_cancer_takeup_all)
 head(screening_bowel_cancer_takeup_all)
 ```
 
-## All scotland
+## All Scotland
 ```{r}
 screening_bowel_cancer_takeup_scotland <- get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
-screening_bowel_cancer_takeup_scotland
 
-screening_bowel_cancer_takeup_scotland <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
-#screening_bowel_cancer_takeup_all)
-screening_bowel_cancer_takeup_scotland
+DT::datatable(screening_bowel_cancer_takeup_scotland,
+                options = list(searching = FALSE, paging = FALSE),
+                caption = "Data for May 2020 to April 2022"
+              )
+
+plot_screening_bowel_cancer_takeup_scotland <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
+plot_screening_bowel_cancer_takeup_scotland
+ggsave(here::here(screening_bowel_cancer_uptake_plot_filepath), 
+       plot_screening_bowel_cancer_takeup_scotland)
 ```
 
 This shows that in the current Bowel Cancer Screening latest results around 2/3 
