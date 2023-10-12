@@ -18,6 +18,14 @@ screening_filter_area_scotland <- "Scotland"
 
 screening_bowel_cancer_uptake_target = 60
 
+# Plot
+screening_bowel_cancer_uptake_plot_filepath = "images/plot/plot_screening_bowel_cancer_uptake.png"
+
+screening_bowel_cancer_uptake_plot_title = "Bowel Cancer Screening uptake"
+screening_bowel_cancer_uptake_plot_subtitle = "Completed a home bowel screening test May 2020 to April 2022"
+screening_bowel_cancer_uptake_plot_x = "Uptake"
+screening_bowel_cancer_uptake_plot_y ="Sex"
+
 # Default to all of Scotland only and all sexes
 get_screening_bowel_cancer_takeup <- function(df,
                                               filter_sex = c(),
@@ -83,40 +91,15 @@ get_screening_bowel_cancer_takeup_kpi1 <- function(df) {
   return(screening_bowel_cancer_takeup_kpi1)
 }
 
-plot_screening_bowel_cancer_takeup_scotland <- function(df) {
+plot_screening_bowel_cancer_takeup_scotland <- function(df, 
+plot_title = screening_bowel_cancer_uptake_plot_title,
+plot_subtitle = screening_bowel_cancer_uptake_plot_subtitle,
+plot_x = screening_bowel_cancer_uptake_plot_x,
+plot_y = screening_bowel_cancer_uptake_plot_y) {
   plot <- df %>%
-    #   ggplot(df, aes(x = uptake_pct, y = Population, fill = sex)) +
-    #      geom_bar(data = subset(df, Gender == "Female"), stat = "identity") +
-    #      geom_bar(data = subset(df, Gender == "Male"), stat = "identity") +
-    #      scale_y_continuous(labels = paste0(as.character(c(seq(2, 0, -1), seq(1, 2, 1))), "m")) +
-    #      coord_flip()
-
-    #
-    #    ggplot(mapping = aes(x = uptake_pct, fill = sex)) +
-
-    #    # female histogram
-    #    geom_histogram(data = df %>%
-    #                     filter(sex == "Females"),
-    #                #   breaks = seq(0,85,5),
-    #                   colour = "white") +
-
-    # male histogram (values converted to negative)
-    #   geom_histogram(data = df %>% filter(sex == "Males"),
-    #               #    breaks = seq(0,85,5),
-    #                   mapping = aes(y = ..count..*(-1)),
-    #                   colour = "white") +
-    #    coord_flip()+
-
-    # # adjust counts-axis scale
-    # scale_y_continuous(limits = c(-100, 100),
-    #                   breaks = seq(-100,0,100),
-    #                  labels = abs(seq(-100, 0, 100)))
-
-
     mutate(uptake_pct = round(uptake_pct, digits = 2)) %>%
     ggplot(aes(sex, uptake_pct)) +
     geom_col(na.rm = TRUE) +
-    # geom_text(aes(label = uptake_pct), vjust = 1.5,  colour = "white")+
     geom_hline(
       colour = "red",
       alpha = 0.7,
@@ -136,10 +119,10 @@ plot_screening_bowel_cancer_takeup_scotland <- function(df) {
       limits = c(0, 100)
     ) +
     labs(
-      title = "Bowel Cancer Screening uptake",
-      subtitle = "Completed a home bowel screening test",
-      y = "Uptake",
-      x = "Sex"
+      title = plot_title,
+      subtitle = plot_subtitle,
+      y = plot_x,
+      x = plot_y
     ) +
     theme(
       axis.title = element_blank(),
