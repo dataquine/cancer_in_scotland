@@ -57,10 +57,20 @@ PPV		Positive Predictive Value - the proportion of those who have a positive tes
 SIMD		Scottish Index of Multiple Deprivation			
 
 
-### Cases
-For determining changes in types of cancer ovfer time
+### Incidence
+For determining changes in types of cancer over time
 [Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325).  
 https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv
+
+"Annual data of new cancer incidence cases in Scotland. Data is presented by 
+Cancer Network Region and Health Board, within Scotland and Network levels of 
+reporting, the incidence figures are further broken down by age group and sex.
+
+The cancer sites reported on include: bladder, bone and connective tissue, 
+brain and central nervous system, breast colorectal, female genital organs, 
+head and neck, hodgkin lymphoma, kidney, leukaemias, liver, lung and 
+mesothelioma, male genital organs, multiple myeloma, non-hodgkin lymphoma, 
+oesophageal, pancreatic, skin, stomach."
 
 ## National Records of Scotland
 
