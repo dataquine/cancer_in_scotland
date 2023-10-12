@@ -159,13 +159,14 @@ cancer_death_proportion <- tibble(
       scales::percent(percent, accuracy = 0.1, scale = 1)
   )
 
-plot_death_rate_cancer(cancer_death_proportion,
+plot_death_rate <- plot_death_rate_cancer(cancer_death_proportion,
   plot_title = paste(
     plot_death_cause_simple_title,
     "\nLatest year:", latest_year_nrs_data
-  )
-)
-# plot_title = plot_death_cause_simple_titlen)
+  ))
+plot_death_rate
+ggsave(here::here(plot_death_cause_simple_plot_filepath), 
+       plot_death_rate)
 ```
 
 This shows the proportion of deaths from cancer compared to all other 
