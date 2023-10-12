@@ -317,7 +317,7 @@ year,cause,cause_simple,rate
 2020,Probable suicide,Probable suicide,14.8
 2020,Dementia and Alzheimer's,Dementia and Alzheimer's,125.2
 2020,drug related,Drug related,25.2
-2020,Covid-19,Covid-19,115.4
+2020,Covid-19,COVID-19,115.4
 2021,All causes,All causes,1180.6
 2021,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,301.1
 2021,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,293
@@ -330,7 +330,7 @@ year,cause,cause_simple,rate
 2021,Probable suicide,Probable suicide,13.7
 2021,Dementia and Alzheimer's,Dementia and Alzheimer's,116.9
 2021,drug related,Drug related,25
-2021,Covid-19,Covid-19,89.4
+2021,Covid-19,COVID-19,89.4
 2022,All causes,All causes,1171.2
 2022,Cancer (malignant neoplasms: 140-208 /C00-97),Cancer,298
 2022,Diseases of the circulatory system(390-459 / I00-I99),Circulatory,302.4
@@ -343,4 +343,4 @@ year,cause,cause_simple,rate
 2022,Probable suicide,Probable suicide,13.9
 2022,Dementia and Alzheimer's,Dementia and Alzheimer's,121.2
 2022,drug related,Drug related,19.8
-2022,Covid-19,Covid-19,43.6
+2022,Covid-19,COVID-19,43.6
