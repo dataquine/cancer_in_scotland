@@ -6,6 +6,13 @@ output:
   html_document:
     df_print: paged
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	error = FALSE,
+	message = FALSE
+)
+```
 # Analysis: Screening
 
 ```{r}
@@ -17,7 +24,12 @@ library(tidyverse)
 ```{r}
 source(here::here("R/phs_data_info.R"))
 source(here::here("R/screening.R"))
+source(here::here("R/theming.R"))
 # Retrieve helper functions for manipulating bowel cancer screening data
+```
+```{r}
+# Set custom theme
+theme_set(theme_cancer_in_scotland())
 ```
 
 ## Bowel Cancer
