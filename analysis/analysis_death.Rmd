@@ -6,13 +6,14 @@ output:
   html_document:
     df_print: paged
 ---
-```{r setup, include=FALSE, warning = FALSE, message=FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  echo = FALSE,
-  message = FALSE,
-  warning = FALSE
+	echo = FALSE,
+	error = FALSE,
+	message = FALSE
 )
 ```
+
 # Death
 
 ```{r}
@@ -29,6 +30,12 @@ library(tidyr)
 source(here::here("R/nrs_data_info.R"))
 source(here::here("R/death.R"))
 # Retrieve helper functions for manipulating cause of death data
+source(here::here("R/theming.R"))
+```
+
+```{r}
+# Set custom theme
+theme_set(theme_cancer_in_scotland())
 ```
 
 ```{r}
@@ -60,7 +67,7 @@ label_cause_non_cancer <- "Non-cancer"
 
 latest_year_nrs_data <- 2022
 
-theme_set(theme_minimal())
+theme_set(theme_cancer_in_scotland())
 ```
 ## Background
 
@@ -147,27 +154,12 @@ cancer_death_proportion <- tibble(
       scales::percent(percent, accuracy = 0.1, scale = 1)
   )
 
-# cancer_death_proportion %>%
-#   # Basic piechart with percentage labels
-#   ggplot(aes(x = "", y = percent, fill = category)) +
-#   geom_col(color = "white", width = 1) +
-#   geom_label(aes(label = percent_labels),
-#     position = position_stack(vjust = 0.5),
-#     show.legend = FALSE # hide the 'a' symbol
-#   ) +
 #   #   scale_fill_manual(values = c("red", "yellow")) +
-# 
-#   coord_polar(theta = "y") + # ?coord_polar
-#   labs(
-#     title = "Death rate from cancer as percentage of death rate all causes",
-#     x = "",
-#     y = "Percent",
-#     fill = ""
-#   )
+
 plot_death_rate_cancer(cancer_death_proportion)
 ```
 
-#### Table: Rate of death compared to other causes
+#### Table: Rate of death compared to other causes by year
 ```{r}
 # ?DT::datatable
 DT::datatable(death_cause_recent,
@@ -181,21 +173,22 @@ DT::datatable(death_cause_recent,
 ### All causes
 
 ```{r}
-death_all_cause <- get_death_all_cause(death_cause)
-head(death_all_cause)
+death_all_cause_simple <- get_death_all_cause_simple(death_cause_recent)
+#death_cause_simple)
+head(death_all_cause_simple)
 
-plot_death_all_cause <- plot_death_cause(death_all_cause)
-plot_death_all_cause
+#plot_death_all_cause_simple <- plot_death_cause_simple(death_all_cause)
+#plot_death_all_cause_simple
 ```
 
 ### Selected causes
 
 ```{r}
-death_selected_cause <- get_death_selected_cause(death_cause)
-head(death_selected_cause)
+death_selected_cause_simple <- get_death_selected_cause_simple(death_cause_recent)
+#death_cause_simple)
+head(death_selected_cause_simple)
 
-plot_death_selectect_cause <- plot_death_cause(death_selected_cause,
-  plot_title = "Death rates for selected causes"
-)
-plot_death_selectect_cause
+plot_death_selected_cause_simple <- plot_death_cause_simple(death_selected_cause_simple)
+plot_death_selected_cause_simple
 ```
+This plot shows how
