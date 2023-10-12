@@ -1,0 +1,40 @@
+---
+title: "Analysis: incidence by type of cancer in Scotland"
+author: "Lesley Duff"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_depth: 4
+---
+```{r setup_death, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  error = FALSE,
+  message = FALSE
+)
+```
+# Incidence
+## Background
+
+Cancer is a category of multiple different types of cancer. We would like to 
+find out which types have been recorded in Scotland and how these have changed 
+over time
+We want where cancer fits into the overall pattern of death in Scotland.
+
+The Scottish Cancer Registry (SMR06) collates this information but it can only 
+be directly accessed by people in the NHS.
+
+Public Health Scotland (PHS) makes available aggregated opendata extracted from 
+the registry via 
+[Annual Cancer Incidence](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence)
+
+The following dataset gives us an nnual number and rate of new cancer 
+registrations in Scotland by sex and age.
+
+**Source:**  [Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv)
+PHS Last update: 29 March 2023
+ 
+This analysis utilises PHS data.
+
