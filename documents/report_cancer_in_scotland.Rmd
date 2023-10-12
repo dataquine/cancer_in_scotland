@@ -5,9 +5,16 @@ date: "`r format(Sys.Date())`"
 output:
   html_document:
     df_print: paged
+    toc: true
+    toc_depth: 4
 ---
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, error = FALSE, message = FALSE)
+---
+```{r setup_report, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  error = FALSE,
+  message = FALSE
+)
 ```
 # Cancer in Scotland
 
@@ -34,64 +41,13 @@ theme_set(theme_cancer_in_scotland())
 ## Data Quality
 https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/deaths-background-information/quality-of-nrs-data-on-deaths
 
-# Analysis
-
-## Death
-
-When a death is registered, it is common for a number of diseases or conditions to
-be recorded on the death certificate. National Records of Scotland apply the WHO
-rules to determine which of these conditions is the underlying cause of death." - 
-[Death Certificates and Coding the Causes of Death](https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/deaths-background-information/death-certificates-and-coding-the-causes-of-death)
-
-## Screening
-
-### Scottish Bowel Screening Programme
-
-Commenced in 2007 with a full rollout across all health boards by 2009.
-
-People aged 50-74 years are invited every two years to complete a home bowel screening test. 75 and over can self-refer. The Healthcare Improvement Scotland (HIS) standard 
-and bowel screening programme target for uptake is 60%. 
-
-
-
-#### Uptake
-Based on [Scottish bowel screening programme statistics For the period of invitations from May 2020 to April 2022](https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/)
-
-"The proportion of invites which are returned as a correctly
-completed kit (i.e. a positive or negative test result). It is a key measure of the
-acceptability of the test to the public."
-
-Healtth Improvement Scotland [Bowel screening standards: August 2023]() 
-
-```{r}
-screening_bowel_cancer_takeup_scotland <-get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
-
-#screening_bowel_cancer_takeup_scotland
-#screening_bowel_cancer_takeup_all
-
-plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
-
-#plot_bowel
-#plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
+```{r, child=c('../analysis/analysis_death.Rmd')}
 ```
 
-Bowel Cancer Screening around 2/3 of the people invited via the screening 
-programme are taking up the offer.
-
-Females are more likely to return the tests than males.
-
-Conclusion: 
-Generally a majority take up but still room for improvement. For the most 
-recent round of testing the 60% target has been met and exceeded.
-
-* Continue to enhance communication with the general public making more efforts 
-to target males.
+```{r, child=c('../analysis/analysis_screening.Rmd')}
+```
 
 # Assumptions
 * NRS use "." in some columns - I'm assuming they just mean not available. It's
 in things like columns for COVID in year 1994 etc. Or changes in what's 
 recorded.
-
-# Conclusion
-
-Bowel Cancer Screening is used 
