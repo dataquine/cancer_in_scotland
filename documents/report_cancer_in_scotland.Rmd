@@ -15,18 +15,19 @@ knitr::opts_chunk$set(echo = TRUE, error = FALSE, message = FALSE)
 library(readr)
 ```
 
-
 ```{r}
 source(here::here("R/phs_data_info.R"))
 source(here::here("R/screening.R"))
 # Retrieve helper functions for manipulating bowel cancer screening data
+source(here::here("R/theming.R"))
 
 screening_bowel_cancer_takeup_all <- read_csv(here::here(
   "data_clean", phs_screening_bowel_uptake_filepath
 ))
 ```
 ```{r}
-theme_set(theme_minimal())
+# Set custom theme
+theme_set(theme_cancer_in_scotland())
 ```
 # Overview
 
