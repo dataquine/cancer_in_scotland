@@ -59,7 +59,6 @@ get_screening_bowel_cancer_takeup_scotland <- function(df) {
   return(screening_bowel_cancer_takeup_scotland)
 }
 
-
 get_screening_bowel_cancer_takeup_kpi1 <- function(df) {
   screening_bowel_cancer_takeup_kpi1 <- get_screening_bowel_cancer_takeup(
     screening_bowel_cancer_takeup_all,
@@ -81,7 +80,6 @@ get_screening_bowel_cancer_takeup_kpi1 <- function(df) {
 
   return(screening_bowel_cancer_takeup_kpi1)
 }
-
 
 plot_screening_bowel_cancer_takeup_scotland <- function(df) {
   plot <- df %>%
@@ -113,10 +111,9 @@ plot_screening_bowel_cancer_takeup_scotland <- function(df) {
     #                  labels = abs(seq(-100, 0, 100)))
 
 
-    #  df %>%
     mutate(uptake_pct = round(uptake_pct, digits = 2)) %>%
     ggplot(aes(sex, uptake_pct)) +
-    geom_col(na.rm =TRUE) +
+    geom_col(na.rm = TRUE) +
     # geom_text(aes(label = uptake_pct), vjust = 1.5,  colour = "white")+
     scale_y_continuous(
       label = scales::label_percent(scale = 1),
@@ -128,15 +125,10 @@ plot_screening_bowel_cancer_takeup_scotland <- function(df) {
       y = "Uptake",
       x = "Sex"
     ) +
-    #theme(
-     # axis.title.x = element_blank(),
-    #  axis.title.y = element_blank()
-    #)
-  theme(#axis.text.x = element_blank(), 
-        axis.title = element_blank(), 
-      #  legend.title = element_blank(), 
-        panel.grid = element_blank())
-
+    theme(
+      axis.title = element_blank(),
+      panel.grid = element_blank()
+    )
 
   # scale_fill_continuous(labels = scales::label_comma())
   return(plot)
