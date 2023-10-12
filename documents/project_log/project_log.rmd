@@ -55,3 +55,13 @@ Log of actions taken during project.
     * Had a bit of a faff removing NAs. NRS have fields with "." in them for
     things like COVID in 1994 - assuming they just mean not available.
 * Looking at DT::DataTable options for presenting info in analysis
+
+## 2023-10-11 Thursday
+* Standup
+* Tidy up plots for death
+* Work on restructuring report files to make use of child documents to pull 
+separate analysis notebooks into the main report
+* Starting looking at new cases/incidence of different cancer types.  
+[Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325).  
+https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv
+
