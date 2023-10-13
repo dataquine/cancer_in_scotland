@@ -79,17 +79,17 @@ head(screening_bowel_cancer_takeup_all)
 
 ## All Scotland
 ```{r}
+caption_screening_bowel_cancer_takeup <- "Data for May 2020 to April 2022"
 screening_bowel_cancer_takeup_scotland <- get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
 
 DT::datatable(screening_bowel_cancer_takeup_scotland,
                 options = list(searching = FALSE, paging = FALSE),
-                caption = "Data for May 2020 to April 2022"
-              )
+                caption = caption_screening_bowel_cancer_takeup)
 
-plot_screening_bowel_cancer_takeup_scotland <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
-plot_screening_bowel_cancer_takeup_scotland
+plot_screening_bowel_cancer_takeup <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
+plot_screening_bowel_cancer_takeup
 ggsave(here::here(screening_bowel_cancer_uptake_plot_filepath), 
-       plot_screening_bowel_cancer_takeup_scotland)
+       plot_screening_bowel_cancer_takeup)
 ```
 
 This shows that in the current Bowel Cancer Screening latest results around 2/3 
@@ -120,7 +120,7 @@ screening_bowel_cancer_takeup_health_boards <-
 
 DT::datatable(screening_bowel_cancer_takeup_health_boards,
                 options = list(searching = FALSE, paging = FALSE),
-                caption = "Data for May 2020 to April 2022"
+                caption = caption_screening_bowel_cancer_takeup
               )
 ```
 
