@@ -29,4 +29,4 @@ nrs_death_cause_range <- "A4:N34"
 
 
 # If NRS is used in charts/tables how should we refer to them?
-source_nrs <- "Source: National Records of Scotland"
+source_nrs <- "Data Source: National Records of Scotland"
