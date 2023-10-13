@@ -26,3 +26,7 @@ nrs_death_cause_range <- "A4:N34"
 
 # There are confidence intervals not sure about how to use
 # nrs_death_cause_range2 <- "A78:O150"
+
+
+# If NRS is used in charts/tables how should we refer to them?
+source_nrs <- "Source: National Records of Scotland"

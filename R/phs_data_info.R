@@ -26,3 +26,6 @@ phs_incidence_filepath <- paste0("phs/incidence/", phs_incidence_filename)
 
 phs_incidence_shiny_filepath <- "shiny_app/data/phs_incidence.RDS"
 # Binary data for use by the shiny app
+
+# If PHS is used in charts/tables how should we refer to them?
+source_phs <- "Source: Public Health Scotland"
