@@ -82,7 +82,7 @@ plot_death_cause_simple <- function(df, plot_title = plot_death_cause_simple_all
     # }
 
 
-    # Show a line where COVID-19 starter
+    # Show a line where COVID-19 started
     geom_vline(
       xintercept = plot_year_covid,
       colour = "red",
