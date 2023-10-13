@@ -1,9 +1,9 @@
 #
-# File: clean_nrs_death_causes.R
+# File: death.R
 # Date: 2023-10-09
 # Author: Lesley Duff
 # Description:
-#   Clean National Records Scotland datasets for causes of death
+#   Death helper functions
 #
 
 library(ggplot2)
