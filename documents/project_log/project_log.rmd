@@ -61,7 +61,20 @@ Log of actions taken during project.
 * Tidy up plots for death
 * Work on restructuring report files to make use of child documents to pull 
 separate analysis notebooks into the main report
-* Starting looking at new cases/incidence of different cancer types.  
+* Incidence:
+  * Starting looking at new cases/incidence of different cancer types.  
 [Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325).  
 https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv
+  * Standardised the cleaning scripts
+* Shiny - revisiting looking for a suitable layout
 
+## 2023-10-12 Friday
+* Standup
+* Consulted with David over Shiny bslib issue == feature needed for multiple 
+panels on a gae only available in development version. Have installed dev version.
+* Chat with David and Al about possible approaches to modelling. Decision Tree 
+and Time series forecasting some possible approaches.
+* Incidences:
+*     With the large tidy dataset (over a million rows), spending time on 
+*   nailing the queries to return as small a set of data as possible before 
+* trying plotting
