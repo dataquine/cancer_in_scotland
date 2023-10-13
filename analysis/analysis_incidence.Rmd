@@ -1,5 +1,5 @@
 ---
-title: "Analysis: incidence by type of cancer in Scotland"
+title: "Analysis: Incidence of cancer in Scotland"
 author: "Lesley Duff"
 date: "`r format(Sys.Date())`"
 output:
@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
+library(dplyr)
 library(readr)
+library(stringr)
 ```
 
 ```{r}
@@ -29,26 +31,26 @@ source(here::here("R/theming.R"))
 # Set custom theme
 theme_set(theme_cancer_in_scotland())
 ```
-
-
-
 # Incidence
 ## Background
 
 There are multiple different types of cancer. We would like to find out which 
-types have been recorded in Scotland and how these have changed over time
+types have been recorded in Scotland and how these have changed over time. 
+Different cancers are coded according to World Health Organisation standards.
+In Scotland the ICD 10 Code is used when a patient is diagnosed.
+
+Terminology: `cancer site` - the place where a cancer starts in the body
 
 The Scottish Cancer Registry (SMR06) collates this information but it can only 
 be directly accessed by people in the NHS.
 
-Terminology: `cancer site` - the place where a cancer starts in the body
 
 Public Health Scotland (PHS) makes available aggregated opendata extracted from 
 the registry via 
 [Annual Cancer Incidence](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence)
 
 The following dataset gives us an nnual number and rate of new cancer 
-registrations in Scotland by sex and age.
+registrations in Scotland by sex and age. Reports include data from 1997 to 2021.
 
 **Source:**  [Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv)
 PHS Last update: 29 March 2023
@@ -64,7 +66,141 @@ incidence <- read_csv(here::here(
 ))
 ```
 
+```{r eval=FALSE, include=FALSE}
+skimr::skim(incidence)
+
+# N.B this dataset now has over a million rows as it was originally wide and
+# contains both numbers and rates
+
+incidence %>%
+  count(cancer_site, sex, year)
+
+head(incidence)
+```
+### Time
+
+#### Cancer Incidences by Year
 ```{r}
-incidence
+# names(incidence)
+
+# Top level for total all cancers per year = count
+incidences_by_year <- incidence %>%
+  mutate(cancer_site = str_trunc(cancer_site, 30)) %>%
+  # Only interested in top level numbers
+  filter(cancer_site == "All cancer types") %>%
+  # Only interested in all sexes
+  filter(sex == "All") %>%
+  # Only interested in all age ranges
+  filter(incidences_age_range == "All ages") %>%
+  # select(year, cancer_site,sex,incidences_age_range) %>%
+  group_by(year, cancer_site, sex, incidences_age_range, incidences_age) %>%
+  summarise() %>%
+  ungroup() %>%
+  select(year, incidences_age)
+
+# incidences_by_year
+range_incidences_by_year <- range(incidences_by_year$incidences_age)
+range_incidences_years <- range(incidences_by_year$year)
+# ?range
+# diff_range_incidences_by_year <- diff(range_incidences_by_year)
 ```
 
+```{r}
+library(ggrepel)
+
+# Yearly incidences
+plot_incidences_by_year <- function(df,
+                                    show_covid = TRUE,
+                                    plot_title = "Number of Cancer Incidences by Year in Scotland",
+                                    plot_x ="",
+                                    plot_y = "Incidences\n") {
+  plot <- df %>%
+    mutate(label = if_else(year == max(year) |
+      year == min(year),
+    as.character(incidences_age), NA_character_
+    )) %>%
+    ggplot(aes(x = year, y = incidences_age)) +
+    geom_line() +
+    #    geom_label_repel(aes(label = label), # ?geom_label_repel
+    # nudge_x = 0,
+    #     nudge_y = Inf,
+    #   na.rm = TRUE
+    #    ) +
+    geom_hline(
+      yintercept = 0,
+      #   colour = "red",
+      alpha = 0.5,
+      linetype = 1
+    ) +
+    geom_point() +
+    scale_y_continuous(label = scales::label_comma()) +
+    scale_x_continuous(breaks = seq(
+      from = min(df$year),
+      to = max(df$year),
+      by = 2
+    )) +
+    theme(
+      panel.grid.major.y = element_blank()
+      #   panel.grid.major.x = ggplot2::element_line()
+    ) +
+    labs(
+      title = plot_title,
+      subtitle = paste(min(df$year), max(df$year), sep = "-"),
+      x = plot_x,
+      y = plot_y,
+      caption = source_phs
+    )
+  if (show_covid) {
+    plot <- plot + geom_vline(
+      xintercept = 2020,
+      colour = "red",
+      alpha = 0.7,
+      linetype = 3
+    )
+    plot <- plot + annotate( # ??annotate
+      "label",
+      label = "COVID-19",
+      colour = "red",
+      # annotate("text", x = -Inf, y = Inf,
+      x = 2020,
+      y = 0
+      # hjust = 0.5, vjust = 0,parse = TRUE
+    )
+  }
+
+  return(plot)
+}
+
+plot_incidences_by_year(incidences_by_year)
+```
+Since `r range_incidences_years[1]`:
+```{r}
+range_incidences_by_year
+```
+
+Minimum number of incidences: `r range_incidences_by_year[1]`
+Maximum number of incidences: `r range_incidences_by_year[1]`
+
+```{r}
+# # Highest, lowest incidences
+# range_incidences_by_year <- incidences_by_year %>%
+#   summarise(
+#     range_incidences_age = range(incidences_age) # ?range
+#     #   lowest = min(incidences_age),
+#     #    highest = max(incidences_age),
+#     #   range = max(incidences_age) - min(incidences_age)
+#   )
+#
+
+
+range_incidences_by_year
+# year_lowest_incidences_by_year <- incidences_by_year %>%
+#   filter(incidences_age == range_incidences_by_year$lowest) %>%
+#   select(year)
+# year_lowest_incidences_by_year
+#
+# year_highest_incidences_by_year <- incidences_by_year %>%
+#   filter(incidences_age == range_incidences_by_year$highest) %>%
+#   select(year)
+# year_highest_incidences_by_year
+```
