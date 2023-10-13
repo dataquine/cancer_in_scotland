@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(dplyr)
+library(gt)
 library(readr)
 library(stringr)
 ```
@@ -29,7 +30,7 @@ source(here::here("R/theming.R"))
 
 ```{r}
 # Set custom theme
-theme_set(theme_cancer_in_scotland())
+theme_set(theme_cancer_in_scotland()) # base_size=14))
 ```
 # Incidence
 ## Background
@@ -78,8 +79,6 @@ incidence %>%
 head(incidence)
 ```
 ### Time
-
-#### Cancer Incidences by Year
 ```{r}
 # names(incidence)
 
@@ -98,21 +97,21 @@ incidences_by_year <- incidence %>%
   ungroup() %>%
   select(year, incidences_age)
 
-# incidences_by_year
 range_incidences_by_year <- range(incidences_by_year$incidences_age)
 range_incidences_years <- range(incidences_by_year$year)
-# ?range
-# diff_range_incidences_by_year <- diff(range_incidences_by_year)
 ```
 
+Since `r range_incidences_years[1]`.
+
+#### Cancer Incidences by Year
 ```{r}
-library(ggrepel)
+# library(ggrepel)
 
 # Yearly incidences
 plot_incidences_by_year <- function(df,
                                     show_covid = TRUE,
                                     plot_title = "Number of Cancer Incidences by Year in Scotland",
-                                    plot_x ="",
+                                    plot_x = "",
                                     plot_y = "Incidences\n") {
   plot <- df %>%
     mutate(label = if_else(year == max(year) |
@@ -176,27 +175,41 @@ plot_incidences_by_year(incidences_by_year)
 
 ```{r}
 lowest_incidences_by_year <- incidences_by_year %>%
-  arrange(incidences_age) %>% 
-  select(year) %>% 
-  slice(1L) %>% 
+  arrange(incidences_age) %>%
+  select(year) %>%
+  slice(1L) %>%
   pull()
 
 highest_incidences_by_year <- incidences_by_year %>%
-  arrange(desc(incidences_age)) %>% 
-  select(year) %>% 
-  slice(1L) %>% pull ()
-#lowest_incidences_by_year
-#highest_incidences_by_year
+  arrange(desc(incidences_age)) %>%
+  select(year) %>%
+  slice(1L) %>%
+  pull()
+# lowest_incidences_by_year
+# highest_incidences_by_year
+```
+
+```{r}
+incidences_min_max <- tibble(
+  incidences = c(range_incidences_by_year[1], c(range_incidences_by_year[2])),
+  year = c(lowest_incidences_by_year, highest_incidences_by_year)
+)
+
+incidences_min_max %>%
+  gt() %>%
+  tab_header(
+    title = "Highest and lowest",
+    subtitle = glue::glue("Between: {range_incidences_years[1]} and {range_incidences_years[2]}") # %>%
+    # fmt_number(columns = incidences, suffixing = TRUE)
+  ) %>% 
+    fmt_number(columns = incidences,decimals = 0)
 ```
 
 
-Since `r range_incidences_years[1]`
-
-|     | Incidences | Year |
-| -------- | -------: | ----: |
-| **Minimum** | `r format(range_incidences_by_year[1],big.mark=",")` |`r format(lowest_incidences_by_year)`|
-| **Maximum** | `r format(range_incidences_by_year[2],big.mark=",")` |`r format(highest_incidences_by_year)`|
+<!-- |     | Incidences | Year | -->
+<!-- | -------- | -------: | ----: | -->
+<!-- | **Minimum** | `r format(range_incidences_by_year[1],big.mark=",")` |`r format(lowest_incidences_by_year)`| -->
+<!-- | **Maximum** | `r format(range_incidences_by_year[2],big.mark=",")` |`r format(highest_incidences_by_year)`| -->
 
 ```{r}
-
 ```
