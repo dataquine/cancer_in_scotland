@@ -52,8 +52,8 @@ the registry via
 The following dataset gives us an nnual number and rate of new cancer 
 registrations in Scotland by sex and age. Reports include data from 1997 to 2021.
 
-**Source:**  [Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv)
-PHS Last update: 29 March 2023
+**Source:**  [Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv). 
+PHS Last update: 29 March 2023.
  
 This analysis utilises PHS data.
 
@@ -173,34 +173,30 @@ plot_incidences_by_year <- function(df,
 
 plot_incidences_by_year(incidences_by_year)
 ```
-Since `r range_incidences_years[1]`:
+
 ```{r}
-range_incidences_by_year
+lowest_incidences_by_year <- incidences_by_year %>%
+  arrange(incidences_age) %>% 
+  select(year) %>% 
+  slice(1L) %>% 
+  pull()
+
+highest_incidences_by_year <- incidences_by_year %>%
+  arrange(desc(incidences_age)) %>% 
+  select(year) %>% 
+  slice(1L) %>% pull ()
+#lowest_incidences_by_year
+#highest_incidences_by_year
 ```
 
-Minimum number of incidences: `r range_incidences_by_year[1]`
-Maximum number of incidences: `r range_incidences_by_year[1]`
+
+Since `r range_incidences_years[1]`
+
+|     | Incidences | Year |
+| -------- | -------: | ----: |
+| **Minimum** | `r format(range_incidences_by_year[1],big.mark=",")` |`r format(lowest_incidences_by_year)`|
+| **Maximum** | `r format(range_incidences_by_year[2],big.mark=",")` |`r format(highest_incidences_by_year)`|
 
 ```{r}
-# # Highest, lowest incidences
-# range_incidences_by_year <- incidences_by_year %>%
-#   summarise(
-#     range_incidences_age = range(incidences_age) # ?range
-#     #   lowest = min(incidences_age),
-#     #    highest = max(incidences_age),
-#     #   range = max(incidences_age) - min(incidences_age)
-#   )
-#
 
-
-range_incidences_by_year
-# year_lowest_incidences_by_year <- incidences_by_year %>%
-#   filter(incidences_age == range_incidences_by_year$lowest) %>%
-#   select(year)
-# year_lowest_incidences_by_year
-#
-# year_highest_incidences_by_year <- incidences_by_year %>%
-#   filter(incidences_age == range_incidences_by_year$highest) %>%
-#   select(year)
-# year_highest_incidences_by_year
 ```
