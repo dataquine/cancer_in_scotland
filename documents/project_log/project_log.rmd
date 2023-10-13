@@ -71,7 +71,7 @@ https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resou
 ## 2023-10-12 Friday
 * Standup
 * Consulted with David over Shiny bslib issue == feature needed for multiple 
-panels on a gae only available in development version. Have installed dev version.
+panels on a page only available in development version. Have installed dev version.
 * Chat with David and Al about possible approaches to modelling. Decision Tree 
 and Time series forecasting some possible approaches.
 * Incidences:
