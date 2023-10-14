@@ -99,8 +99,10 @@ Since `r format(lowest_incidences_year)`
 # Yearly incidences - a line plot
 plot_incidences <- plot_incidences_by_year(incidences_by_year)
 plot_incidences
-ggsave(here::here(cancer_incidence_plot_filepath), 
-       plot_incidences)
+ggsave(
+  here::here(cancer_incidence_plot_filepath),
+  plot_incidences
+)
 ```
 
 
@@ -116,11 +118,39 @@ incidences_min_max <- table_incidences_min_max(
 )
 incidences_min_max
 ```
-#### Types of Cancer
+#### Types
+```{r}
+incidences_by_cancer_site <- get_incidences_by_cancer_site(incidence)
+incidences_by_cancer_site
+```
+##### Cancer sites - all time
+Cancers are coded to World Health Organisation standards. The technical term 
+`cancer site` refers to where the cancer orginally appeared in the body.
+Here is the list of cancer types for which incidences have been recorded in 
+Scotland sorted by most common first. These are the totals across multiple years and all ages and sexes.
+
+```{r}
+cancer_site <- incidences_by_cancer_site %>%
+  select(cancer_site, incidences_age) %>%
+  group_by(cancer_site) %>%
+  summarise(total = sum(incidences_age))
+
+cancer_site
+```
+
+
+```{r}
+names(incidences_by_cancer_site)
+incidences_by_cancer_site %>%
+  group_by(year, cancer_site, incidences_age) %>%
+  summarise()
+```
+
+
+
 
 ***
 ```{r}
-rm(list=ls(pattern="incidences_"))
+rm(list = ls(pattern = "incidences_"))
 rm(incidence)
 ```
-
