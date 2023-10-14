@@ -14,6 +14,12 @@ library(gt)
 cancer_incidence_plot_filepath = "images/plot/plot_cancer_incidence.png"
 cancer_incidences_by_year = "Number of cancer incidences by year in Scotland"
 
+# These are variables in the dataframe
+incidence_cancer_site_all_value = "All cancer types"
+incidence_cancer_site_value = "All"
+incidence_cancer_site_all_ages_value = "All ages"
+
+
 # Show trend of incidences over time
 plot_incidences_by_year <- function(df,
                                     show_covid = TRUE,
@@ -132,7 +138,7 @@ get_incidences_by_cancer_site <- function(df) {
     # Only interested in all sexes
     filter(sex == incidence_cancer_site_value) %>%
     # Only interested in all age ranges
-    filter(incidences_age_range == "All ages") %>%
+    filter(incidences_age_range == incidence_cancer_site_all_ages_value) %>%
     group_by(year, cancer_site, sex, incidences_age_range, incidences_age) %>% 
     summarise() %>% 
     # filter(year==1997) %>% 
