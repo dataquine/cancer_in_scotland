@@ -63,24 +63,25 @@ plot_death_cause_simple <- function(df, plot_title = plot_death_cause_simple_all
         TRUE ~ FALSE
       )
     ) %>%
-    ggplot(aes(x = year, y = rate, colour = highlight, alpha = alpha_cancer)) +
-    geom_col(aes(fill = cause_simple), position = "fill") +
-    scale_colour_manual(values = c("no" = "white", "yes" = "black"), 
-                        guide = "none") +
-    scale_alpha_manual(values = c("TRUE" = 1, "FALSE" = 0.9), guide = "none") +
-
-    #  case_match(
-    #    highlight == "yes" ~ geom_text(),
-    #    .default = FALSE
-
-    # )+
-    #    if (highlight) {
-    #   geom_text(aes(y = rate, label = highlight ,
-    #                group = factor(cause_simple),
-    #               #color = highlight
-    #              )) +
-    # }
-
+    #   ggplot(aes(x = year, y = rate, colour = highlight, alpha = alpha_cancer)) +
+    ggplot(aes(x = year, y = rate, alpha = alpha_cancer)) +
+    geom_col(
+      aes(
+        fill = cause_simple,
+        alpha = alpha_cancer
+      ),
+      position = "fill", colour = "white"
+    ) + #
+    # scale_colour_manual(values = c("no" = "white", "yes" = "black"),
+    # scale_colour_manual(values = c("no" = "black", "yes" = "white"),
+    #                                           guide = "none") +
+    # scale_colour_cis_qualitative(values = c("no" = "white",
+    #                                        "yes" = "black"),
+    #                          guide = "none") +
+    scale_alpha_manual(
+      values = c("TRUE" = 1, "FALSE" = 0.8),
+      guide = "none"
+    ) +
 
     # Show a line where COVID-19 started
     geom_vline(
@@ -94,7 +95,8 @@ plot_death_cause_simple <- function(df, plot_title = plot_death_cause_simple_all
     #         label="start of \nCOVID-19",
     #        #x=as.Date("2020-03-16"), y = 150, label="state of\nemergency",
     #       col = "dodgerblue4") +
-
+    # scale_colour_cis_qualitative()+
+    # scale_fill_cis_qualitative()+
     scale_y_continuous(label = scales::label_comma(scale = 1)) +
     scale_x_continuous(breaks = seq(
       from = plot_year_start,
@@ -109,6 +111,8 @@ plot_death_cause_simple <- function(df, plot_title = plot_death_cause_simple_all
       x = plot_xaxis_title,
       fill = ""
     ) +
+    # scale_fill_cis_sequential()+
+    #   scale_fill_cis_qualitative()+
     theme(
       panel.grid.major.y = ggplot2::element_blank(),
       axis.text.y = element_blank()
@@ -143,10 +147,13 @@ plot_death_rate_cancer <- function(df, plot_title = plot_death_cause_simple_titl
     geom_col() +
     geom_label(aes(label = percent_labels),
       position = position_stack(vjust = 0.5),
+      colour = "white",
       show.legend = FALSE # hide the 'a' symbol
     ) +
-    # TODO come back with custom palette for cancer/con-cancer
-    #   scale_fill_manual(values = c("red", "yellow")) +
+    # come back with custom palette for cancer/con-cancer
+    scale_fill_manual(values = c(cis_colour_cancer, cis_colour_noncancer)) +
+    # Pacman :-)
+    # scale_fill_manual(values = c("red", "yellow")) +
     coord_polar(theta = "y") + # ?coord_polar
     theme(
       axis.text.x = element_blank(), # remove 25/50 etc
