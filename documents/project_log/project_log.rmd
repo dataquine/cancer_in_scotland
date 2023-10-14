@@ -56,7 +56,7 @@ Log of actions taken during project.
     things like COVID in 1994 - assuming they just mean not available.
 * Looking at DT::DataTable options for presenting info in analysis
 
-## 2023-10-11 Thursday
+## 2023-10-12 Thursday
 * Standup
 * Tidy up plots for death
 * Work on restructuring report files to make use of child documents to pull 
@@ -68,7 +68,7 @@ https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resou
   * Standardised the cleaning scripts
 * Shiny - revisiting looking for a suitable layout
 
-## 2023-10-12 Friday
+## 2023-10-13 Friday
 * Standup
 * Consulted with David over Shiny bslib issue == feature needed for multiple 
 panels on a page only available in development version. Have installed dev version.
@@ -79,3 +79,8 @@ and Time series forecasting some possible approaches.
 trying plotting
   * Line plot for incidences
 * Work on custom ggplot theme
+
+## 2023-10-14 Saturday
+* Incidence:
+*     Queries for cancer type
+
