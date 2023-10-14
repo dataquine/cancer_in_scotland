@@ -122,3 +122,22 @@ get_incidences_by_year <- function(df) {
     ungroup() %>%
     select(year, incidences_age)
 }
+
+# For every year break down each cancer type by number of instances
+get_incidences_by_cancer_site <- function(df) {
+  # For each year, a count of how many of each type of cancer
+  incidences_by_cancer_site  <- df %>%
+    # Remove All cancer types 
+    filter(cancer_site != incidence_cancer_site_all_value) %>%
+    # Only interested in all sexes
+    filter(sex == incidence_cancer_site_value) %>%
+    # Only interested in all age ranges
+    filter(incidences_age_range == "All ages") %>%
+    group_by(year, cancer_site, sex, incidences_age_range, incidences_age) %>% 
+    summarise() %>% 
+    # filter(year==1997) %>% 
+    ungroup()%>% 
+    select(year, cancer_site, incidences_age)
+  return(incidences_by_cancer_site)
+}
+  
