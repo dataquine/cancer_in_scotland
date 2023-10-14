@@ -12,11 +12,12 @@ library(gt)
 
 # Plot
 cancer_incidence_plot_filepath = "images/plot/plot_cancer_incidence.png"
+cancer_incidences_by_year = "Number of cancer incidences by year in Scotland"
 
 # Show trend of incidences over time
 plot_incidences_by_year <- function(df,
                                     show_covid = TRUE,
-                                    plot_title = "Number of Cancer Incidences by Year in Scotland",
+                                    plot_title = cancer_incidences_by_year,
                                     plot_x = "",
                                     plot_y = "Incidences\n") {
   plot <- df %>%
