@@ -17,19 +17,82 @@ library(ggplot2)
 
 # Define Cancer in Scotland Colors ----
 
-cis_cancer <- ""
-cis_noncancer <- ""
-# ga_purple <- "#8359AB"
-# ga_yellow <- "#FFDE39"
-# ga_gray <- "#827C78"
-# ga_blue <- "#49B8F1"
-# ga_brown <- "#B88262"
-# ga_pink <- "#DC458E"
+# Purple: Pancreatic cancer, testicular cancer
+# It is meant to signify survivors of cancer, as well
+# Seems like this would be a good shout for the main palette theme
+
+# Monochromatic palette based on purple
+cis_colour_purple1 <- "#caaeca" #000000
+cis_colour_purple2 <- "#ad81ad" #000000
+cis_colour_purple3 <- "#800080" #ffffff
+cis_colour_purple4 <- "#690267" #ffffff
+cis_colour_purple5 <- "#52024f" #ffffff
+
+cis_colour_officegreen <- "#008000"  # Office Green
+cis_colour_congressblue <- "#004580" # Congress Blue
+cis_colour_olive <- "#808000"        # Olive
+cis_colour_limeade <- "#458000"      # Limeade
+
+cis_colour_gray <- "#7F7F7F" # Gray (Grey)
+cis_colour_battleship_gray <- "#848482" # Battleship Gray
+
+cis_colour_cancer <- cis_colour_purple3
+cis_colour_noncancer <- cis_colour_officegreen
+
+#004580 # Congress Blue
+#808000 # Olive
+#458000 # Limeade
+
+#008000 Office Green
+#7F7F7F Gray (Grey)
+#848482 Battleship Gray
 
 # read logo
 # logo <- image_read("cancer_in_scotland_logo.png")
 
 colour_major_grid_lines <- "#cbcbcb"
+
+# Qualitative ----
+scale_colour_cis_qualitative <- function() {
+  
+  scale_color_manual(values = c(cis_colour_purple3, 
+                                cis_colour_officegreen, 
+                                cis_colour_congressblue, 
+                                cis_colour_olive, 
+                                cis_colour_limeade, 
+                                cis_colour_battleship_gray))
+}
+
+scale_fill_cis_qualitative <- function() {
+  
+  scale_fill_manual(values = c(cis_colour_purple3, 
+                                cis_colour_officegreen, 
+                                cis_colour_congressblue, 
+                                cis_colour_olive, 
+                                cis_colour_limeade, 
+                                cis_colour_battleship_gray))
+}
+
+# Qualitative ----
+scale_fill_cis_sequential <- function(low_color = cis_colour_purple1, 
+                                     high_color = cis_colour_purple5) {
+  
+  scale_fill_gradient(low = low_color, 
+                      high = high_color)
+  
+}
+
+# Diverging ----
+scale_fill_cis_diverging <- function(low_color = cis_colour_purple1, 
+                                    medium_color = cis_colour_purple3,
+                                    high_color = cis_colour_purple5) {
+  
+  scale_fill_gradient2(low = low_color, 
+                       mid = medium_color,
+                       high = high_color)
+  
+}
+
 
 theme_cancer_in_scotland <- function(...) {
  # base_size = 12
