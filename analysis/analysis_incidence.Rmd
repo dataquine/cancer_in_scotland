@@ -56,8 +56,10 @@ head(incidence)
 incidences_by_year <- get_incidences_by_year(incidence)
 lowest_incidences_year <- get_lowest_incidences_by_year(incidences_by_year)
 highest_incidences_year <- get_highest_incidences_by_year(incidences_by_year)
-lowest_incidences <- min(incidence$year)
-highest_incidences <- max(incidence$year)
+lowest_incidences <- min(incidences_by_year$incidences_age)
+highest_incidences <- max(incidences_by_year$incidences_age)
+lowest_incidences_year <- min(incidences_by_year$year)
+highest_incidences_year <- max(incidences_by_year$year)
 ```
 
 ## Background
@@ -69,15 +71,17 @@ In Scotland the ICD 10 Code is used when a patient is diagnosed.
 
 Terminology: `cancer site` - the place where a cancer starts in the body
 
-The Scottish Cancer Registry (SMR06) collates this information but it can only 
-be directly accessed by people in the NHS.
-
+The Scottish Cancer Registry (SMR06) collects information on every cancer in 
+Scotland. However this information can only be directly accessed by people in 
+the NHS.
 
 Public Health Scotland (PHS) makes available aggregated opendata extracted from 
 the registry via 
 [Annual Cancer Incidence](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence)
 
-The following dataset gives us an nnual number and rate of new cancer 
+
+
+The following dataset gives us an annual number and rate of new cancer 
 registrations in Scotland by sex and age. Reports include data from 1997 to 2021.
 
 **Source:**  [Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv). 
@@ -88,7 +92,7 @@ This analysis utilises PHS data.
 ## Analysis
 ### Time
 
-Since `r lowest_incidences`.
+Since `r format(lowest_incidences_year)` 
 
 #### Cancer Incidences by Year
 ```{r}
@@ -98,6 +102,7 @@ plot_incidences
 ggsave(here::here(cancer_incidence_plot_filepath), 
        plot_incidences)
 ```
+
 
 ```{r}
 incidences_min_max <- tibble(
@@ -111,6 +116,9 @@ incidences_min_max <- table_incidences_min_max(
 )
 incidences_min_max
 ```
+#### Types of Cancer
+
+***
 ```{r}
 rm(list=ls(pattern="incidences_"))
 rm(incidence)
