@@ -112,7 +112,7 @@ glimpse(death_cause)
 skimr::skim(death_cause)
 ```
 ### How does death from cancer in Scotland compare to other causes?
-#### The overall picture
+#### Overview
 ```{r}
 # View(death_cause)
 # death_cause
@@ -187,8 +187,8 @@ plot_death_selected_cause_simple
 ```
 
 This shows how the **proportion** of deaths is changing over time by cause.  
-Cancer is the 3rd bar from the top outlined in black. A dotted red vertical line 
-marks 2020 the start of the COVID-19 pandemic. After 2020 many other 
+Cancer is the thirds bar from the top. A dotted red vertical line 
+marks 2020 -the start of the COVID-19 pandemic. After 2020 many other 
 non-COVID-19 conditions are once again worsening, 
 however, **the rate of cancer deaths is improving**, albeit in a very small way.
 You can see this in the precise numbers if you filter the following table by 
