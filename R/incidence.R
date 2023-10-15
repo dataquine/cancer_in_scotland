@@ -6,18 +6,38 @@
 #   Helper functions to manipulate cancer incidence information
 #
 
+library(assertr)
 library(gt)
 
 # library(ggrepel)
 
 # Plot
-cancer_incidence_plot_filepath = "images/plot/plot_cancer_incidence.png"
-cancer_incidences_by_year = "Number of cancer incidences by year in Scotland"
+cancer_incidence_plot_filepath <- "images/plot/plot_cancer_incidence.png"
+cancer_incidences_by_year <- "Number of cancer incidences by year in Scotland"
 
 # These are variables in the dataframe
-incidence_cancer_site_all_value = "All cancer types"
-incidence_cancer_site_value = "All"
-incidence_cancer_site_all_ages_value = "All ages"
+incidence_cancer_site_all_value <- "All cancer types"
+incidence_cancer_site_value <- "All"
+incidence_cancer_site_all_ages_value <- "All ages"
+
+incidence_cancer_site_icd10code_all <- "C00-C97, excluding C44"
+
+
+# In case the raw data changes in the future lets build in some assertive
+# programming checks to make sure the correct filtering is in place
+check_valid_icd10 <- function(df) {
+  df %>%
+    # For filtering we are looking at things not already categorised as
+    # 'All cancer types' i.e. different cancer types
+    filter(cancer_site != incidence_cancer_site_all_value) %>%
+    # Check that we are not including non-malignant melanoma (C44)
+    verify(!str_detect(cancer_site_icd10code, "C44")) %>%
+    # check our ICD codes contain a 'C' code
+    verify(str_detect(cancer_site_icd10code, "C")) %>% 
+    # We assume after these checks that it is safe to use
+    return(TRUE)
+  return(FALSE)
+}
 
 
 # Show trend of incidences over time
@@ -88,8 +108,8 @@ table_incidences_min_max <- function(df, lowest_year, highest_year) {
   df %>%
     gt() %>%
     tab_header(
-      title = "Highest and lowest",
-      subtitle = glue::glue("Between: {lowest_year} and {highest_year}")
+      title = "Years with highest/lowest cancer incidences",
+      subtitle = glue::glue("Data between: {lowest_year} and {highest_year}")
     ) %>%
     fmt_number(columns = incidences, decimals = 0)
 }
@@ -132,18 +152,17 @@ get_incidences_by_year <- function(df) {
 # For every year break down each cancer type by number of instances
 get_incidences_by_cancer_site <- function(df) {
   # For each year, a count of how many of each type of cancer
-  incidences_by_cancer_site  <- df %>%
-    # Remove All cancer types 
+  incidences_by_cancer_site <- df %>%
+    # Remove All cancer types
     filter(cancer_site != incidence_cancer_site_all_value) %>%
     # Only interested in all sexes
     filter(sex == incidence_cancer_site_value) %>%
     # Only interested in all age ranges
     filter(incidences_age_range == incidence_cancer_site_all_ages_value) %>%
-    group_by(year, cancer_site, sex, incidences_age_range, incidences_age) %>% 
-    summarise() %>% 
-    # filter(year==1997) %>% 
-    ungroup()%>% 
+    group_by(year, cancer_site, sex, incidences_age_range, incidences_age) %>%
+    summarise() %>%
+    # filter(year==1997) %>%
+    ungroup() %>%
     select(year, cancer_site, incidences_age)
   return(incidences_by_cancer_site)
 }
-  
