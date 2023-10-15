@@ -11,13 +11,14 @@ output:
 ```{r setup_incidence, include=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,
-  error = FALSE,
+  # error = FALSE,
   message = FALSE
 )
 ```
 
 ```{r}
 library(dplyr)
+library(gt)
 library(readr)
 library(stringr)
 ```
@@ -35,21 +36,61 @@ theme_set(theme_cancer_in_scotland()) # base_size=14))
 # Incidence
 ```{r}
 # Read in clean cancer death data
-incidence <- read_csv(here::here(
+incidence_all <- read_csv(here::here(
   "data_clean", phs_incidence_filepath
 ))
 ```
 
 ```{r eval=FALSE, include=FALSE}
-skimr::skim(incidence)
+# skimr::skim(incidence_all)
 
 # N.B this dataset now has over a million rows as it was originally wide and
 # contains both numbers and rates
 
-incidence %>%
-  count(cancer_site, sex, year)
+# incidence_all %>%
+#  count(cancer_site, sex, year)
 
-head(incidence)
+# head(incidence_all)
+# names(incidence_all)
+
+# [1] "cancer_site"              "cancer_site_icd10code"    "sex"
+# [4] "year"                     "incidences_age_range"     "incidences_age"
+# [7] "incidence_rate_age_range" "incidence_rate_age"
+
+```
+
+```{r, error=TRUE}
+# Important that error=TRUE on this code chunk to stop if invalid ICD-10.
+
+# Before doing the analysis, ensure our dataset has the correct ICD-10 codes
+# Do not progress further and alert user that dataset may have changed.
+#valid <- check_valid_icd10(incidence_all)
+dist <- incidence_all %>% 
+  distinct(cancer_site)
+dist
+
+simplify_cancer_site = function(df){
+  simplified <- df %>% 
+    mutate(cancer_site = case_match(
+      "Malig brain ca (incl pit. gland, cranio. duct, pineal gland)	" ~ "Malig brain ca"
+      .default = cancer_site
+    )
+      
+    )
+  return (simplified)
+}
+
+incidence <- simplify_cancer_site(incidence_all)
+incidence %>% 
+  dictinct(cancer_site)
+
+
+  # For simpler visualisations slight renaming to remove text in brackets
+# This shouldn't lose any meaning as they are extra explaineds
+  #mutate(cancer_site = str_remove(cancer_site, "\\(+\\)"))
+                              
+  
+rm(incidence_all)
 ```
 
 ```{r}
@@ -64,22 +105,38 @@ highest_incidences_year <- max(incidences_by_year$year)
 
 ## Background
 
-There are multiple different types of cancer. We would like to find out which 
+There are *multiple* different types of cancer. We would like to find out which 
 types have been recorded in Scotland and how these have changed over time. 
-Different cancers are coded according to World Health Organisation standards.
-In Scotland the ICD 10 Code is used when a patient is diagnosed.
+Different cancers are categorised (coded) according to World Health Organisation 
+(WHO) [International Statistical Classification of Diseases and Related Health Problems (ICD)](https://www.who.int/standards/classifications/classification-of-diseases).
+In Scotland, currently the 'ICD-10' code is used when a patient is diagnosed to 
+record which type of cancer they have.
 
-Terminology: `cancer site` - the place where a cancer starts in the body
+### Terminology
 
-The Scottish Cancer Registry (SMR06) collects information on every cancer in 
-Scotland. However this information can only be directly accessed by people in 
-the NHS.
+Technical terms used relating to this dataset.
 
-Public Health Scotland (PHS) makes available aggregated opendata extracted from 
-the registry via 
-[Annual Cancer Incidence](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence)
+| Term    | Description |
+| -------- | ------- |
+| **incidence** | The total number of new cases (registrations) of the cancer diagnosed in Scotland for the given period. |
+| **cancer site** | The place where a cancer starts in the body.  This is represented as a code and also a human readable name |
+----------------------
 
+The [Scottish Cancer Registry and Intelligence Service](https://publichealthscotland.scot/our-areas-of-work/conditions-and-diseases/cancer/scottish-cancer-registry-and-intelligence-service-scris/overview/) (SCRIS) 
+collects detailed information on every cancer in Scotland. However, this raw 
+information is **not public** and can only be directly accessed by people in the 
+NHS and approved individuals.
 
+Public Health Scotland (PHS) makes available extracts from the SCRIS as 
+open data.
+For this analysis the 
+[Annual Cancer Incidence](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence) 
+data will be used. Specifically 
+[Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325). 
+Annual number and rate of new cancer registrations in Scotland by sex and age.
+
+Cancer incidence in Scotland
+To December 2021)
 
 The following dataset gives us an annual number and rate of new cancer 
 registrations in Scotland by sex and age. Reports include data from 1997 to 2021.
@@ -89,12 +146,30 @@ PHS Last update: 29 March 2023.
  
 This analysis utilises PHS data.
 
+### Important! When is a medical cancer a 'cancer' in official statistics?
+
+"'All cancers' by convention excludes non-melanoma skin cancers."
+
+It's a 'convention' but why is this?
+
+non-melanoma skin cancers are in the open data supplied.
+
+If we work to the official statistics standard then these should not be 
+included.
+
+
+
+-  
+[Cancer incidence in Scotland
+To December 2021](https://publichealthscotland.scot/publications/cancer-incidence-in-scotland/cancer-incidence-in-scotland-to-december-2021/)
+
+
 ## Analysis
-### Time
 
-Since `r format(lowest_incidences_year)` 
+This dataset is since `r format(lowest_incidences_year)`.
+C50 = ‘Breast’ cancer.
 
-#### Cancer Incidences by Year
+### Time: cancer incidences by year
 ```{r}
 # Yearly incidences - a line plot
 plot_incidences <- plot_incidences_by_year(incidences_by_year)
@@ -104,7 +179,6 @@ ggsave(
   plot_incidences
 )
 ```
-
 
 ```{r}
 incidences_min_max <- tibble(
@@ -118,39 +192,157 @@ incidences_min_max <- table_incidences_min_max(
 )
 incidences_min_max
 ```
-#### Types
+### Types of cancer (cancer sites)
+
+#### All time
+
 ```{r}
 incidences_by_cancer_site <- get_incidences_by_cancer_site(incidence)
-incidences_by_cancer_site
 ```
-##### Cancer sites - all time
-Cancers are coded to World Health Organisation standards. The technical term 
-`cancer site` refers to where the cancer orginally appeared in the body.
-Here is the list of cancer types for which incidences have been recorded in 
-Scotland sorted by most common first. These are the totals across multiple years and all ages and sexes.
 
 ```{r}
 cancer_site <- incidences_by_cancer_site %>%
   select(cancer_site, incidences_age) %>%
   group_by(cancer_site) %>%
-  summarise(total = sum(incidences_age))
+  summarise(total_incidences = sum(incidences_age)) %>%
+  arrange(desc(total_incidences)) %>%
+  ungroup()
 
-cancer_site
+number_of_cancer_sites <- nrow(cancer_site)
+```
+
+In Scotland cancers are categorised (coded) to World Health Organisation standards. The technical term `cancer site` refers to where the cancer orginally appeared in the body.
+
+Here is the list of `r number_of_cancer_sites` cancer sites for which incidences have been recorded in 
+Scotland orderd by most common first. These are totalled across multiple years 
+and all ages and sexes.
+
+
+```{r}
+# Table showing highest and lowest incidences and which years
+table_incidences_cancer_sites <- function(df, lowest_year, highest_year) {
+  df %>%
+    gt() %>%
+    tab_header(
+      title = "Cancer sites in Scotland",
+      subtitle = glue::glue("Between: {lowest_year} and {highest_year}")
+    ) %>%
+    fmt_number(columns = total_incidences, decimals = 0)
+}
+
+table_incidences_cancer_sites(cancer_site, lowest_incidences_year, highest_incidences_year)
+```
+#### Cancer sites for most recent year available (`r highest_incidences_year`)
+```{r}
+cancer_site_recent <- incidences_by_cancer_site %>%
+  select(cancer_site, incidences_age, year) %>%
+  group_by(cancer_site) %>%
+  filter(year == highest_incidences_year) %>%
+  summarise(total_incidences = sum(incidences_age)) %>%
+  arrange(desc(total_incidences)) %>%
+  ungroup()
+```
+
+```{r}
 ```
 
 
 ```{r}
-names(incidences_by_cancer_site)
+# Table showing highest and lowest incidences and which years
+table_incidences_cancer_sites <- function(df, lowest_year, highest_year) {
+  df %>%
+    gt() %>%
+    tab_header(
+      title = "Cancer sites in Scotland",
+      subtitle = glue::glue("{highest_year}")
+    ) %>%
+    fmt_number(columns = total_incidences, decimals = 0)
+}
+
+table_incidences_cancer_sites(cancer_site_recent, lowest_incidences_year, highest_incidences_year)
+```
+```{r}
+cancer_site_recent
+totals_site_2021 <- cancer_site_recent %>%
+  group_by(cancer_site) %>%
+  #filter(str_detect(cancer_site, "skin")) %>%
+  summarise(total = sum(total_incidences))
+
+totals_site_2021
+sum(cancer_site_recent$total_incidences)
+# 36090
+```
+
+
+```{r}
+# Trying to find some way of comparing the two incidence dataframes
+# Im imagining something like a chart with up or down arrows to show
+# movement
+# min_rank(desc(cancer_site_recent$total_incidences))
+```
+```{r}
+plot_incidences_by_year_cancer_site = function(df){
+  df %>% 
+  # mutate(cancer_site = str_trunc(cancer_site, 8)) %>%
+  # filter(incidences_age<2000) %>%
+  # slice_max(incidences_age, n=10) %>%
+  ggplot(aes(x = year, y = incidences_age, fill = cancer_site),
+         colour = "white") +
+  geom_area() + 
+    facet_wrap(vars(cancer_site), ncol=9)+ #?facet_wrap
+      guides(color = guide_legend(override.aes = list(size = 10))) +
+
+  labs(
+    title = "Incidences by Year and Cancer Site",
+    fill = "",
+    x = "",
+    y = ""
+  )
+}
+
+plot_incidences_by_year_cancer_site(incidences_by_cancer_site)
+
+top5_incidences_by_year_cancer_site <- incidences_by_cancer_site %>% 
+  group_by( cancer_site) %>% 
+  summarise(avg = mean(incidences_age))
+
+top5_incidences_by_year_cancer_site
+```
+```{r}
+#incidences_by_cancer_site %>%
+#  ggplot(aes(x = year, y = incidences_age, colour = cancer_site)) +
+#  geom_line() + # (size = incidences_age
+# # geom_point(aes(size = incidences_age)) + # (size = incidences_age
+#  geom_point() + # (size = incidences_age
+#  labs(
+#    colour = "",
+#    size = ""
+#  )
+```
+
+
+
+#### Incidences by year and cancer type
+
+===
+```{r}
+#names(incidences_by_cancer_site)
 incidences_by_cancer_site %>%
   group_by(year, cancer_site, incidences_age) %>%
   summarise()
 ```
-
+<!-- # Build plot -->
+<!-- GGally::ggparcoord(data, -->
+<!--                    columns = 2:3, groupColumn = 1,   -->
+<!--                    scale="globalminmax",  -->
+<!--                    showPoints = TRUE,  -->
+<!--                    title = "Ranking" -->
+<!-- ) -->
 
 
 
 ***
 ```{r}
-rm(list = ls(pattern = "incidences_"))
-rm(incidence)
+# rm(list = ls(pattern = "incidences_"))
+# rm(incidence)
 ```
