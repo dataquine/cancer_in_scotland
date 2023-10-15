@@ -43,6 +43,11 @@ theme_set(theme_cancer_in_scotland())
 ```
 
 ```{r}
+enable_plot_saving
+```
+
+
+```{r}
 # Read in clean cancer death data
 death_cause <- read_csv(here::here(
   "data_clean", nrs_death_cause_filepath
@@ -53,7 +58,7 @@ death_cause <- read_csv(here::here(
 # View(death_cause)
 # Extract list of names of causes of death
 causes_of_death <- death_cause %>%
-  arrange(str_to_upper(cause)) %>% 
+  arrange(str_to_upper(cause)) %>%
   distinct(cause)
 
 causes_of_death_simple <- death_cause %>%
@@ -163,18 +168,23 @@ plot_death_rate <- plot_death_rate_cancer(cancer_death_proportion,
   plot_title = paste(
     plot_death_cause_simple_title,
     "\nLatest year:", latest_year_nrs_data
-  ))
+  )
+)
 plot_death_rate
-ggsave(here::here(plot_death_cause_simple_plot_filepath), 
-       plot_death_rate)
+if (enable_plot_saving) {
+  ggsave(
+    here::here(plot_death_cause_simple_plot_filepath),
+    plot_death_rate
+  )
+}
 ```
 
 This shows the proportion of deaths from cancer compared to all other 
 causes combined for the most recently available year of data - `r latest_year_nrs_data`.
 
-Cancer accounts for almost exactly a quarter of all deaths.
+At time of writing cancer accounts for almost exactly a quarter of all deaths.
 
-#### Change over time for all causes
+#### Change over time for all causes of death
 
 ```{r}
 ### Selected causes
@@ -243,15 +253,15 @@ recent_change <- death_cause_recent %>%
   mutate(
     rate_change = round(rate - rate_previous, 1),
     rate_change_pct = round(rate_change / rate * 100, 1)
-  ) %>% 
+  ) %>%
   ungroup()
 
 # recent_change ?datatable(r
-recent_change %>% 
-DT::datatable(
-  caption = paste("Data for latest year available ", latest_year_nrs_data),
-  options = list(searching = FALSE, paging = FALSE)
-)
+recent_change %>%
+  DT::datatable(
+    caption = paste("Data for latest year available ", latest_year_nrs_data),
+    options = list(searching = FALSE, paging = FALSE)
+  )
 ```
 ##### Improving since previous year available - `r latest_year_nrs_data-1`
 
@@ -260,14 +270,14 @@ These are what got
 
 
 ```{r}
-best_rate_change <- recent_change %>% 
-  filter(rate_change_pct < 0) %>% 
-  arrange(rate_change_pct) %>% 
-  select(cause_simple,rate_change_pct)
+best_rate_change <- recent_change %>%
+  filter(rate_change_pct < 0) %>%
+  arrange(rate_change_pct) %>%
+  select(cause_simple, rate_change_pct)
 
 DT::datatable(best_rate_change,
-                              options = list(searching = FALSE, paging = FALSE)
-              )
+  options = list(searching = FALSE, paging = FALSE)
+)
 ```
 
 Conclusion: **rates of cancer deaths have improved for the most recent year**.
@@ -285,15 +295,15 @@ about Scottish drug related deaths being worse than many other countries there
 Ordered by greatest percentage change (worst) to least.
 
 ```{r}
-worst_rate_change <- recent_change %>% 
-  filter(rate_change_pct > 0) %>% 
-  arrange(desc(rate_change_pct)) %>% 
-  select(cause_simple,rate_change_pct)
-#worst_rate_change
+worst_rate_change <- recent_change %>%
+  filter(rate_change_pct > 0) %>%
+  arrange(desc(rate_change_pct)) %>%
+  select(cause_simple, rate_change_pct)
+# worst_rate_change
 
 DT::datatable(worst_rate_change,
-                options = list(searching = FALSE, paging = FALSE)
-              )
+  options = list(searching = FALSE, paging = FALSE)
+)
 ```
 
 
