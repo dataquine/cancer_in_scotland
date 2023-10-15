@@ -104,7 +104,7 @@ theme_cancer_in_scotland <- function(...) {
     theme(
       # change stuff here
       # Legend format
-      legend.position = "top",
+      legend.position = "bottom",
 
       # Grid lines
       # Removes all minor gridlines and adds major y gridlines.
