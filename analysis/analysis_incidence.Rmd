@@ -24,21 +24,30 @@ library(stringr)
 ```
 
 ```{r}
+source(here::here("R/cancer_in_scotland.R"))
 source(here::here("R/incidence.R"))
 source(here::here("R/phs_data_info.R"))
 source(here::here("R/theming.R"))
 ```
 
 ```{r}
+# General settings for this document ----
 # Set custom theme
 theme_set(theme_cancer_in_scotland()) # base_size=14))
+# If TRUE then we will save plots the images folder for use in presentations etc.
 ```
+
+
 # Incidence
 ```{r}
 # Read in clean cancer death data
 incidence_all <- read_csv(here::here(
   "data_clean", phs_incidence_filepath
 ))
+```
+```{r}
+incidence_female <- incidence_all %>% 
+  filter(sex == "Females", cancer_site!="All cancer types")
 ```
 
 ```{r eval=FALSE, include=FALSE}
@@ -56,7 +65,6 @@ incidence_all <- read_csv(here::here(
 # [1] "cancer_site"              "cancer_site_icd10code"    "sex"
 # [4] "year"                     "incidences_age_range"     "incidences_age"
 # [7] "incidence_rate_age_range" "incidence_rate_age"
-
 ```
 
 ```{r, error=TRUE}
@@ -64,33 +72,14 @@ incidence_all <- read_csv(here::here(
 
 # Before doing the analysis, ensure our dataset has the correct ICD-10 codes
 # Do not progress further and alert user that dataset may have changed.
-#valid <- check_valid_icd10(incidence_all)
-dist <- incidence_all %>% 
-  distinct(cancer_site)
-dist
-
-simplify_cancer_site = function(df){
-  simplified <- df %>% 
-    mutate(cancer_site = case_match(
-      "Malig brain ca (incl pit. gland, cranio. duct, pineal gland)	" ~ "Malig brain ca"
-      .default = cancer_site
-    )
-      
-    )
-  return (simplified)
-}
+# valid <- check_valid_icd10(incidence_all)
 
 incidence <- simplify_cancer_site(incidence_all)
-incidence %>% 
-  dictinct(cancer_site)
+# incidence <- incidence_all %>%
+# mutate(cancer_site_short = str_trunc(cancer_site, 15))
 
 
-  # For simpler visualisations slight renaming to remove text in brackets
-# This shouldn't lose any meaning as they are extra explaineds
-  #mutate(cancer_site = str_remove(cancer_site, "\\(+\\)"))
-                              
-  
-rm(incidence_all)
+rm(incidence_all) # clean up
 ```
 
 ```{r}
@@ -99,18 +88,20 @@ lowest_incidences_year <- get_lowest_incidences_by_year(incidences_by_year)
 highest_incidences_year <- get_highest_incidences_by_year(incidences_by_year)
 lowest_incidences <- min(incidences_by_year$incidences_age)
 highest_incidences <- max(incidences_by_year$incidences_age)
-lowest_incidences_year <- min(incidences_by_year$year)
-highest_incidences_year <- max(incidences_by_year$year)
+oldest_incidences_year <- min(incidences_by_year$year)
+newest_incidences_year <- max(incidences_by_year$year)
 ```
 
 ## Background
 
 There are *multiple* different types of cancer. We would like to find out which 
-types have been recorded in Scotland and how these have changed over time. 
+types have been recorded in Scotland and how these have changed over time.
+
 Different cancers are categorised (coded) according to World Health Organisation 
 (WHO) [International Statistical Classification of Diseases and Related Health Problems (ICD)](https://www.who.int/standards/classifications/classification-of-diseases).
 In Scotland, currently the 'ICD-10' code is used when a patient is diagnosed to 
-record which type of cancer they have.
+record which type of cancer they have. Example of an ICD-10 code: 
+C50 = ‘Breast’ cancer.
 
 ### Terminology
 
@@ -146,38 +137,41 @@ PHS Last update: 29 March 2023.
  
 This analysis utilises PHS data.
 
-### Important! When is a medical cancer a 'cancer' in official statistics?
+### Important! When is a medical cancer a 'cancer' in official reports?
 
-"'All cancers' by convention excludes non-melanoma skin cancers."
+"'All cancers' by convention **excludes non-melanoma skin cancers**." - PHS.
 
-It's a 'convention' but why is this?
-
-non-melanoma skin cancers are in the open data supplied.
-
-If we work to the official statistics standard then these should not be 
-included.
-
-
-
+Non-melanoma skin cancers are in the original open data supplied. To keep 
+consistent with the official reporting standard 'Non-melanoma skin cancers' have
+been excluded from this analysis.
 -  
 [Cancer incidence in Scotland
 To December 2021](https://publichealthscotland.scot/publications/cancer-incidence-in-scotland/cancer-incidence-in-scotland-to-december-2021/)
 
-
 ## Analysis
 
-This dataset is since `r format(lowest_incidences_year)`.
-C50 = ‘Breast’ cancer.
+This dataset is since `r format(oldest_incidences_year)`.
 
-### Time: cancer incidences by year
+
+### Time: Cancer Incidences by Year and Sex
 ```{r}
 # Yearly incidences - a line plot
 plot_incidences <- plot_incidences_by_year(incidences_by_year)
-plot_incidences
-ggsave(
-  here::here(cancer_incidence_plot_filepath),
-  plot_incidences
-)
+do_cis_plot(plot_incidences, cancer_incidence_plot_filepath)
+```
+
+```{r}
+plot_incidences_boxplot <- plot_incidences_by_year_boxplot(incidences_by_year)
+do_cis_plot(plot_incidences_boxplot, cancer_incidence_plot_box_plot_filepath)
+```
+
+```{r, warning = FALSE}
+library(ggfortify)
+
+model <- lm(year ~ incidences_age, data = incidences_by_year)
+
+autoplot(model) # diagnostics
+summary(model)
 ```
 
 ```{r}
@@ -188,35 +182,64 @@ incidences_min_max <- tibble(
 
 incidences_min_max <- table_incidences_min_max(
   incidences_min_max,
-  lowest_incidences_year, highest_incidences_year
+  oldest_incidences_year, newest_incidences_year
 )
 incidences_min_max
 ```
-### Types of cancer (cancer sites)
+
+Cancer incidences had been steadily increasing since the late 1990s before starting 
+to drop in 2019, note this was the year *before* COVID started. Unfortunately the
+most recent year of data the cases are at their highest number ever. This has to 
+be caveated with our growing and ageing population. So the drop on the
+year of COVID itself might have been part of an already decreasing trend. There
+was widespread disruption to health services and daily life. All manner 
+of primary care (e.g. GP practices) and diagnostic servcies were interrupted 
+completely or on heavily reduced capacity which may give some administrative 
+reasons for a drop in formal diagnoses. The steep rise 2020-2021 may have part 
+of a backlog of cases as part of that increase.
+
+Anecodally doctors commented at the time that they were worried they weren't 
+seeing the kind of patients they would normally, GPs are often the first point 
+of contact for those with symptoms/concerns eventually leading to a formal 
+cancer diagnosis.
+["GPs are worried about “missing patients” and the backlog which has built up in chronic disease management, screening, immunisation and cancer referrals." DEEP END REPORT 36 General Practice in the time of Covid-19](https://www.gla.ac.uk/media/Media_728030_smxx.pdf) June 2020.
+
+It was shown that people with weak immune systems were more vulnerable to 
+negative outcomes from the virus and the elderly being more likely to die from 
+COVID-19 may also have had the side effect of reducing the number of old people 
+diagnoses with new cases of cancer. This is probably the sort of question 
+that might be able to be tested by those with access to the Scottish Cancer 
+Registry to track patients with other pre-existing conditions.
+
+### Types of Cancer (Cancer sites)
 
 #### All time
 
 ```{r}
 incidences_by_cancer_site <- get_incidences_by_cancer_site(incidence)
+# incidences_by_cancer_site
 ```
 
 ```{r}
 cancer_site <- incidences_by_cancer_site %>%
   select(cancer_site, incidences_age) %>%
   group_by(cancer_site) %>%
-  summarise(total_incidences = sum(incidences_age)) %>%
+  summarise(
+    average_yearly_incidences = mean(incidences_age),
+    #    format(mean(incidences_age),digits =1,nsmall=0, big.mark=","),
+    total_incidences = sum(incidences_age)
+  ) %>%
   arrange(desc(total_incidences)) %>%
   ungroup()
 
 number_of_cancer_sites <- nrow(cancer_site)
 ```
 
-In Scotland cancers are categorised (coded) to World Health Organisation standards. The technical term `cancer site` refers to where the cancer orginally appeared in the body.
+In Scotland cancers are categorised (coded) to World Health Organisation standards.
 
-Here is the list of `r number_of_cancer_sites` cancer sites for which incidences have been recorded in 
-Scotland orderd by most common first. These are totalled across multiple years 
-and all ages and sexes.
-
+Here is a list of **`r number_of_cancer_sites`** cancer sites for which incidences 
+have been recorded in Scotland most common first. These are totalled 
+across multiple years and all ages and sexes.
 
 ```{r}
 # Table showing highest and lowest incidences and which years
@@ -227,10 +250,16 @@ table_incidences_cancer_sites <- function(df, lowest_year, highest_year) {
       title = "Cancer sites in Scotland",
       subtitle = glue::glue("Between: {lowest_year} and {highest_year}")
     ) %>%
-    fmt_number(columns = total_incidences, decimals = 0)
+    fmt_number(columns = c(
+      average_yearly_incidences,
+      total_incidences
+    ), decimals = 0)
 }
 
-table_incidences_cancer_sites(cancer_site, lowest_incidences_year, highest_incidences_year)
+table_incidences_cancer_sites(
+  cancer_site, oldest_incidences_year,
+  newest_incidences_year
+)
 ```
 #### Cancer sites for most recent year available (`r highest_incidences_year`)
 ```{r}
@@ -241,38 +270,24 @@ cancer_site_recent <- incidences_by_cancer_site %>%
   summarise(total_incidences = sum(incidences_age)) %>%
   arrange(desc(total_incidences)) %>%
   ungroup()
-```
 
-```{r}
+# cancer_site_recent
 ```
-
 
 ```{r}
 # Table showing highest and lowest incidences and which years
-table_incidences_cancer_sites <- function(df, lowest_year, highest_year) {
+table_incidences_cancer_sites <- function(df, oldest_year, newest_year) {
   df %>%
     gt() %>%
     tab_header(
       title = "Cancer sites in Scotland",
-      subtitle = glue::glue("{highest_year}")
+      subtitle = glue::glue("{newest_year}")
     ) %>%
     fmt_number(columns = total_incidences, decimals = 0)
 }
 
-table_incidences_cancer_sites(cancer_site_recent, lowest_incidences_year, highest_incidences_year)
+table_incidences_cancer_sites(cancer_site_recent, oldest_incidences_year, newest_incidences_year)
 ```
-```{r}
-cancer_site_recent
-totals_site_2021 <- cancer_site_recent %>%
-  group_by(cancer_site) %>%
-  #filter(str_detect(cancer_site, "skin")) %>%
-  summarise(total = sum(total_incidences))
-
-totals_site_2021
-sum(cancer_site_recent$total_incidences)
-# 36090
-```
-
 
 ```{r}
 # Trying to find some way of comparing the two incidence dataframes
@@ -280,36 +295,69 @@ sum(cancer_site_recent$total_incidences)
 # movement
 # min_rank(desc(cancer_site_recent$total_incidences))
 ```
-```{r}
-plot_incidences_by_year_cancer_site = function(df){
-  df %>% 
-  # mutate(cancer_site = str_trunc(cancer_site, 8)) %>%
-  # filter(incidences_age<2000) %>%
-  # slice_max(incidences_age, n=10) %>%
-  ggplot(aes(x = year, y = incidences_age, fill = cancer_site),
-         colour = "white") +
-  geom_area() + 
-    facet_wrap(vars(cancer_site), ncol=9)+ #?facet_wrap
-      guides(color = guide_legend(override.aes = list(size = 10))) +
+#### Incidences by Year and Cancer sites
 
-  labs(
-    title = "Incidences by Year and Cancer Site",
-    fill = "",
-    x = "",
-    y = ""
-  )
+##### Abbreviations for charts
+
+Some of the names of the cancers are rather long. To help make these 
+more legible on charts the following substitutions have been made. If 
+you see "..." next to a name it means it's been adjusted to use the names 
+in the following table.
+
+```{r}
+# Show a table of abbreviations
+shortened_cancer_site <- incidences_by_cancer_site %>% 
+  select(cancer_site, cancer_site_short) %>% 
+  group_by(cancer_site_short, cancer_site) %>% 
+  filter(cancer_site_short != cancer_site) %>% 
+  summarise() %>% 
+  ungroup()
+shortened_cancer_site
+
+table_shortened_cancer_site <- function(df) {
+  df %>%
+    gt() %>%
+    tab_header(
+      title = "Abbreviations for Cancer Site names",
+  #    subtitle = glue::glue("{newest_year}")
+    ) #%>%
+  #  fmt_number(columns = total_incidences, decimals = 0)
 }
 
-plot_incidences_by_year_cancer_site(incidences_by_cancer_site)
+table_shortened_cancer_site(shortened_cancer_site)
+```
 
-top5_incidences_by_year_cancer_site <- incidences_by_cancer_site %>% 
-  group_by( cancer_site) %>% 
-  summarise(avg = mean(incidences_age))
 
-top5_incidences_by_year_cancer_site
+
+```{r}
+plot_incidences_by_year_cancer_site <- function(df, start_year, end_year) {
+  df %>%
+    ggplot(aes(x = year, y = incidences_age)) +
+    #geom_line(colour = cis_colour_cancer) +
+    geom_area(colour = cis_colour_cancer, fill = cis_colour_cancer) +
+    facet_wrap(~cancer_site_short, ncol = 6)+
+     theme(strip.text = element_text(size = 9),
+      axis.text.x=element_blank()
+    )+
+    labs(
+      x = paste0("\nYear (", start_year, " - ", end_year, ")"), 
+      y = "Incidences\n"
+      )
+}
+
+plot_incidences_by_year_cancer_site(
+  incidences_by_cancer_site,
+  oldest_incidences_year,
+  newest_incidences_year
+)
+# top5_incidences_by_year_cancer_site <- incidences_by_cancer_site %>%
+#   group_by( cancer_site) %>%
+#   summarise(avg = mean(incidences_age))
+
+# top5_incidences_by_year_cancer_site
 ```
 ```{r}
-#incidences_by_cancer_site %>%
+# incidences_by_cancer_site %>%
 #  ggplot(aes(x = year, y = incidences_age, colour = cancer_site)) +
 #  geom_line() + # (size = incidences_age
 # # geom_point(aes(size = incidences_age)) + # (size = incidences_age
@@ -322,14 +370,12 @@ top5_incidences_by_year_cancer_site
 
 
 
-#### Incidences by year and cancer type
-
 ===
 ```{r}
-#names(incidences_by_cancer_site)
-incidences_by_cancer_site %>%
-  group_by(year, cancer_site, incidences_age) %>%
-  summarise()
+# names(incidences_by_cancer_site)
+# incidences_by_cancer_site %>%
+#   group_by(year, cancer_site, incidences_age) %>%
+#   summarise()
 ```
 <!-- # Build plot -->
 <!-- GGally::ggparcoord(data, -->
