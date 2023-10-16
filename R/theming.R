@@ -48,7 +48,7 @@ cis_colour_male <- cis_colour_lightslategray
 cis_colour_female <- cis_colour_officegreen
 
 
-palette_general <- c(
+cis_palette_general <- c(
   cis_colour_purple3,
   cis_colour_officegreen,
   cis_colour_congressblue,
@@ -74,11 +74,11 @@ palette_sex <- c('All' = cis_colour_purple3,
 colour_major_grid_lines <- "#cbcbcb"
 
 # Qualitative ----
-scale_colour_cis_qualitative <- function(palette = palette_general) {
+scale_colour_cis_qualitative <- function(palette = cis_palette_general) {
   scale_color_manual(values = palette)
 }
 
-scale_fill_cis_qualitative <- function(palette = palette_general) {
+scale_fill_cis_qualitative <- function(palette = cis_palette_general) {
   scale_fill_manual(values = palette)
 }
 
