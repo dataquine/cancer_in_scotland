@@ -28,7 +28,6 @@ source(here::here("R/phs_data_info.R"))
 # Locations of Public Health Scotland opendata
 
 # phs_incidence_url
-# TODO change local filepath to remote
 incidence_raw <- read_csv(
   #  here::here(
   #    "data_raw",
