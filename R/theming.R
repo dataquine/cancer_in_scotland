@@ -56,7 +56,7 @@ cis_palette_general <- c(
   cis_colour_limeade,
   cis_colour_battleship_gray
 )
-palette_sex <- c('All' = cis_colour_purple3, 
+cis_palette_sex <- c('All' = cis_colour_purple3, 
                  'Females' = cis_colour_female, 
                  'Male' = cis_colour_male)
 
