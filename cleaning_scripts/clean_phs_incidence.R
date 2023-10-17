@@ -66,16 +66,23 @@ incidences_ages_all_ages_from <- "incidences_all_ages"
 incidences_ages_all_ages_to <- "All ages"
 
 incidences_ages_under5_from <- "_under5"
-incidences_ages_under5_to <- "Under 5"
+#incidences_ages_under5_to <- "Under 5"
+incidences_ages_under5_to <- "0-4"
+
 
 incidences_ages_ninety_andover_from <- "90and_over"
-incidences_ages_ninety_andover_to <- "90 and over"
+#incidences_ages_ninety_andover_to <- "90 and over"
+incidences_ages_ninety_andover_to <- "90+"
 
 incidence_rate_age_under5_from <- "_under5"
-incidence_rate_age_under5_to <- "Under 5"
+#incidence_rate_age_under5_to <- "Under 5"
+incidence_rate_age_under5_to <- "0-4"
 
 incidence_rate_age_ninety_andover_from <- "90and_over"
-incidence_rate_age_ninety_andover_to <- "90 and over"
+#incidence_rate_age_ninety_andover_to <- "90 and over"
+incidence_rate_age_ninety_andover_to <- "90+"
+
+incidence_age_range_separator <- "-"
 
 
 incidence_columns_to_keep <- c(
@@ -102,7 +109,7 @@ incidence_unfiltered <- incidence_raw %>%
     incidences_age_range == incidences_ages_ninety_andover_from ~
       incidences_ages_ninety_andover_to,
     str_detect(incidences_age_range, "to") ~
-      str_replace(incidences_age_range, "to", " to "), # ?str_detect
+      str_replace(incidences_age_range, "to", incidence_age_range_separator), # ?str_detect
     .default = incidences_age_range
   )) %>%
   pivot_longer(
@@ -118,7 +125,7 @@ incidence_unfiltered <- incidence_raw %>%
     incidence_rate_age_range == incidence_rate_age_ninety_andover_from ~
       incidence_rate_age_ninety_andover_to,
     str_detect(incidence_rate_age_range, "to") ~
-      str_replace(incidence_rate_age_range, "to", " to "), # ?str_detect
+      str_replace(incidence_rate_age_range, "to", incidence_age_range_separator), # ?str_detect
     .default = incidence_rate_age_range
   )) %>%
   # Choose columns to keep
