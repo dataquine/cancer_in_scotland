@@ -31,6 +31,7 @@ library(tidyr)
 ```
 
 ```{r}
+source(here::here("R/cancer_in_scotland.R"))
 source(here::here("R/nrs_data_info.R"))
 source(here::here("R/death.R"))
 # Retrieve helper functions for manipulating cause of death data
@@ -41,11 +42,6 @@ source(here::here("R/theming.R"))
 # Set custom theme
 theme_set(theme_cancer_in_scotland())
 ```
-
-```{r}
-enable_plot_saving
-```
-
 
 ```{r}
 # Read in clean cancer death data
