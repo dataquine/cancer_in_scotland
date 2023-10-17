@@ -282,20 +282,64 @@ table_incidences_cancer_sites(incidences_cancer_site_recent, oldest_incidences_y
 # min_rank(desc(cancer_site_recent$total_incidences))
 ```
 
-===
-<!-- # Build plot -->
-<!-- GGally::ggparcoord(data, -->
-<!--                    columns = 2:3, groupColumn = 1,   -->
-<!--                    scale="globalminmax",  -->
-<!--                    showPoints = TRUE,  -->
-<!--                    title = "Ranking" -->
-<!-- ) -->
+### Age Range
+
+What age are people when they are newly diagnosed. Would knowing the demographics of different diseases affect what kind of public health information and awareness raising needs to be done?
+
+```{r}
+# Get Cancers incidences by age range and sex
+incidences_all_cancer_site_age_range <- get_cancer_site_age_range(incidence)
+```
+
+### Top 10 incidences by Cancer Site and Age Grroup
+This is a list of those cancer sites and age groups most at risk of having 
+a new cancer diagnosed.
+
+```{r}
+table_age_range <- incidences_all_cancer_site_age_range %>%
+  select(cancer_site, incidences_age_range, sex, total_incidences) %>%
+  group_by(cancer_site, incidences_age_range, sex) %>%
+  mutate(mean_cancer_site_incidences = mean(total_incidences)) %>%
+  ungroup() %>%
+  slice_max(mean_cancer_site_incidences, n = 10) %>%
+  select(-mean_cancer_site_incidences)
+
+table_incidences_cancer_sites_age_range(table_age_range)
+rm(table_age_range)
+``` 
 
 
+#### Incidences by Age Range, Sex and Cancer Site
+
+Here we have age-related data where incidences have been provided in 5-year 
+categories  from 0, .. to 90+. This data gives us the chance to consider the 
+relationship between ageing and risk of being diagnosed with a new cancer.
+
+```{r}
+# Plot INCIDENCE 4, incidences_all_cancer_site_age_range
+plot_age_range <- plot_all_cancer_site_age_sex_range(incidences_all_cancer_site_age_range)
+do_cis_plot(plot_age_range, cancer_incidence_by_age_range_plot_filepath)
+```
+
+We see 4 main cancers dominating in terms of numbers Colorectal/Lung/Breast and 
+prostate. The pattern over many cancers in terms of age range is that most of 
+them really become much more prevalent from middle age onwards, peaking for new 
+cases when we are in our 70s.
+
+The ones that buck that trend tend to be the ones associates with female 
+reproductive organs.
+
+Suggestion:
+* Is the public aware of the increased risk simply by ageing? Are there 
+opportunities to raise awareness among people engaging with other health or 
+public sector organisations to be watchful for early symptoms.
+
+* There are already screening programmes for breast/bowel and cervical cancer.
+Lung and Prostate cancer are some of the top in terms of numbers. Is there some equivalent of screening for these two in particular? If not, keep informed of any developments in early detection of these two.
 
 ***
 TODO cleanup
 ```{r}
 # rm(list = ls(pattern = "incidences_"))
-rm(list = ls(pattern = "incidence"))
+# rm(list = ls(pattern = "incidence"))
 ```
