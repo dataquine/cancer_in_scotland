@@ -1,0 +1,208 @@
+---
+title: "Cancer Risk Tool"
+subtitle: 'Age Range and Sex'
+author: "Lesley Duff"
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+runtime: shiny
+---
+```{r setup_incidence_interactive, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+This is an experimental demo of a potentially public-facing tool to help people understand which cancers they are more at risk of in Scotland.
+
+```{r}
+library(bslib)
+library(dplyr)
+library(here)
+library(readr)
+library(shiny)
+```
+
+```{r}
+source(here::here("R/incidence.R"))
+source(here::here("R/phs_data_info.R"))
+```
+```{r}
+# Read in clean cancer death data
+incidence_all <- read_csv(here::here(
+  "data_clean", phs_incidence_filepath
+))
+
+incidence <- simplify_cancer_site(incidence_all)
+# Get Cancers incidences by age range and sex
+incidences_all_cancer_site_age_range <- get_cancer_site_age_range(incidence)
+```
+
+```{r}
+label_subtitle_results_table <- "Based on cancer in Scotland between 1997 and 2021"
+
+label_application <- "Cancer Risk"
+label_all_cancer_site <- "-All cancers-"
+label_select_cancer_site <- "Type of Cancer"
+
+label_all_age_range <- "-All age ranges-"
+label_select_age_range <- "Age Range"
+
+label_all_sex <- "-All sexes-"
+label_select_sex <- "Sex"
+
+label_select_number_of_results <- "Number of Results"
+
+default_number_of_results <- 10
+
+# Types of cancer
+all_cancer_site <- incidences_all_cancer_site_age_range %>%
+  distinct(cancer_site) %>%
+  arrange(cancer_site) %>%
+  pull()
+all_cancer_site <- append(all_cancer_site, label_all_cancer_site, after = 0)
+
+# all_cancer_site
+number_of_cancer_sites <- length(all_cancer_site)
+
+# All sexes
+all_sex <- incidences_all_cancer_site_age_range %>%
+  distinct(sex) %>%
+  arrange() %>%
+  pull()
+all_sex <- append(all_sex, label_all_sex, after = 0)
+
+# All age ranges
+age_range <- get_incidents_sorted_age_range(incidences_all_cancer_site_age_range)
+# all_age_range <- incidences_all_cancer_site_age_range %>%
+#  distinct(incidences_age_range) %>%
+#  arrange() %>%
+#  pull()
+all_age_range <- append(age_range, label_all_age_range, after = 0)
+
+# Number of results
+number_of_results <- c(1, 5, default_number_of_results, 20)
+```
+
+
+```{r shiny_input}
+# Shiny input controls for cancer site, age range and sex
+# https://shiny.posit.co/r/articles/build/interactive-docs/
+
+fluidPage(
+  theme = bs_theme(
+    version = 4,
+    bootswatch = "flatly"
+  ),
+  title = label_application,
+  fluidRow(
+    column(
+      6,
+      selectInput
+      (
+        "input_incidences_age_range",
+        label = label_select_age_range,
+        choices = all_age_range,
+      )
+    ),
+    column(
+      6,
+      radioButtons
+      (
+        "input_incidences_sex",
+        label = label_select_sex,
+        choices = all_sex,
+        inline = TRUE
+      )
+    )
+  ),
+  fluidRow(
+    column(
+      6,
+      selectInput
+      (
+        "input_incidences_cancer_site",
+        label = label_select_cancer_site,
+        choices = all_cancer_site,
+      )
+    ),
+    column(
+      6,
+      selectInput("input_incidences_number_of_results",
+        label = label_select_number_of_results,
+        choices = number_of_results,
+        selected = default_number_of_results
+      )
+    )
+  ),
+  fluidRow(
+    column(
+      12,
+      # We are reusing the functions that use the gt package for table output
+      renderUI({
+        #  my_cancer <- c(input$input_incidences_cancer_types)
+        filter_by_age_range <- NULL
+        filter_by_cancer_site <- NULL
+        filter_by_sex <- NULL
+        filter_number_results <- 5
+        if (input$input_incidences_age_range != label_all_age_range) {
+          filter_by_age_range <- c(input$input_incidences_age_range)
+        }
+        if (input$input_incidences_cancer_site != label_all_cancer_site) {
+          filter_by_cancer_site <- c(input$input_incidences_cancer_site)
+        }
+        if (input$input_incidences_sex != label_all_sex) {
+          filter_by_sex <- c(input$input_incidences_sex)
+        }
+        filter_number_results <- as.numeric(c(input$input_incidences_number_of_results))
+
+        table_age_range <- get_top_incidences_age_range_sex(
+          incidences_all_cancer_site_age_range,
+          top = filter_number_results,
+          filter_sex = filter_by_sex,
+          filter_age = filter_by_age_range,
+          filter_cancer_site = filter_by_cancer_site
+        )
+        table_title <- str_glue("Top {filter_number_results}")
+        table_subtitle <- label_subtitle_results_table
+        table_results <- table_incidences_cancer_sites_age_range(
+          table_age_range,
+          table_title,
+          table_subtitle
+        )
+      })
+    )
+  )
+)
+```
+
+```{r}
+# We are reusing the functions that use the gt package for table output
+# renderUI({
+#   #  my_cancer <- c(input$input_incidences_cancer_types)
+#   filter_by_age_range <- NULL
+#   filter_by_cancer_site <- NULL
+#   filter_by_sex <- NULL
+#   filter_number_results = 5
+#   if (input$input_incidences_age_range != label_all_age_range) {
+#     filter_by_age_range <- c(input$input_incidences_age_range)
+#   }
+#   if (input$input_incidences_cancer_site != label_all_cancer_site) {
+#     filter_by_cancer_site <- c(input$input_incidences_cancer_site)
+#   }
+#   if (input$input_incidences_sex != label_all_sex) {
+#     filter_by_sex <- c(input$input_incidences_sex)
+#   }
+#     filter_number_results <- as.numeric(  c(input$input_incidences_number_of_results))
+#
+#   table_age_range <- get_top_incidences_age_range_sex(
+#     incidences_all_cancer_site_age_range,
+#     top = filter_number_results,
+#     filter_sex = filter_by_sex,
+#     filter_age = filter_by_age_range,
+#     filter_cancer_site = filter_by_cancer_site
+#   )
+#   table_title <- str_glue("Top {filter_number_results}")
+#   table_results <- table_incidences_cancer_sites_age_range(
+#     table_age_range,
+#    table_title
+#   )
+# })
+```
