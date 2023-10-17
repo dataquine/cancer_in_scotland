@@ -82,5 +82,13 @@ trying plotting
 
 ## 2023-10-14 Saturday
 * Incidence:
-*     Queries for cancer type
+  * Queries for cancer type
 
+## 2023-10-17 Tuesday
+* Incidence: 
+  * Sorting out the filtering by sex
+  * visualisations of cancer by cancer types
+  
+## 2023-10-17 Tuesday
+* Incidence:
+  * Shiny document - Interactive Cancer Risk Tool
