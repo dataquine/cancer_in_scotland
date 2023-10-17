@@ -7,8 +7,9 @@
 #
 
 library(assertr)
+library(forcats) # reordering categories
 library(ggfortify)
-library(gt)
+library(gt) # Styled tables
 
 # library(ggrepel)
 
@@ -24,6 +25,12 @@ cancer_incidence_plot_box_plot_filepath <- "images/plot/plot_cancer_incidence_bo
 # Plot titles
 cancer_incidence_by_year_cancer_sites_plot_filepath <-
   "images/plot/plot_cancer_incidence_by_year_cancer_sites.png"
+
+cancer_incidence_by_age_range_plot_filepath <-
+  "images/plot/plot_cancer_incidence_by_age_range_plot.png"
+
+incidence_cancer_site_age_sex_range_title <- "Incidences by Age Range, Sex and Cancer Site"
+incidence_cancer_site_age_sex_range_subtitle <- ""
 
 # cancer_incidence_model_year_instances_filepath <- "images/plot/model_year_instances.png"
 
@@ -46,6 +53,7 @@ incidence_year_label <- "Year" # Used for axis
 incidence_result_label <- "Result" # Used for highest/lowest
 incidence_highest_label <- "Highest"
 incidence_lowest_label <- "Lowest"
+incidence_age_ranges_label <- "Age Range"
 
 
 # Helper functions ----
@@ -148,45 +156,11 @@ get_incidences_by_cancer_site <- function(df) {
 
   incidences_by_cancer_site <- df %>%
     # Remove All cancer types
-    #  filter(cancer_site != incidence_cancer_site_all_value) %>%  #cancer_site:"All cancer types"
-    # Only interested in all sexes
-    # TODO JKL Ovary,C56,Females,1997,Under 5,0,Under 5,0
-    # filter(sex == incidence_cancer_site_all_sex_value) %>%
-    #
-    filter(cancer_site != "All cancer types") %>%
-    filter(incidences_age_range == "All ages") %>%
-    filter(sex != "All") %>%
-    #    filter(
-    #     ((cancer_site != incidence_cancer_site_all_value) & (sex == incidence_cancer_site_all_sex_value)) |
-    #      ((cancer_site != incidence_cancer_site_all_value) & (sex == "Females") & (incidences_age_range == "All")) |
-    #  ((cancer_site != incidence_cancer_site_all_value) & (sex == "Male") & (incidences_age_range == "All"))
-    # ) %>%
-    #    filter((sex == incidence_cancer_site_all_sex_value) | # sex:"All"
-    #              ((sex != incidence_cancer_site_value) && ())
-    #
-    #            ) %>%
-    # All
-    #  filter(cancer_site == "Prostate") %>%
-    #   filter(year == 2021) %>%
-    # filter((cancer_site != incidence_cancer_site_all_value)
-    #     & (sex == "Male")) %>%
-    # (cancer_site != incidence_cancer_site_all_value) & (sex == "Females")
+    # cancer_site:"All cancer types"
+    filter(cancer_site != "All cancer types") %>% # "All cancer types"
+    filter(incidences_age_range == "All ages") %>% # "All ages"
+    filter(sex != "All") %>% # "All"
 
-    # &
-    # (sex != incidence_cancer_site_all_sex_value)
-    #     &
-    #        ) %>%
-    #    filter(
-    #      (cancer_site != incidence_cancer_site_all_value)
-    #          ) %>%
-
-    # cancer_site == "All cancer types" |
-    # (!str_detect(cancer_site_icd10code, "C44") &
-    #    str_detect(cancer_site_icd10code, "C")
-    # )
-
-    # Only interested in all age ranges
-    #  filter(incidences_age_range == incidence_cancer_site_all_ages_value) %>%
     group_by(
       year, cancer_site, cancer_site_short, sex,
       incidences_age_range, incidences_age
@@ -195,8 +169,6 @@ get_incidences_by_cancer_site <- function(df) {
       total_incidences = sum(incidences_age),
       avg_incidences = mean(incidences_age)
     ) %>%
-    #  summarise(total_incidences = incidences_age) %>%
-    # filter(year==1997) %>%
     ungroup() %>%
     select(
       year, cancer_site, cancer_site_short, sex, incidences_age,
@@ -228,6 +200,33 @@ get_cancer_site <- function(df) {
     arrange(desc(total)) %>%
     ungroup()
   return(cancer_site)
+}
+
+# Pull out a sorted age range so e.g 5 is before 10 numeric not 50 alphabetic
+get_incidents_sorted_age_range <- function(df) {
+  df %>%
+    distinct(incidences_age_range) %>% # Unique only
+    pull() %>% # Convert to vector
+    str_sort(numeric = TRUE) # Sort as numeric values
+}
+
+# Retrieve incidences for age categories and sex
+get_cancer_site_age_range <- function(df) {
+  age_range <- df %>%
+    filter(cancer_site != "All cancer types") %>% # "All cancer types"
+    filter(incidences_age_range != "All ages") %>% # "All ages"
+    filter(sex != "All") %>% # "All"
+    # #  #  filter(cancer_site == "Acute lymphoblastic leukaemia") %>%
+    # #  #   filter(year == 2021) %>%
+    # #  group_by(cancer_site, cancer_site_short, incidences_age_range, sex, incidences_age) %>%
+    # #  summarise() %>%
+    # # # arrange(sex) %>%
+    # #
+    group_by(incidences_age_range, sex, cancer_site, cancer_site_short) %>%
+    #  #cancer_site, cancer_site_short, incidences_age_range, sex, incidences_age, year) %>%
+    summarise(total_incidences = sum(incidences_age)) %>%
+    ungroup()
+  return(age_range)
 }
 
 # Plot Start ----
@@ -265,7 +264,7 @@ plot_incidences_by_year <- function(df,
     #   linetype = 1
     # ) +
     geom_point(size = 3) +
-    scale_colour_cis_qualitative(palette_sex) +
+    scale_colour_cis_qualitative() +
     scale_y_continuous(label = scales::label_comma()) +
     scale_x_continuous(breaks = seq(
       from = min(df$year),
@@ -311,7 +310,7 @@ plot_incidences_by_year_boxplot <- function(df,
   plot <- df %>%
     ggplot(aes(x = incidences_age, fill = sex)) +
     geom_boxplot(color = "black") +
-    scale_fill_cis_qualitative(palette_sex) +
+    scale_fill_cis_qualitative() +
     scale_x_continuous(label = scales::label_comma()) +
     labs(
       x = paste0("\n", plot_x),
@@ -330,8 +329,8 @@ plot_incidences_by_year_cancer_site <- function(df, start_year, end_year) {
     facet_wrap(~cancer_site_short, ncol = 9) +
     scale_y_continuous(label = scales::label_comma()) +
     #     breaks = c(2000, 4000)) +
-    scale_fill_cis_qualitative(palette_sex) +
-    scale_colour_cis_qualitative(palette_sex) +
+    scale_fill_cis_qualitative() +
+    scale_colour_cis_qualitative() +
     theme(
       strip.text = element_text(size = 9),
       axis.text.x = element_blank()
@@ -346,6 +345,44 @@ plot_incidences_by_year_cancer_site <- function(df, start_year, end_year) {
       fill = incidence_sex_label,
       colour = ""
     )
+}
+
+# Plot INCIDENCE 4, all_cancer_site_age_range
+plot_all_cancer_site_age_sex_range <- function(df, plot_x = incidence_age_ranges_label,
+                                               plot_y = incidence_incidences_label,
+                                               plot_title = incidence_cancer_site_age_sex_range_title,
+                                               plot_subtitle = incidence_cancer_site_age_sex_range_subtitle) {
+  age_range <- get_incidents_sorted_age_range(df)
+
+  plot <- df %>%
+    mutate(incidences_age_range = fct_relevel(
+      incidences_age_range,
+      age_range
+    )) %>%
+    ggplot() + # cis_colour_cancer.  aes(x = incidences_age_range, y = total_incidences)
+    geom_col(aes(
+      x = incidences_age_range, y = total_incidences,
+      fill = sex, colour = sex
+    )) +
+    #    theme(legend.position = "bottom", axis.text.x = element_blank()) +
+    facet_wrap(~cancer_site_short, ncol = 9) +
+    scale_colour_cis_qualitative(cis_palette_sex) +
+    scale_fill_cis_qualitative(cis_palette_sex) +
+    scale_y_continuous(label = scales::label_comma()) +
+    guides(colour = "none") +
+    theme(
+      strip.text = element_text(size = 9),
+      axis.text.x = element_blank()
+    ) +
+    labs(
+      title = plot_title,
+      subtitle = plot_subtitle,
+      caption = source_phs,
+      fill = "",
+      x = paste0(plot_x, ": Youngest (0-4) to Oldest (90+)"),
+      y = plot_y
+    )
+  return(plot)
 }
 
 # Tables Start ----
@@ -420,6 +457,20 @@ table_incidences_cancer_sites_between <- function(df, lowest_year,
   return(table)
 }
 
+table_incidences_cancer_sites_age_range <- function(df) {
+  table <- df %>%
+    gt() %>%
+    cols_label(
+      cancer_site = html("Cancer Site"),
+      incidences_age_range = html("Age Range"),
+      sex = html("Sex"),
+      total_incidences = html("Incidences")
+    ) %>%
+    tab_source_note(source_note = source_phs) %>%
+    fmt_number(columns = c(total_incidences), decimals = 0)
+  return(table)
+}
+
 # Modelling ----
 # Model 1
 build_model_year_incidences <- function(df) {
@@ -427,7 +478,7 @@ build_model_year_incidences <- function(df) {
   # "outcome ~ predictor" Incidences predicted by year
   model <- lm(incidences_age ~ year, df)
   auto <- autoplot(model, colour = "sex", data = df) +
-    scale_colour_cis_qualitative(palette_sex) +
+    scale_colour_cis_qualitative() +
     labs(
       #  x = incidence_incidences_label, y = incidence_year_label,
       #   caption = source_phs, # gets added to all 4
