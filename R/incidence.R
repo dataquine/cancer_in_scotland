@@ -229,6 +229,30 @@ get_cancer_site_age_range <- function(df) {
   return(age_range)
 }
 
+get_top_incidences_age_range_sex <- function(df,
+                                             top = 10,
+                                             filter_sex = c("Male", "Females"),
+                                             filter_age = NULL,
+                                             filter_cancer_site = NULL) {
+  `%==%` <- function(e1, e2) {
+    if (is.null(e2)) {
+      return(TRUE)
+    } else {
+      return(e1 %in% e2)
+    }
+  }
+  df %>%
+    select(cancer_site, incidences_age_range, sex, total_incidences) %>%
+    filter(sex %==% filter_sex) %>%
+    filter(incidences_age_range %==% filter_age) %>%
+    filter(cancer_site %==% filter_cancer_site) %>%
+    group_by(cancer_site, incidences_age_range, sex) %>%
+    mutate(mean_cancer_site_incidences = mean(total_incidences)) %>%
+    ungroup() %>%
+    slice_max(mean_cancer_site_incidences, n = top) %>% # ?slice_max
+    select(-mean_cancer_site_incidences)
+}
+
 # Plot Start ----
 
 # Plot INCIDENCE 1
@@ -457,9 +481,13 @@ table_incidences_cancer_sites_between <- function(df, lowest_year,
   return(table)
 }
 
-table_incidences_cancer_sites_age_range <- function(df) {
+table_incidences_cancer_sites_age_range <- function(df, table_title = "") {
   table <- df %>%
     gt() %>%
+    tab_header(
+      title = table_title
+      #  subtitle = glue::glue("Between: {lowest_year} and {highest_year}")
+    ) %>%
     cols_label(
       cancer_site = html("Cancer Site"),
       incidences_age_range = html("Age Range"),

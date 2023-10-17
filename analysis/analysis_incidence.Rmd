@@ -291,20 +291,44 @@ What age are people when they are newly diagnosed. Would knowing the demographic
 incidences_all_cancer_site_age_range <- get_cancer_site_age_range(incidence)
 ```
 
-### Top 10 incidences by Cancer Site and Age Grroup
-This is a list of those cancer sites and age groups most at risk of having 
+### Top Incidences by Cancer Site, Age Group and Sex
+This is a list of those cancer sites, age groups and sexes most at risk of having 
 a new cancer diagnosed.
 
 ```{r}
-table_age_range <- incidences_all_cancer_site_age_range %>%
-  select(cancer_site, incidences_age_range, sex, total_incidences) %>%
-  group_by(cancer_site, incidences_age_range, sex) %>%
-  mutate(mean_cancer_site_incidences = mean(total_incidences)) %>%
-  ungroup() %>%
-  slice_max(mean_cancer_site_incidences, n = 10) %>%
-  select(-mean_cancer_site_incidences)
+table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+                                                    top = 10)
+table_incidences_cancer_sites_age_range(table_age_range, "Top 10 All")
 
-table_incidences_cancer_sites_age_range(table_age_range)
+table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+                                                    top = 5,
+                                                    filter_sex = "Females")
+table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Female")
+
+table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+                                                    top = 5,
+                                                    filter_sex = "Male")
+table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Male")
+
+table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+                                                    top = 5,
+                                                    filter_sex = "Females",
+                                                    filter_age = 
+                                                      c("20-24", "25-29"))
+table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Females 20-29")
+
+table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+                                                    top = 5,
+                                                    filter_sex = "Male",
+                                                    filter_age = 
+                                                      c("20-24", "25-29"))
+table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Male 20-29")
+
+table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+                                                    top = 5,
+                                                    filter_sex = NULL,
+                                                    filter_cancer_site = "Hodgkin lymphoma")
+table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Hodgkin lymphoma")
 rm(table_age_range)
 ``` 
 
