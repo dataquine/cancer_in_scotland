@@ -10,6 +10,7 @@ library(assertr)
 library(forcats) # reordering categories
 library(ggfortify)
 library(gt) # Styled tables
+library(stringr) # Sorting strings
 
 # library(ggrepel)
 
@@ -481,12 +482,14 @@ table_incidences_cancer_sites_between <- function(df, lowest_year,
   return(table)
 }
 
-table_incidences_cancer_sites_age_range <- function(df, table_title = "") {
+table_incidences_cancer_sites_age_range <- function(df, 
+                                                    table_title = "",
+                                                    table_subtitle = "") {
   table <- df %>%
     gt() %>%
     tab_header(
-      title = table_title
-      #  subtitle = glue::glue("Between: {lowest_year} and {highest_year}")
+      title = table_title,
+      subtitle = table_subtitle
     ) %>%
     cols_label(
       cancer_site = html("Cancer Site"),
