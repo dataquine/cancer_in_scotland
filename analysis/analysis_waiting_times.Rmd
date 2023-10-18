@@ -20,8 +20,10 @@ knitr::opts_chunk$set(
 ```
 # Waiting Times for Cancer Treatment
 
-For progressive diseases like cancer early treatment is important to reduce the 
-burden of death and disease.
+## Background
+
+For progressive diseases like cancer early treatment is important to improve the
+chances of a better outcome for the patient.
 
 In the publication [Better Cancer Care, An Action Plan](https://www.gov.scot/publications/better-cancer-care-action-plan/), The 
 Scottish Government has set targets that once a cancer has been diagnosed 
@@ -72,6 +74,8 @@ skimr::skim(waiting_times_31_days_raw)
 # NumberOfEligibleReferrals31DayStandard = <dbl> 78, 4, 53
 # NumberOfEligibleReferralsTreatedWithin31Days = <dbl> 78, 4, 53
 
+```
+```{r}
 waiting_times_31_days_raw <- waiting_times_31_days_raw %>% 
   janitor::clean_names()
 names(waiting_times_31_days_raw)
@@ -87,6 +91,7 @@ names(waiting_times_31_days_raw)
 #  [9] "number_of_eligible_referrals_treated_within31days"   
 # [10] "number_of_eligible_referrals_treated_within31days_qf"
 ```
+
 ```{r eval=FALSE, include=FALSE}
 #Examine 62 day datsset
 # 62 day waiting standard split by health board of treatment and health 
@@ -109,6 +114,9 @@ skimr::skim(waiting_times_62_days_raw)
 # NumberOfEligibleReferrals62DayStandard = <dbl> 52, 2, 31 
 # NumberOfEligibleReferralsTreatedWithin62Days = dbl> 52, 2, 29
 
+```
+```{r}
+
 waiting_times_62_days_raw <- waiting_times_62_days_raw %>% 
   janitor::clean_names()
 names(waiting_times_62_days_raw)
@@ -125,13 +133,80 @@ names(waiting_times_62_days_raw)
 # [10] "number_of_eligible_referrals_treated_within62days_qf"
 ```
 
+
 ```{r}
 # Lets join these two datasets and rename some columns
 # We want to keep everything in the 31day data and any matches on 62 days by
 # quarter
 # This seems like a 'left' join
 
+#`left_join(table1, table2, by = "matching_column_name")`
+#19287 + 17362
+#  left_join(movies, by = c("movie_id" = "id")) %>% 
+waiting_times_raw <- waiting_times_31_days_raw %>% 
+  left_join(waiting_times_62_days_raw)
+```
+```{r}
+# Examine joined table
+dim (waiting_times_raw)
+# 19287    15
 
+names(waiting_times_raw)
+#  [1] "quarter"                                             
+#  [2] "hb"                                                  
+#  [3] "hbt"                                                 
+#  [4] "hbtqf"                                               
+#  [5] "cancer_type"                                         
+#  [6] "cancer_type_qf"                                      
+#  [7] "number_of_eligible_referrals31day_standard"          
+#  [8] "number_of_eligible_referrals31day_standard_qf"       
+#  [9] "number_of_eligible_referrals_treated_within31days"   
+# [10] "number_of_eligible_referrals_treated_within31days_qf"
+# [11] "hbqf"                                                
+# [12] "number_of_eligible_referrals62day_standard"          
+# [13] "number_of_eligible_referrals62day_standard_qf"       
+# [14] "number_of_eligible_referrals_treated_within62days"   
+# [15] "number_of_eligible_referrals_treated_within62days_qf"
+```
+```{r}
+#names(waiting_times_raw)
+
+waiting_times_long <- waiting_times_raw %>% 
+  # Rename for convenience
+ # #rename(referrals_31day_standard_qf = number_of_eligible_referrals31day_standard_qf,
+    #     referrals_treated_within31days_qf = number_of_eligible_referrals_treated_within31days_qf,
+     #    referrals_62day_standard_qf = number_of_eligible_referrals62day_standard_qf,
+      #   referrals_treated_within62days_qf = number_of_eligible_referrals_treated_within62days_qf) %>% 
+# # Lets make a new number_of_eligible_referrals column and values 31/62
+#   pivot_longer( names_to = "income", values_to = "count")
+   pivot_longer(cols = c("number_of_eligible_referrals31day_standard",
+                         "number_of_eligible_referrals62day_standard"), 
+                names_to = "referrals_standard", 
+                names_prefix = "number_of_eligible_referrals",
+                values_to = "referrals")%>% 
+   pivot_longer(cols = c("number_of_eligible_referrals31day_standard_qf",
+                         "number_of_eligible_referrals62day_standard_qf"), 
+                names_to = "referrals_standard_qf", 
+                names_prefix = "number_of_eligible_referrals",
+                values_to = "referrals_standard_qf_values") %>% 
+    pivot_longer(cols = c("number_of_eligible_referrals_treated_within31days",
+                          "number_of_eligible_referrals_treated_within62days"), 
+                names_to = "referrals_treated_standard", 
+                names_prefix = "number_of_eligible_referrals_treated_",
+                values_to = "referrals_treated") %>% 
+    pivot_longer(cols = c("number_of_eligible_referrals_treated_within31days_qf",
+                          "number_of_eligible_referrals_treated_within62days_qf"),
+                names_to = "referrals_treated_qf",
+                names_prefix = "number_of_eligible_referrals_treated_",
+                values_to = "referrals_treated_qf_values")
+
+  names(waiting_times_long)
+```
+
+
+
+```{r}
+#     date = lubridate::ymd(paste(year, month, day, sep = "-"))
 
 ```
 
