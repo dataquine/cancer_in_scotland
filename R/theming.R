@@ -42,23 +42,27 @@ cis_colour_lightslategray <- "#778899"
 cis_colour_darkslategray <- "#2F4F4F"
 
 cis_colour_cancer <- cis_colour_purple3
-cis_colour_noncancer <- cis_colour_officegreen
+cis_colour_noncancer <- cis_colour_congressblue
 
-cis_colour_male <- cis_colour_lightslategray
-cis_colour_female <- cis_colour_officegreen
+cis_colour_male <- cis_colour_darkslategray #cis_colour_lemon
+cis_colour_female <- cis_colour_lightslategray #cis_colour_lightslategray
 
 
 cis_palette_general <- c(
   cis_colour_purple3,
-  cis_colour_officegreen,
+  cis_colour_lemon,
   cis_colour_congressblue,
+  cis_colour_officegreen,
   cis_colour_olive,
   cis_colour_limeade,
   cis_colour_battleship_gray
 )
 cis_palette_sex <- c('All' = cis_colour_purple3, 
-                 'Females' = cis_colour_female, 
-                 'Male' = cis_colour_male)
+                     'All persons' = cis_colour_purple3, 
+                     'Female' = cis_colour_female, 
+                     'Females' = cis_colour_female, 
+                     'Male' = cis_colour_male,
+                 'Males' = cis_colour_male)
 
 # 004580 # Congress Blue
 # 808000 # Olive
