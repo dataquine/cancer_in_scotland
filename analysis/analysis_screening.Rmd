@@ -85,7 +85,8 @@ head(screening_bowel_cancer_takeup_all)
 ## All Scotland
 
 ```{r}
-caption_screening_bowel_cancer_takeup <- "Data for May 2020 to April 2022"
+screening_caption_screening_bowel_cancer_takeup <- 
+  "Data for May 2020 to April 2022"
 screening_bowel_cancer_takeup_scotland <- get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
 ```
 
@@ -109,13 +110,13 @@ Females are more likely to return the tests than males.
 ```{r}
 # Table of results
 get_screening_bowel_cancer_takeup_scotland <- function(df,
-                                                       table_title = screening_bowel_cancer_screening_update) {
-  df %>%
+           table_title = screening_bowel_cancer_screening_update,
+           table_subtitle = screening_caption_screening_bowel_cancer_takeup) {
+df %>%
     gt() %>%
     tab_header(
       title = table_title,
-      subtitle = caption_screening_bowel_cancer_takeup
-      #     subtitle = table_subtitle
+      subtitle = table_subtitle
     ) %>%
     cols_label(
       uptake_pct = html("Uptake (%)"),
@@ -139,34 +140,42 @@ general public making more efforts to target males.
 ## All Uptake by Health Board and Sex
 
 ```{r}
-screening_bowel_cancer_takeup_all_means <- screening_bowel_cancer_takeup_all %>%
+screening_bowel_cancer_uptake_all_means <- screening_bowel_cancer_takeup_all %>%
   group_by(area, sex, uptake_pct) %>%
   summarize(value = mean(uptake_pct))
 
-screening_bowel_cancer_takeup_all_means %>%
-  filter(sex != "All persons") %>%
-  ggplot(aes(
-    x = fct_reorder(area, value),
-    y = uptake_pct,
-    fill = sex
-  )) +
-  geom_col(position = "dodge") +
-  scale_fill_cis_qualitative(cis_palette_sex) +
-  scale_y_continuous(limits = c(0, 100)) +
-  coord_flip() +
-  labs(
-    caption = source_phs,
-    x = "Health Board",
-    y = "",
-    fill = "Sex"
-  )
+plot_screening_bowel_cancer_uptake_all <- function(df) {
+  plot_screening <- df %>%
+    filter(sex != "All persons") %>%
+    ggplot(aes(
+      x = fct_reorder(area, value),
+      y = uptake_pct,
+      fill = sex
+    )) +
+    geom_col(position = "dodge") +
+    scale_fill_cis_qualitative(cis_palette_sex) +
+    scale_y_continuous(limits = c(0, 100)) +
+    coord_flip() +
+    labs(
+      caption = source_phs,
+      x = "Health Board",
+      y = "",
+      fill = "Sex"
+    )
+  return(plot_screening)
+}
+
+plot_screening_bowel_cancer_uptake_all(screening_bowel_cancer_uptake_all_means)
+rm(screening_bowel_cancer_uptake_all_means)
 ```
 
 Females return their testing kits more than males for every Health Board in Scotland. 
 
-Just to confirm the numbers for each Health Board the following table is ordered by those with the lowest uptake.
+Just to confirm the numbers for each Health Board the following table is 
+ordered by those with the lowest uptake first.
 
 ```{r}
+# Get data frame of health board and sex related data
 screening_bowel_cancer_takeup_health_boards <-
   get_screening_bowel_cancer_takeup(
     screening_bowel_cancer_takeup_all,
@@ -176,42 +185,44 @@ screening_bowel_cancer_takeup_health_boards <-
     remove_scotland = TRUE,
     order_by_pct = TRUE
   )
-```
-
-```{r}
 get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_health_boards)
 ```
+## Conclusion
 
-
-```{r}
-# DT::datatable(screening_bowel_cancer_takeup_health_boards,
-#   options = list(searching = FALSE, paging = FALSE),
-#   caption = caption_screening_bowel_cancer_takeup
-# )
-```
-
-
-## Conclusion:
+* Highest: Shetland (`r round(max(screening_bowel_cancer_takeup_health_boards$uptake_pct), digits = 1)`%) 
+* Lowest: Greater Glasgow and Clyde (`r round(min(screening_bowel_cancer_takeup_health_boards$uptake_pct), digits = 1)`%) 
 
 There is almost 12% difference between the highest and lowest uptakes between
-health boards. In general the further the Health Boards is from the Central Belt of Scotland the better the public participation.
+health boards, this seems seems relatively large. In general the further the 
+health board is from the Central Belt of Scotland the better the public 
+participation.
 
-Other research suggests that there may be a link in general between deprivation and uptake of screening programmes. In Scotland the Bowel Cancer screening kits are sent directly to peoples homes and there is no charge for posting them to return the kit. If deprivation is a factor superficially it wouldn't seem like it would be for reasons of cost, so perhaps there are more complex reasons around education and awareness of importance.
-
-*  Shetland (`r round(min(screening_bowel_cancer_takeup_health_boards$uptake_pct), digits = 1)`%) 
-* Greater Glasgow and Clyde (`r round(max(screening_bowel_cancer_takeup_health_boards$uptake_pct), digits = 1)`%)  This seems gap seems relatively large.
+Other research suggests that there may be a link in general between deprivation
+and uptake of screening programmes. In Scotland the Bowel Cancer screening kits
+are sent directly to the home of a person and there is no charge for posting 
+them to return the kit. If deprivation is a factor, superficially it wouldn't 
+seem like it would be for reasons of cost, so perhaps there are more complex 
+reasons around education and awareness of importance or others that need 
+teasing out.
 
 **Suggestion:**
 
 There should be some greater examination of what other health 
 boards can learn about the roll out in more successful areas like Shetland.
-In general the further away from the central belt, the more successful.
+In general the further away from the central belt, the more successful. 
+And more efforts to educate and inform the public, particularly males over 60.
 
-
-
+Try the interactive Cancer Risk Tool that 
+accompanies the analysis report on incidences
+with the settings **(All age ranges, Male, Colorectal cancer) **
 
 ```{r}
 # screening_bowel_cancer_takeup_kpi <-
 #  get_screening_bowel_cancer_takeup_kpi1(screening_bowel_cancer_takeup)
 # screening_bowel_cancer_takeup_kpi
 ```
+
+```{r}
+rm(list = ls(pattern = "screening"))
+```
+
