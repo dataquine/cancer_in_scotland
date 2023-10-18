@@ -92,3 +92,7 @@ trying plotting
 ## 2023-10-17 Tuesday
 * Incidence:
   * Shiny document - Interactive Cancer Risk Tool
+  https://shiny.posit.co/r/articles/build/interactive-docs/
+  
+* Screening:
+  * Tidy up plots/palettes and more commentary
