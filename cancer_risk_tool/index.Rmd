@@ -7,7 +7,7 @@ output:
   html_document: 
 runtime: shiny
 ---
-```{r setup_incidence_interactive, include=FALSE}
+```{r setup_cancer_risk_tool, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 This is an experimental demo of a potentially public-facing tool to help people understand which cancers they are more at risk of in Scotland.
@@ -49,6 +49,7 @@ label_all_sex <- "All"
 label_select_sex <- "Sex"
 
 label_select_number_of_results <- "Number of Results"
+label_no_results_available <- "Sorry, no results for this combination."
 
 default_number_of_results <- 10
 
@@ -82,7 +83,7 @@ number_of_results <- c(1, 5, default_number_of_results, 20)
 ```
 
 
-```{r shiny_input}
+```{r cancer_risk_tool}
 # Shiny input controls for cancer site, age range and sex
 # https://shiny.posit.co/r/articles/build/interactive-docs/
 
@@ -93,8 +94,7 @@ fluidPage(
   ),
   title = label_application,
   fluidRow(
-    column(
-      6,
+    column(6,
       selectInput
       (
         "input_incidences_age_range",
@@ -102,8 +102,7 @@ fluidPage(
         choices = all_age_range,
       )
     ),
-    column(
-      6,
+    column(6,
       radioButtons
       (
         "input_incidences_sex",
@@ -114,8 +113,7 @@ fluidPage(
     )
   ),
   fluidRow(
-    column(
-      6,
+    column(6,
       selectInput
       (
         "input_incidences_cancer_site",
@@ -123,8 +121,7 @@ fluidPage(
         choices = all_cancer_site,
       )
     ),
-    column(
-      6,
+    column(6,
       selectInput("input_incidences_number_of_results",
         label = label_select_number_of_results,
         choices = number_of_results,
@@ -133,8 +130,7 @@ fluidPage(
     )
   ),
   fluidRow(
-    column(
-      12,
+    column(12,
       # We are reusing the functions that use the gt package for table output
       renderUI({
         #  my_cancer <- c(input$input_incidences_cancer_types)
@@ -152,7 +148,6 @@ fluidPage(
           filter_by_sex <- c(input$input_incidences_sex)
         }
         filter_number_results <- as.numeric(c(input$input_incidences_number_of_results))
-
         table_age_range <- get_top_incidences_age_range_sex(
           incidences_all_cancer_site_age_range,
           top = filter_number_results,
@@ -160,6 +155,15 @@ fluidPage(
           filter_age = filter_by_age_range,
           filter_cancer_site = filter_by_cancer_site
         )
+
+        # Abandon processing if no observations for this particular combination
+        validate(
+          need(
+            nrow(table_age_range) > 0,
+            label_no_results_available
+          )
+        )
+
         table_title <- str_glue("Top {filter_number_results}")
         table_subtitle <- label_subtitle_results_table
         table_results <- table_incidences_cancer_sites_age_range(
