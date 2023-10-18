@@ -32,7 +32,8 @@ get_screening_bowel_cancer_takeup <- function(df,
                                               filter_area = c(),
                                               remove_scotland = FALSE,
                                               alphabetical_sex = TRUE,
-                                              alphabetical_area = TRUE) {
+                                              alphabetical_area = TRUE,
+                                              order_by_pct = FALSE) {
   screening_bowel_cancer_takeup <- df
 
   if (length(filter_sex) > 0) {
@@ -54,6 +55,10 @@ get_screening_bowel_cancer_takeup <- function(df,
   if (alphabetical_area == TRUE) {
     screening_bowel_cancer_takeup <- screening_bowel_cancer_takeup %>%
       arrange(area)
+  }
+  if (order_by_pct) {
+    screening_bowel_cancer_takeup <- screening_bowel_cancer_takeup %>%
+      arrange(uptake_pct)
   }
   # View(screening_bowel_cancer_takeup)
   return(screening_bowel_cancer_takeup)
@@ -98,12 +103,13 @@ plot_x = screening_bowel_cancer_uptake_plot_x,
 plot_y = screening_bowel_cancer_uptake_plot_y) {
   plot <- df %>%
     mutate(uptake_pct = round(uptake_pct, digits = 2)) %>%
-    ggplot(aes(sex, uptake_pct)) +
-    geom_col(na.rm = TRUE) +
+    ggplot(aes(sex, uptake_pct, fill=sex)) +
+    geom_col(fill = cis_colour_cancer) +
     geom_hline(
       colour = "red",
       alpha = 0.7,
       linetype = 3,
+      linewidth = 2,
       yintercept = screening_bowel_cancer_uptake_target
     )+
     geom_text(
@@ -121,12 +127,15 @@ plot_y = screening_bowel_cancer_uptake_plot_y) {
     labs(
       title = plot_title,
       subtitle = plot_subtitle,
-      y = plot_x,
-      x = plot_y
+      y = paste0(plot_x,"\n"),
+      x = paste0("\n", plot_y),
+      caption = source_phs
     ) +
+    #scale_fill_cis_qualitative(cis_palette_sex)+
+    guides(fill = "none") 
     theme(
       axis.title = element_blank(),
-      panel.grid = element_blank()
+      panel.grid = element_blank(),
     )
 
   # scale_fill_continuous(labels = scales::label_comma())
