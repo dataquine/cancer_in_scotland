@@ -1,0 +1,137 @@
+---
+title: "Analysis: Waiting Times for Cancer Treatment"
+subtitle: "Cancer in Scotland"
+author: "Lesley Duff"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_depth: 5
+editor_options: 
+  chunk_output_type: inline
+---
+```{r setup_incidence, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  # error = FALSE,
+  message = FALSE
+)
+```
+# Waiting Times for Cancer Treatment
+
+For progressive diseases like cancer early treatment is important to reduce the 
+burden of death and disease.
+
+In the publication [Better Cancer Care, An Action Plan](https://www.gov.scot/publications/better-cancer-care-action-plan/), The 
+Scottish Government has set targets that once a cancer has been diagnosed 
+the patients should start treament within a partcular timeframe.
+
+"...Current standards for cancer waiting times are that 95% of all eligible
+patients should wait no longer than 31 or 62 days..."
+
+For this we will be using Public Health Scotland dataset for Cancer Waiting Times.
+"Cancer Waiting Times statistics for the 62 day standard for patients urgently 
+referred with a suspicion of cancer to first cancer treatment and for the 31 
+day standard for patients regardless of the route of referral from date decision 
+to treat to first cancer treatment." - Public Health Scotland
+
+Source:  [Cancer Waiting Times](https://www.opendata.nhs.scot/dataset/cancer-waiting-times) [Public Health Scotland]
+
+```{r}
+library(janitor)
+library(skimr)
+library(tidyverse)
+```
+
+```{r}
+waiting_times_31_days_raw <- read_csv("../data_raw/phs/wait_times/cwt_31_day_standard.csv")
+waiting_times_62_days_raw <- read_csv("../data_raw/phs/wait_times/cwt_62_day_standard.csv")
+```
+
+```{r eval=FALSE, include=FALSE}
+# 31 day waiting standard split by health board of treatment and health board of residence as well as cancer type.
+# 
+# The 31 day standard is measured against the health board of first treatment (HBT)
+
+
+#Examine 31 day datsset
+dim(waiting_times_31_days_raw)
+# 19287    10
+
+# Examine data
+glimpse(waiting_times_31_days_raw)
+skimr::skim(waiting_times_31_days_raw)
+
+# Lots of NAs but only in description QF fields not values
+
+# Dates are in format "2012Q1", "2012Q1"
+# HB = Health Board by code : "S08000015" etc.
+# HBT = Health Board of treatment
+# CancerType: "Breast", "Cervical"
+# NumberOfEligibleReferrals31DayStandard = <dbl> 78, 4, 53
+# NumberOfEligibleReferralsTreatedWithin31Days = <dbl> 78, 4, 53
+
+waiting_times_31_days_raw <- waiting_times_31_days_raw %>% 
+  janitor::clean_names()
+names(waiting_times_31_days_raw)
+
+# [1] "quarter"                                             
+#  [2] "hb"                                                  
+#  [3] "hbt"                                                 
+#  [4] "hbtqf"                                               
+#  [5] "cancer_type"                                         
+#  [6] "cancer_type_qf"                                      
+#  [7] "number_of_eligible_referrals31day_standard"          
+#  [8] "number_of_eligible_referrals31day_standard_qf"       
+#  [9] "number_of_eligible_referrals_treated_within31days"   
+# [10] "number_of_eligible_referrals_treated_within31days_qf"
+```
+```{r eval=FALSE, include=FALSE}
+#Examine 62 day datsset
+# 62 day waiting standard split by health board of treatment and health 
+# board of residence as well as cancer type
+dim(waiting_times_62_days_raw)
+# 17362    10
+
+# Examine data
+glimpse(waiting_times_62_days_raw)
+skimr::skim(waiting_times_62_days_raw)
+
+# Lots of NAs but only in description QF fields not values
+
+# Dates are in format "2012Q1", "2012Q1"
+# HB = Health Board by code : "S08000015" etc.
+# The 62 day standard is measured against the health board of receipt of referral (HB)
+
+# HBT = Health Board of treatment
+# CancerType: "Breast", "Cervical"
+# NumberOfEligibleReferrals62DayStandard = <dbl> 52, 2, 31 
+# NumberOfEligibleReferralsTreatedWithin62Days = dbl> 52, 2, 29
+
+waiting_times_62_days_raw <- waiting_times_62_days_raw %>% 
+  janitor::clean_names()
+names(waiting_times_62_days_raw)
+
+#  [1] "quarter"                                             
+#  [2] "hb"                                                  
+#  [3] "hbqf"                                                
+#  [4] "hbt"                                                 
+#  [5] "cancer_type"                                         
+#  [6] "cancer_type_qf"                                      
+#  [7] "number_of_eligible_referrals62day_standard"          
+#  [8] "number_of_eligible_referrals62day_standard_qf"       
+#  [9] "number_of_eligible_referrals_treated_within62days"   
+# [10] "number_of_eligible_referrals_treated_within62days_qf"
+```
+
+```{r}
+# Lets join these two datasets and rename some columns
+# We want to keep everything in the 31day data and any matches on 62 days by
+# quarter
+# This seems like a 'left' join
+
+
+
+```
+
