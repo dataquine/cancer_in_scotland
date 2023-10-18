@@ -39,13 +39,13 @@ incidences_all_cancer_site_age_range <- get_cancer_site_age_range(incidence)
 label_subtitle_results_table <- "Based on cancer in Scotland between 1997 and 2021"
 
 label_application <- "Cancer Risk"
-label_all_cancer_site <- "-All cancers-"
+label_all_cancer_site <- "All cancers"
 label_select_cancer_site <- "Type of Cancer"
 
-label_all_age_range <- "-All age ranges-"
+label_all_age_range <- "All age ranges"
 label_select_age_range <- "Age Range"
 
-label_all_sex <- "-All sexes-"
+label_all_sex <- "All"
 label_select_sex <- "Sex"
 
 label_select_number_of_results <- "Number of Results"
@@ -171,38 +171,4 @@ fluidPage(
     )
   )
 )
-```
-
-```{r}
-# We are reusing the functions that use the gt package for table output
-# renderUI({
-#   #  my_cancer <- c(input$input_incidences_cancer_types)
-#   filter_by_age_range <- NULL
-#   filter_by_cancer_site <- NULL
-#   filter_by_sex <- NULL
-#   filter_number_results = 5
-#   if (input$input_incidences_age_range != label_all_age_range) {
-#     filter_by_age_range <- c(input$input_incidences_age_range)
-#   }
-#   if (input$input_incidences_cancer_site != label_all_cancer_site) {
-#     filter_by_cancer_site <- c(input$input_incidences_cancer_site)
-#   }
-#   if (input$input_incidences_sex != label_all_sex) {
-#     filter_by_sex <- c(input$input_incidences_sex)
-#   }
-#     filter_number_results <- as.numeric(  c(input$input_incidences_number_of_results))
-#
-#   table_age_range <- get_top_incidences_age_range_sex(
-#     incidences_all_cancer_site_age_range,
-#     top = filter_number_results,
-#     filter_sex = filter_by_sex,
-#     filter_age = filter_by_age_range,
-#     filter_cancer_site = filter_by_cancer_site
-#   )
-#   table_title <- str_glue("Top {filter_number_results}")
-#   table_results <- table_incidences_cancer_sites_age_range(
-#     table_age_range,
-#    table_title
-#   )
-# })
 ```
