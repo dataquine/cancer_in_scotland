@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 # Screening
 
 ```{r}
+library(forcats)
+library(gt)
 library(here)
 library(skimr)
 library(tidyverse)
@@ -32,6 +34,9 @@ source(here::here("R/theming.R"))
 ```{r}
 # Set custom theme
 theme_set(theme_cancer_in_scotland())
+```
+```{r}
+screening_bowel_cancer_screening_update <- "Bowel Cancer Screening Uptake"
 ```
 
 ## Scottish Bowel Screening Programme
@@ -73,31 +78,55 @@ skimr::skim(screening_bowel_cancer_takeup_all)
 ```
 
 ```{r eval=FALSE, include=FALSE}
-#View(screening_bowel_cancer_takeup)
+# View(screening_bowel_cancer_takeup)
 head(screening_bowel_cancer_takeup_all)
 ```
 
 ## All Scotland
+
 ```{r}
 caption_screening_bowel_cancer_takeup <- "Data for May 2020 to April 2022"
 screening_bowel_cancer_takeup_scotland <- get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_all)
-
-DT::datatable(screening_bowel_cancer_takeup_scotland,
-                options = list(searching = FALSE, paging = FALSE),
-                caption = caption_screening_bowel_cancer_takeup)
-
-plot_screening_bowel_cancer_takeup <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
-plot_screening_bowel_cancer_takeup
-ggsave(here::here(screening_bowel_cancer_uptake_plot_filepath), 
-       plot_screening_bowel_cancer_takeup)
 ```
 
+```{r}
+# Draw bar chart
+plot_screening_bowel_cancer_takeup <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
+plot_screening_bowel_cancer_takeup
+ggsave(
+  here::here(screening_bowel_cancer_uptake_plot_filepath),
+  plot_screening_bowel_cancer_takeup
+)
+```
+The 
+red dotted horizontal line marks the Health Improvement Scotland standard **target 
+of `r screening_bowel_cancer_uptake_target`%**.
+
 This shows that in the current Bowel Cancer Screening latest results around 2/3 
-of the people invited via the screening programme are taking up the offer. The 
-red dotted horizontal line marks the Health Improvement Scotland standard target 
-of `r screening_bowel_cancer_uptake_target`%.
+of the people invited via the screening programme are taking up the offer. 
 
 Females are more likely to return the tests than males.
+```{r}
+# Table of results
+get_screening_bowel_cancer_takeup_scotland <- function(df,
+                                                       table_title = screening_bowel_cancer_screening_update) {
+  df %>%
+    gt() %>%
+    tab_header(
+      title = table_title,
+      subtitle = caption_screening_bowel_cancer_takeup
+      #     subtitle = table_subtitle
+    ) %>%
+    cols_label(
+      uptake_pct = html("Uptake (%)"),
+      sex = html("Sex"),
+      area = html("Health Board"),
+    ) %>%
+    tab_source_note(source_note = source_phs) %>%
+    fmt_number(columns = c(uptake_pct), decimals = 1)
+}
+get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
+```
 
 For the most recent round of testing the target has been met and exceeded by a
 clear margin.
@@ -107,7 +136,36 @@ general public making more efforts to target males.
 
 **Conclusion: `r screening_bowel_cancer_uptake_target`% target is being met but room for improvement**.
 
-## All people by health board
+## All Uptake by Health Board and Sex
+
+```{r}
+screening_bowel_cancer_takeup_all_means <- screening_bowel_cancer_takeup_all %>%
+  group_by(area, sex, uptake_pct) %>%
+  summarize(value = mean(uptake_pct))
+
+screening_bowel_cancer_takeup_all_means %>%
+  filter(sex != "All persons") %>%
+  ggplot(aes(
+    x = fct_reorder(area, value),
+    y = uptake_pct,
+    fill = sex
+  )) +
+  geom_col(position = "dodge") +
+  scale_fill_cis_qualitative(cis_palette_sex) +
+  scale_y_continuous(limits = c(0, 100)) +
+  coord_flip() +
+  labs(
+    caption = source_phs,
+    x = "Health Board",
+    y = "",
+    fill = "Sex"
+  )
+```
+
+Females return their testing kits more than males for every Health Board in Scotland. 
+
+Just to confirm the numbers for each Health Board the following table is ordered by those with the lowest uptake.
+
 ```{r}
 screening_bowel_cancer_takeup_health_boards <-
   get_screening_bowel_cancer_takeup(
@@ -115,26 +173,45 @@ screening_bowel_cancer_takeup_health_boards <-
     # filter_sex = c("Females","Males"),
     filter_sex = c("All persons"),
     # filter_area = c("Grampian", "Fife"),
-    remove_scotland = TRUE
+    remove_scotland = TRUE,
+    order_by_pct = TRUE
   )
-
-DT::datatable(screening_bowel_cancer_takeup_health_boards,
-                options = list(searching = FALSE, paging = FALSE),
-                caption = caption_screening_bowel_cancer_takeup
-              )
 ```
+
+```{r}
+get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_health_boards)
+```
+
+
+```{r}
+# DT::datatable(screening_bowel_cancer_takeup_health_boards,
+#   options = list(searching = FALSE, paging = FALSE),
+#   caption = caption_screening_bowel_cancer_takeup
+# )
+```
+
+
+## Conclusion:
+
+There is almost 12% difference between the highest and lowest uptakes between
+health boards. In general the further the Health Boards is from the Central Belt of Scotland the better the public participation.
+
+Other research suggests that there may be a link in general between deprivation and uptake of screening programmes. In Scotland the Bowel Cancer screening kits are sent directly to peoples homes and there is no charge for posting them to return the kit. If deprivation is a factor superficially it wouldn't seem like it would be for reasons of cost, so perhaps there are more complex reasons around education and awareness of importance.
+
+*  Shetland (`r round(min(screening_bowel_cancer_takeup_health_boards$uptake_pct), digits = 1)`%) 
+* Greater Glasgow and Clyde (`r round(max(screening_bowel_cancer_takeup_health_boards$uptake_pct), digits = 1)`%)  This seems gap seems relatively large.
+
+**Suggestion:**
+
+There should be some greater examination of what other health 
+boards can learn about the roll out in more successful areas like Shetland.
+In general the further away from the central belt, the more successful.
+
+
 
 
 ```{r}
 # screening_bowel_cancer_takeup_kpi <-
 #  get_screening_bowel_cancer_takeup_kpi1(screening_bowel_cancer_takeup)
 # screening_bowel_cancer_takeup_kpi
-
-# View(screening_bowel_cancer_takeup_kpi)
-# screening_bowel_cancer_takeup_kpi %>%
-#  ggplot()
-# hist(x = uptake_pct,
-#   col = "#75AADB", border = "white",
-#         xlab = "Waiting time to next eruption (in mins)",
-#         main = "Histogram of waiting times")
 ```
