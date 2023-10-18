@@ -1,5 +1,6 @@
 ---
 title: "Analysis: Incidence of cancer in Scotland"
+subtitle: "Cancer in Scotland"
 author: "Lesley Duff"
 date: "`r format(Sys.Date())`"
 output:
