@@ -4,7 +4,7 @@
 # Author: Lesley Duff
 # Description:
 #   Clean Public Health Scotland dataset for cancer types over time.
-# It contains a breakdown aby age in 5 year intervals
+# It contains a breakdown by age in 5 year intervals
 # We have both counts and rates.
 # Terminology: The place where a cancer starts in the body
 #
