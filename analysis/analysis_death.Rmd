@@ -78,7 +78,7 @@ maintain official death statistics for Scotland.
 This analysis utilises NRS data.
 
 When a death is registered, it is common for a number of diseases or conditions 
-tobe recorded on the death certificate. NRS apply the WHO rules to determine 
+to be recorded on the death certificate. NRS apply the WHO rules to determine 
 which of these conditions is the underlying cause of death." - 
 [Death Certificates and Coding the Causes of Death](https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/deaths-background-information/death-certificates-and-coding-the-causes-of-death)
 
@@ -89,7 +89,7 @@ NRS Last update: 19 September 2023.
 Definition: `rate` is deaths per 100,000 people in Scotland using. The NRS data 
 is age-standardised using the European Standard Population.
 
-There are `r count(causes_of_death) %>% pull()` categories of causes recorded
+There are **`r count(causes_of_death) %>% pull()`** categories of causes recorded
 in the dataset.
 
 ```{r}
@@ -219,10 +219,10 @@ would be to investigate if more people with Cancer and/or Respitory were more
 likely to die if they subsequently caught COVID.
 
 And another interpretation 
-can be that treatments other factors are improving things. E.g. we might 
+can be that treatments other factors are improving things. e.g. we might 
 comment that things lke circulatory/heart/cerebrovascular disease have improved 
 over the long term considerably since the start of the data in 1994 - could 
-this be an example of improved emphasis on preventative work treating thingss
+this be an example of improved emphasis on preventative work treating things
 like e.g. High Blood Pressure with medication and lifestyle changes? Is so, 
 that would be an encouraging example that change is possible.
 
@@ -285,7 +285,7 @@ improvement is so small it's almost static.
 
 Of interest is that in spite of a great deal of negative publicity 
 about Scottish drug related deaths being worse than many other countries there 
-*has* been an improvement recently.
+*has* been an improvement in *rates* recently.
 
 ##### Worsening since previous year available - `r latest_year_nrs_data-1`
 
@@ -311,7 +311,8 @@ have more data available that could be checked?
 
 **Conclusion: Respiratory conditions have worsened the most**.
 
-Keep an eye on issues relating to Respiratory and Pulmanory as these worsened the most in the last two years.
+Keep an eye on issues relating to Respiratory and Pulmanary as these worsened 
+the most in the last two years.
 
 **Conclusion: Preventable causes of death like alcohol and suicide have risen**.
 

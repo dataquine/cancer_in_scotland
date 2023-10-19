@@ -50,6 +50,7 @@ cis_colour_female <- cis_colour_lightslategray #cis_colour_lightslategray
 
 cis_palette_general <- c(
   cis_colour_purple3,
+  cis_colour_limeade,
   cis_colour_lemon,
   cis_colour_congressblue,
   cis_colour_officegreen,
