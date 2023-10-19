@@ -41,172 +41,223 @@ to treat to first cancer treatment." - Public Health Scotland
 Source:  [Cancer Waiting Times](https://www.opendata.nhs.scot/dataset/cancer-waiting-times) [Public Health Scotland]
 
 ```{r}
-library(janitor)
-library(skimr)
-library(tidyverse)
+library(dplyr)
+library(forcats)
+library(lubridate)
+library(readr)
+library(stringr)
+library(tidyr)
+library(zoo)
+```
+```{r}
+source(here::here("R/cancer_in_scotland.R"))
+source(here::here("R/waiting_times.R"))
+source(here::here("R/theming.R"))
 ```
 
 ```{r}
-waiting_times_31_days_raw <- read_csv("../data_raw/phs/wait_times/cwt_31_day_standard.csv")
-waiting_times_62_days_raw <- read_csv("../data_raw/phs/wait_times/cwt_62_day_standard.csv")
+# Set custom theme
+theme_set(theme_cancer_in_scotland())
 ```
 
-```{r eval=FALSE, include=FALSE}
-# 31 day waiting standard split by health board of treatment and health board of residence as well as cancer type.
-# 
-# The 31 day standard is measured against the health board of first treatment (HBT)
-
-
-#Examine 31 day datsset
-dim(waiting_times_31_days_raw)
-# 19287    10
-
-# Examine data
-glimpse(waiting_times_31_days_raw)
-skimr::skim(waiting_times_31_days_raw)
-
-# Lots of NAs but only in description QF fields not values
-
-# Dates are in format "2012Q1", "2012Q1"
-# HB = Health Board by code : "S08000015" etc.
-# HBT = Health Board of treatment
-# CancerType: "Breast", "Cervical"
-# NumberOfEligibleReferrals31DayStandard = <dbl> 78, 4, 53
-# NumberOfEligibleReferralsTreatedWithin31Days = <dbl> 78, 4, 53
-
-```
 ```{r}
-waiting_times_31_days_raw <- waiting_times_31_days_raw %>% 
-  janitor::clean_names()
-names(waiting_times_31_days_raw)
-
-# [1] "quarter"                                             
-#  [2] "hb"                                                  
-#  [3] "hbt"                                                 
-#  [4] "hbtqf"                                               
-#  [5] "cancer_type"                                         
-#  [6] "cancer_type_qf"                                      
-#  [7] "number_of_eligible_referrals31day_standard"          
-#  [8] "number_of_eligible_referrals31day_standard_qf"       
-#  [9] "number_of_eligible_referrals_treated_within31days"   
-# [10] "number_of_eligible_referrals_treated_within31days_qf"
+# Read in clean Waiting Times data. N.B. This has the 31 day and 62 day data
+# combined
+waiting_times_clean <- read_csv("../data_clean/phs/waiting_times/phs_waiting_time_day_standards.csv")
 ```
 
-```{r eval=FALSE, include=FALSE}
-#Examine 62 day datsset
-# 62 day waiting standard split by health board of treatment and health 
-# board of residence as well as cancer type
-dim(waiting_times_62_days_raw)
-# 17362    10
-
-# Examine data
-glimpse(waiting_times_62_days_raw)
-skimr::skim(waiting_times_62_days_raw)
-
-# Lots of NAs but only in description QF fields not values
-
-# Dates are in format "2012Q1", "2012Q1"
-# HB = Health Board by code : "S08000015" etc.
-# The 62 day standard is measured against the health board of receipt of referral (HB)
-
-# HBT = Health Board of treatment
-# CancerType: "Breast", "Cervical"
-# NumberOfEligibleReferrals62DayStandard = <dbl> 52, 2, 31 
-# NumberOfEligibleReferralsTreatedWithin62Days = dbl> 52, 2, 29
-
-```
 ```{r}
+# skimr::skim(waiting_times_clean)
+# View(waiting_times_clean)
 
-waiting_times_62_days_raw <- waiting_times_62_days_raw %>% 
-  janitor::clean_names()
-names(waiting_times_62_days_raw)
-
-#  [1] "quarter"                                             
-#  [2] "hb"                                                  
-#  [3] "hbqf"                                                
-#  [4] "hbt"                                                 
-#  [5] "cancer_type"                                         
-#  [6] "cancer_type_qf"                                      
-#  [7] "number_of_eligible_referrals62day_standard"          
-#  [8] "number_of_eligible_referrals62day_standard_qf"       
-#  [9] "number_of_eligible_referrals_treated_within62days"   
-# [10] "number_of_eligible_referrals_treated_within62days_qf"
+waiting_times <- waiting_times_clean %>%
+  # add helper variables for visualisation
+  mutate(
+    quarter_time = zoo::as.yearqtr(quarter_time),
+    #   quarter_new = as_factor(quarter(quarter_time)),
+    #   year_new = as_factor(year(quarter_time)),
+    quarter_new = quarter(quarter_time),
+    year_new = as_factor(year(quarter_time)),
+    .after = quarter_time
+  )
+# waiting_times
 ```
 
 
 ```{r}
-# Lets join these two datasets and rename some columns
-# We want to keep everything in the 31day data and any matches on 62 days by
-# quarter
-# This seems like a 'left' join
+wt_info <- waiting_times %>%
+  distinct(quarter_time) %>%
+  summarise(
+    count_quarters = n(),
+    oldest_quarter = min(quarter_time),
+    newest_quarter = max(quarter_time),
+    res = newest_quarter - oldest_quarter
+  )
 
-#`left_join(table1, table2, by = "matching_column_name")`
-#19287 + 17362
-#  left_join(movies, by = c("movie_id" = "id")) %>% 
-waiting_times_raw <- waiting_times_31_days_raw %>% 
-  left_join(waiting_times_62_days_raw)
+# 12 years of data
 ```
 ```{r}
-# Examine joined table
-dim (waiting_times_raw)
-# 19287    15
+# wt_info
+```
 
-names(waiting_times_raw)
-#  [1] "quarter"                                             
-#  [2] "hb"                                                  
-#  [3] "hbt"                                                 
-#  [4] "hbtqf"                                               
-#  [5] "cancer_type"                                         
-#  [6] "cancer_type_qf"                                      
-#  [7] "number_of_eligible_referrals31day_standard"          
-#  [8] "number_of_eligible_referrals31day_standard_qf"       
-#  [9] "number_of_eligible_referrals_treated_within31days"   
-# [10] "number_of_eligible_referrals_treated_within31days_qf"
-# [11] "hbqf"                                                
-# [12] "number_of_eligible_referrals62day_standard"          
-# [13] "number_of_eligible_referrals62day_standard_qf"       
-# [14] "number_of_eligible_referrals_treated_within62days"   
-# [15] "number_of_eligible_referrals_treated_within62days_qf"
+We have  **`r wt_info$count_quarters`**  quarters of Waiting Times data 
+available ranging from **`r wt_info$oldest_quarter`** to **`r wt_info$newest_quarter`**.
+We will combine these to look at complete year totals.
+
+```{r}
+```
+
+```{r}
+# [1] "quarter"                      "quarter_time"
+#  [3] "quarter_new"               "year_new"
+#  [5] "hb"                           "hbt"
+#  [7] "hbtqf"                        "cancer_type"
+#  [9] "cancer_type_qf"               "hbqf"
+# [11] "referrals_standard"           "referrals"
+# [13] "referrals_standard_qf"        "referrals_standard_qf_values"
+# [15] "referrals_treated_standard"   "referrals_treated"
+# [17] "referrals_treated_qf"         "referrals_treated_qf_values"
+```
+
+```{r}
+# waiting_times %>%
+#  distinct(cancer_type)
 ```
 ```{r}
-#names(waiting_times_raw)
+waiting_times_all_cancer_types <- "All Cancer Types"
 
-waiting_times_long <- waiting_times_raw %>% 
-  # Rename for convenience
- # #rename(referrals_31day_standard_qf = number_of_eligible_referrals31day_standard_qf,
-    #     referrals_treated_within31days_qf = number_of_eligible_referrals_treated_within31days_qf,
-     #    referrals_62day_standard_qf = number_of_eligible_referrals62day_standard_qf,
-      #   referrals_treated_within62days_qf = number_of_eligible_referrals_treated_within62days_qf) %>% 
-# # Lets make a new number_of_eligible_referrals column and values 31/62
-#   pivot_longer( names_to = "income", values_to = "count")
-   pivot_longer(cols = c("number_of_eligible_referrals31day_standard",
-                         "number_of_eligible_referrals62day_standard"), 
-                names_to = "referrals_standard", 
-                names_prefix = "number_of_eligible_referrals",
-                values_to = "referrals")%>% 
-   pivot_longer(cols = c("number_of_eligible_referrals31day_standard_qf",
-                         "number_of_eligible_referrals62day_standard_qf"), 
-                names_to = "referrals_standard_qf", 
-                names_prefix = "number_of_eligible_referrals",
-                values_to = "referrals_standard_qf_values") %>% 
-    pivot_longer(cols = c("number_of_eligible_referrals_treated_within31days",
-                          "number_of_eligible_referrals_treated_within62days"), 
-                names_to = "referrals_treated_standard", 
-                names_prefix = "number_of_eligible_referrals_treated_",
-                values_to = "referrals_treated") %>% 
-    pivot_longer(cols = c("number_of_eligible_referrals_treated_within31days_qf",
-                          "number_of_eligible_referrals_treated_within62days_qf"),
-                names_to = "referrals_treated_qf",
-                names_prefix = "number_of_eligible_referrals_treated_",
-                values_to = "referrals_treated_qf_values")
+totals_quarter_31 <- waiting_times %>%
+  filter(cancer_type == waiting_times_all_cancer_types) %>%
+  filter(referrals_standard == "31day_standard") %>%
+  group_by(year_new) %>% # , referrals, referrals_treated) %>%
+  summarise(
+    total_31_day_referrals = sum(referrals),
+    total_31_day_referrals_treated = sum(referrals_treated),
+    pct_31_day_treated = (total_31_day_referrals_treated / total_31_day_referrals) * 100
+  ) %>%
+  ungroup()
 
-  names(waiting_times_long)
+# totals_quarter_31
+# View(totals_quarter_31)
 ```
-
 
 
 ```{r}
-#     date = lubridate::ymd(paste(year, month, day, sep = "-"))
+totals_quarter_62 <- waiting_times %>%
+  filter(cancer_type == waiting_times_all_cancer_types) %>%
+  filter(referrals_standard == "62day_standard") %>%
+  group_by(year_new) %>% # , referrals, referrals_treated) %>%
+  summarise(
+    total_62_day_referrals = sum(referrals),
+    total_62_day_referrals_treated = sum(referrals_treated),
+    pct_62_day_treated = (total_62_day_referrals_treated / total_62_day_referrals) * 100
+  ) %>%
+  ungroup()
 
+# totals_quarter_62
+
+# Join these two sets of results on year
+all_standards_totals <- totals_quarter_31 %>%
+  left_join(totals_quarter_62) %>%
+  filter(year_new != 2023) # remove partial year
+# print(all_standards_totals)
+# head(all_standards_totals)
 ```
 
+```{r}
+# all_standards_totals_combined <- all_standards_totals %>%
+all_standards_totals_filtered <- all_standards_totals %>%
+  pivot_longer(
+    cols = c(
+      "total_31_day_referrals",
+      "total_31_day_referrals_treated",
+      "total_62_day_referrals",
+      "total_62_day_referrals_treated"
+    ),
+    names_to = "referrals_names",
+    values_to = "referrals_values"
+  ) %>%
+  pivot_longer(
+    cols = c(
+      "pct_31_day_treated",
+      "pct_62_day_treated"
+    ),
+    names_to = "percent_names",
+    values_to = "percent_values"
+  ) %>%
+  # all_standards_totals_filtered <- all_standards_totals_combined %>%
+  filter(
+    ((referrals_names == "total_31_day_referrals") & (percent_names == "pct_31_day_treated")) |
+      ((referrals_names == "total_31_day_referrals_treated") & (percent_names == "pct_31_day_treated")) |
+      ((referrals_names == "total_62_day_referrals") & (percent_names == "pct_62_day_treated")) |
+      ((referrals_names == "total_62_day_referrals_treated") & (percent_names == "pct_62_day_treated"))
+  )
+```
+
+## Number of Referrals
+
+```{r}
+plot_all_standards <- plot_all_standards_totals_filtered(all_standards_totals_filtered)
+do_cis_plot(plot_all_standards, cancer_waiting_times_number_referrals_plot_filepath)
+```
+
+### Conclusion
+
+The trend is for increasing numbers of referrals being made.
+Of concern is the between 2021 and 2022 the gap between those referred and 
+those treated within the target windows of time is at its largest. 
+It is likely that the referral system is still processing a lot of people who 
+developed symptoms during the year COVID-19 started (2020) but did not seek or 
+were not able to be referred. It's possible that people are presenting with 
+conditions at a more advanced stage of the disease and now need more complex 
+diagnostic procedures taking longer to reach the right treatment?
+
+
+**Suggestion:**
+
+It seems that more resources need to be directed towards improving getting 
+treatment underway to undo the immediate delays from COVID. If there are any 
+administrative processes that could be hastened or improvements in information/
+communication that would be helpful for reducing the wait for patients.
+
+## Are Cancer Waiting Time targets being met?
+
+```{r}
+waitiing_times_years_percent_treated <- all_standards_totals_filtered %>%
+  group_by(year_new, percent_names, percent_values) %>%
+  summarize() %>%
+  ungroup() %>%
+  arrange(desc(year_new))
+
+plot_waitiing_times <- plot_waitiing_times_years_percent_treated(
+  waitiing_times_years_percent_treated
+)
+plot_waitiing_times
+```
+
+* 31 Day targets are being met.
+* 62 Day targets are being missed.
+
+**Conclusion**
+
+There seems to be a chronic problem achieving the 62 day target as it has 
+not been achieved even as far back as 2012. 
+
+The gap is widening as the years go by except for a brief improvement in 2020 
+the year COVID-10 started. If nothing tried so far has worked then this maybe 
+needs a major rethink about how services are allocated and delivered. The 
+target must have been considered achievable when it was drawn up. What has 
+changed?
+
+The 31 day target was achieved in 2022 but barely scraped pass on 95.04%.  
+**The 31 day target is also at high risk of being missed in 2023** and being 
+October 2023 at time of writing, little time to put new measures in place.
+
+**Suggestion**
+
+Set up a focus group to review what's been tried already and reasons 
+for failure. It is noted that the NHS in England too is experiencing similar 
+missed targets. 
+There they are making adjustments to the reporting process"...following a consultation on the cancer waiting times standards..." [
+Changes to Cancer Waiting Times standards and Official Statistics](https://www.england.nhs.uk/statistics/statistical-work-areas/cancer-waiting-times/). They appear to be about to break categories down into greater 
+detail in the data.
