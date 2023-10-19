@@ -14,17 +14,18 @@
 # Background:
 # Cancer Wait Time - 31 Day Standard
 # https://www.opendata.nhs.scot/dataset/cancer-waiting-times/resource/58527343-a930-4058-bf9e-3c6e5cb04010
-# 31 day waiting standard split by health board of treatment and health board of 
+# 31 day waiting standard split by health board of treatment and health board of
 # residence as well as cancer type.
 # https://www.opendata.nhs.scot/dataset/cancer-waiting-times/resource/23b3bbf7-7a37-4f86-974b-6360d6748e08
-#The 31 day standard is measured against the health board of first treatment (HBT)
-#62 day waiting standard split by health board of treatment and health board of residence as well as cancer type
-#The 62 day standard is measured against the health board of receipt of referral (HB)
+# The 31 day standard is measured against the health board of first treatment (HBT)
+# 62 day waiting standard split by health board of treatment and health board of residence as well as cancer type
+# The 62 day standard is measured against the health board of receipt of referral (HB)
 
 # Load required libraries ----
 library(here)
 library(janitor)
 library(skimr)
+library(stringr)
 library(tidyverse)
 
 # Bring in helper information about Public Health Scotland data
@@ -34,35 +35,35 @@ source(here::here("R/phs_data_info.R"))
 # Read in raw data ----
 # Waiting Times for 31 Days Standard
 waiting_times_31_days_raw <- read_csv(
-#    here::here(
-#      "data_raw",
-#      phs_waiting_times_31_days_raw_filepath # local
-#    )
+  #    here::here(
+  #      "data_raw",
+  #      phs_waiting_times_31_days_raw_filepath # local
+  #    )
   phs_waiting_times_31_days_url
   # warning this is a remote file URL
 )
-  
-#names(waiting_times_31_days_raw)
+
+# names(waiting_times_31_days_raw)
 
 waiting_times_62_days_raw <- read_csv(
- #   here::here(
-  #    "data_raw",
-   #   phs_waiting_times_62_days_raw_filepath # local
-  #  )
+  #    here::here(
+  #      "data_raw",
+  #      phs_waiting_times_62_days_raw_filepath # local
+  #    )
   phs_waiting_times_62_days_url
   # warning this is a remote file URL
 )
 
 # Examine raw data ----
-# 31 day waiting standard split by health board of treatment and health board 
+# 31 day waiting standard split by health board of treatment and health board
 # of residence as well as cancer type.
-# 
+#
 # The 31 day standard is measured against the health board of first treatment (HBT)
 
-#Examine 31 day dataset
+# Examine 31 day dataset
 # dim(waiting_times_31_days_raw)
 # # 19287    10
-# 
+#
 # # Examine data
 # glimpse(waiting_times_31_days_raw)
 # skimr::skim(waiting_times_31_days_raw)
@@ -77,31 +78,38 @@ waiting_times_62_days_raw <- read_csv(
 # NumberOfEligibleReferralsTreatedWithin31Days = <dbl> 78, 4, 53
 
 # tidy column names
-waiting_times_31_days_raw <- waiting_times_31_days_raw %>% 
-  janitor::clean_names()
-#names(waiting_times_31_days_raw)
-#View(waiting_times_31_days_raw)
+waiting_times_31_days_raw <- waiting_times_31_days_raw %>%
+  janitor::clean_names() %>%
+  filter(is.na(hbtqf)) # Quality filter
+#  filter(!str_detect(hbtqf, "d"))
 
-# [1] "quarter"                                             
-#  [2] "hb"                                                  
-#  [3] "hbt"                                                 
-#  [4] "hbtqf"                                               
-#  [5] "cancer_type"                                         
-#  [6] "cancer_type_qf"                                      
-#  [7] "number_of_eligible_referrals31day_standard"          
-#  [8] "number_of_eligible_referrals31day_standard_qf"       
-#  [9] "number_of_eligible_referrals_treated_within31days"   
+# View(waiting_times_31_days_raw)
+# waiting_times_31_days_raw %>%
+#  distinct(hbtqf)
+# stop()
+# names(waiting_times_31_days_raw)
+# View(waiting_times_31_days_raw)
+
+# [1] "quarter"
+#  [2] "hb"
+#  [3] "hbt"
+#  [4] "hbtqf"
+#  [5] "cancer_type"
+#  [6] "cancer_type_qf"
+#  [7] "number_of_eligible_referrals31day_standard"
+#  [8] "number_of_eligible_referrals31day_standard_qf"
+#  [9] "number_of_eligible_referrals_treated_within31days"
 # [10] "number_of_eligible_referrals_treated_within31days_qf"
 
-#Examine 62 day datsset
-# 62 day waiting standard split by health board of treatment and health 
+# Examine 62 day datsset
+# 62 day waiting standard split by health board of treatment and health
 # board of residence as well as cancer type
-#dim(waiting_times_62_days_raw)
+# dim(waiting_times_62_days_raw)
 # 17362    10
 
 # Examine data
-#glimpse(waiting_times_62_days_raw)
-#skimr::skim(waiting_times_62_days_raw)
+# glimpse(waiting_times_62_days_raw)
+# skimr::skim(waiting_times_62_days_raw)
 
 # Lots of NAs but only in description QF fields not values
 
@@ -111,23 +119,23 @@ waiting_times_31_days_raw <- waiting_times_31_days_raw %>%
 
 # HBT = Health Board of treatment
 # CancerType: "Breast", "Cervical"
-# NumberOfEligibleReferrals62DayStandard = <dbl> 52, 2, 31 
+# NumberOfEligibleReferrals62DayStandard = <dbl> 52, 2, 31
 # NumberOfEligibleReferralsTreatedWithin62Days = dbl> 52, 2, 29
 
 # tidy column names
-waiting_times_62_days_raw <- waiting_times_62_days_raw %>% 
+waiting_times_62_days_raw <- waiting_times_62_days_raw %>%
   janitor::clean_names()
-#names(waiting_times_62_days_raw)
-#View(waiting_times_62_days_raw)
-#  [1] "quarter"                                             
-#  [2] "hb"                                                  
-#  [3] "hbqf"                                                
-#  [4] "hbt"                                                 
-#  [5] "cancer_type"                                         
-#  [6] "cancer_type_qf"                                      
-#  [7] "number_of_eligible_referrals62day_standard"          
-#  [8] "number_of_eligible_referrals62day_standard_qf"       
-#  [9] "number_of_eligible_referrals_treated_within62days"   
+# names(waiting_times_62_days_raw)
+# View(waiting_times_62_days_raw)
+#  [1] "quarter"
+#  [2] "hb"
+#  [3] "hbqf"
+#  [4] "hbt"
+#  [5] "cancer_type"
+#  [6] "cancer_type_qf"
+#  [7] "number_of_eligible_referrals62day_standard"
+#  [8] "number_of_eligible_referrals62day_standard_qf"
+#  [9] "number_of_eligible_referrals_treated_within62days"
 # [10] "number_of_eligible_referrals_treated_within62days_qf"
 
 # Lets join these two datasets and rename some columns
@@ -135,55 +143,96 @@ waiting_times_62_days_raw <- waiting_times_62_days_raw %>%
 # quarter
 # This seems like a 'left' join
 
-#`left_join(table1, table2, by = "matching_column_name")`
-#19287 + 17362
-#  left_join(movies, by = c("movie_id" = "id")) %>% 
-waiting_times_raw <- waiting_times_31_days_raw %>% 
+# `left_join(table1, table2, by = "matching_column_name")`
+# 19287 + 17362
+#  left_join(movies, by = c("movie_id" = "id")) %>%
+waiting_times_raw <- waiting_times_31_days_raw %>%
   left_join(waiting_times_62_days_raw)
-#View(waiting_times_raw)
+# View(waiting_times_raw)
 # Examine joined table
-#dim (waiting_times_raw)
-#names(waiting_times_raw)
-#  [1] "quarter"                                             
-#  [2] "hb"                                                  
-#  [3] "hbt"                                                 
-#  [4] "hbtqf"                                               
-#  [5] "cancer_type"                                         
-#  [6] "cancer_type_qf"                                      
-#  [7] "number_of_eligible_referrals31day_standard"          
-#  [8] "number_of_eligible_referrals31day_standard_qf"       
-#  [9] "number_of_eligible_referrals_treated_within31days"   
+# dim (waiting_times_raw)
+# names(waiting_times_raw)
+#  [1] "quarter"
+#  [2] "hb"
+#  [3] "hbt"
+#  [4] "hbtqf"
+#  [5] "cancer_type"
+#  [6] "cancer_type_qf"
+#  [7] "number_of_eligible_referrals31day_standard"
+#  [8] "number_of_eligible_referrals31day_standard_qf"
+#  [9] "number_of_eligible_referrals_treated_within31days"
 # [10] "number_of_eligible_referrals_treated_within31days_qf"
-# [11] "hbqf"                                                
-# [12] "number_of_eligible_referrals62day_standard"          
-# [13] "number_of_eligible_referrals62day_standard_qf"       
-# [14] "number_of_eligible_referrals_treated_within62days"   
+# [11] "hbqf"
+# [12] "number_of_eligible_referrals62day_standard"
+# [13] "number_of_eligible_referrals62day_standard_qf"
+# [14] "number_of_eligible_referrals_treated_within62days"
 # [15] "number_of_eligible_referrals_treated_within62days_qf"
-#names(waiting_times_raw)
+# names(waiting_times_raw)
 
 # Tidy the columns and shorten column names
-waiting_times_clean <- waiting_times_raw %>% 
-  pivot_longer(cols = c("number_of_eligible_referrals31day_standard",
-                        "number_of_eligible_referrals62day_standard"), 
-               names_to = "referrals_standard", 
-               names_prefix = "number_of_eligible_referrals",
-               values_to = "referrals")%>% 
-  pivot_longer(cols = c("number_of_eligible_referrals31day_standard_qf",
-                        "number_of_eligible_referrals62day_standard_qf"), 
-               names_to = "referrals_standard_qf", 
-               names_prefix = "number_of_eligible_referrals",
-               values_to = "referrals_standard_qf_values") %>% 
-  pivot_longer(cols = c("number_of_eligible_referrals_treated_within31days",
-                        "number_of_eligible_referrals_treated_within62days"), 
-               names_to = "referrals_treated_standard", 
-               names_prefix = "number_of_eligible_referrals_treated_",
-               values_to = "referrals_treated") %>% 
-  pivot_longer(cols = c("number_of_eligible_referrals_treated_within31days_qf",
-                        "number_of_eligible_referrals_treated_within62days_qf"),
-               names_to = "referrals_treated_qf",
-               names_prefix = "number_of_eligible_referrals_treated_",
-               values_to = "referrals_treated_qf_values")
-#names(waiting_times_clean)
+waiting_times_clean <- waiting_times_raw %>%
+  # Add a new column for calculations as time S3: yearqtr>
+  mutate(quarter_time = zoo::as.yearqtr(quarter), .after = quarter) %>%
+  pivot_longer(
+    cols = c(
+      "number_of_eligible_referrals31day_standard",
+      "number_of_eligible_referrals62day_standard"
+    ),
+    names_to = "referrals_standard",
+    names_prefix = "number_of_eligible_referrals",
+    values_to = "referrals"
+  ) %>%
+  pivot_longer(
+    cols = c(
+      "number_of_eligible_referrals31day_standard_qf",
+      "number_of_eligible_referrals62day_standard_qf"
+    ),
+    names_to = "referrals_standard_qf",
+    names_prefix = "number_of_eligible_referrals",
+    values_to = "referrals_standard_qf_values"
+  ) %>%
+  pivot_longer(
+    cols = c(
+      "number_of_eligible_referrals_treated_within31days",
+      "number_of_eligible_referrals_treated_within62days"
+    ),
+    names_to = "referrals_treated_standard",
+    names_prefix = "number_of_eligible_referrals_treated_",
+    values_to = "referrals_treated"
+  ) %>%
+  pivot_longer(
+    cols = c(
+      "number_of_eligible_referrals_treated_within31days_qf",
+      "number_of_eligible_referrals_treated_within62days_qf"
+    ),
+    names_to = "referrals_treated_qf",
+    names_prefix = "number_of_eligible_referrals_treated_",
+    values_to = "referrals_treated_qf_values"
+  ) %>%
+  # Remove rows where no data for a particular cancer/health_board
+  filter(!is.na(referrals)) %>%
+  filter(!is.na(referrals_treated)) %>%
+  # Make sure ww have minimum rows needed
+  # Take only full 31 day or 62 day observations
+  # referrals_standard = 31day_standard
+  # referrals_standard_qf = 31day_standard_qf
+  # referrals_treated_standard = within31days
+  # referrals_treated_qf = within31days_qf
+  #
+  # referrals_standard = 62day_standard
+  # referrals_standard_qf = 62day_standard_qf
+  # referrals_treated_standard = within62days
+  # referrals_treated_qf = within62days_qf
+  filter((referrals_standard == "31day_standard" &
+    referrals_standard_qf == "31day_standard_qf" &
+    referrals_treated_standard == "within31days" &
+    referrals_treated_qf == "within31days_qf") |
+    (referrals_standard == "62day_standard" &
+      referrals_standard_qf == "62day_standard_qf" &
+      referrals_treated_standard == "within62days" &
+      referrals_treated_qf == "within62days_qf"))
+
+# names(waiting_times_clean)
 
 # Write out clean dataset. ----
 # NB the two original files have now been combined
