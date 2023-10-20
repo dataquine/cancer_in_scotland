@@ -50,7 +50,10 @@ https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme
 ```{r, child=c('../analysis/analysis_screening.Rmd')}
 ```
 
-# Assumptions
+```{r, child=c('../analysis/analysis_waiting_times.Rmd')}
+```
+
+## Assumptions
 * NRS use "." in some columns - I'm assuming they just mean not available. It's
 in things like columns for COVID in year 1994 etc. Or changes in what's 
 recorded.
