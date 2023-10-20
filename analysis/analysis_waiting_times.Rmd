@@ -11,7 +11,7 @@ output:
 editor_options: 
   chunk_output_type: inline
 ---
-```{r setup_incidence, include=FALSE}
+```{r setup_waiting_times, include=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,
   # error = FALSE,
@@ -40,7 +40,9 @@ to treat to first cancer treatment." - Public Health Scotland
 
 Source:  [Cancer Waiting Times](https://www.opendata.nhs.scot/dataset/cancer-waiting-times) [Public Health Scotland]
 
-```{r}
+## Analysis
+
+```{r waiting_times}
 library(dplyr)
 library(forcats)
 library(lubridate)
@@ -83,7 +85,6 @@ waiting_times <- waiting_times_clean %>%
 # waiting_times
 ```
 
-
 ```{r}
 wt_info <- waiting_times %>%
   distinct(quarter_time) %>%
@@ -96,16 +97,10 @@ wt_info <- waiting_times %>%
 
 # 12 years of data
 ```
-```{r}
-# wt_info
-```
 
 We have  **`r wt_info$count_quarters`**  quarters of Waiting Times data 
 available ranging from **`r wt_info$oldest_quarter`** to **`r wt_info$newest_quarter`**.
 We will combine these to look at complete year totals.
-
-```{r}
-```
 
 ```{r}
 # [1] "quarter"                      "quarter_time"
@@ -136,11 +131,7 @@ totals_quarter_31 <- waiting_times %>%
     pct_31_day_treated = (total_31_day_referrals_treated / total_31_day_referrals) * 100
   ) %>%
   ungroup()
-
-# totals_quarter_31
-# View(totals_quarter_31)
 ```
-
 
 ```{r}
 totals_quarter_62 <- waiting_times %>%
@@ -153,8 +144,6 @@ totals_quarter_62 <- waiting_times %>%
     pct_62_day_treated = (total_62_day_referrals_treated / total_62_day_referrals) * 100
   ) %>%
   ungroup()
-
-# totals_quarter_62
 
 # Join these two sets of results on year
 all_standards_totals <- totals_quarter_31 %>%
@@ -194,14 +183,12 @@ all_standards_totals_filtered <- all_standards_totals %>%
   )
 ```
 
-## Number of Referrals
+### Number of Referrals
 
 ```{r}
 plot_all_standards <- plot_all_standards_totals_filtered(all_standards_totals_filtered)
 do_cis_plot(plot_all_standards, cancer_waiting_times_number_referrals_plot_filepath)
 ```
-
-### Conclusion
 
 The trend is for increasing numbers of referrals being made.
 Of concern is the between 2021 and 2022 the gap between those referred and 
@@ -212,7 +199,6 @@ were not able to be referred. It's possible that people are presenting with
 conditions at a more advanced stage of the disease and now need more complex 
 diagnostic procedures taking longer to reach the right treatment?
 
-
 **Suggestion:**
 
 It seems that more resources need to be directed towards improving getting 
@@ -220,7 +206,7 @@ treatment underway to undo the immediate delays from COVID. If there are any
 administrative processes that could be hastened or improvements in information/
 communication that would be helpful for reducing the wait for patients.
 
-## Are Cancer Waiting Time targets being met?
+### Are Cancer Waiting Time targets being met?
 
 ```{r}
 waitiing_times_years_percent_treated <- all_standards_totals_filtered %>%
@@ -229,25 +215,25 @@ waitiing_times_years_percent_treated <- all_standards_totals_filtered %>%
   ungroup() %>%
   arrange(desc(year_new))
 
-plot_waitiing_times <- plot_waitiing_times_years_percent_treated(
+plot_waitiing_times_targets_met <- plot_waitiing_times_years_percent_treated(
   waitiing_times_years_percent_treated
 )
-plot_waitiing_times
+do_cis_plot(plot_waitiing_times_targets_met, cancer_waiting_times_targets_met_plot_filepath)
 ```
+
+The dashed red line indicates the 95% target.
 
 * 31 Day targets are being met.
 * 62 Day targets are being missed.
 
-**Conclusion**
-
 There seems to be a chronic problem achieving the 62 day target as it has 
-not been achieved even as far back as 2012. 
+not been achieved even as far back as 2012 though other reports indicate it 
+was achieved in 2011. The target must have been considered achievable when 
+it was drawn up. What has changed?
 
 The gap is widening as the years go by except for a brief improvement in 2020 
 the year COVID-10 started. If nothing tried so far has worked then this maybe 
-needs a major rethink about how services are allocated and delivered. The 
-target must have been considered achievable when it was drawn up. What has 
-changed?
+needs a major rethink about how services are allocated and delivered. 
 
 The 31 day target was achieved in 2022 but barely scraped pass on 95.04%.  
 **The 31 day target is also at high risk of being missed in 2023** and being 
