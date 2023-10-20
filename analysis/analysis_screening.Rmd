@@ -26,6 +26,7 @@ library(tidyverse)
 ```
 
 ```{r}
+source(here::here("R/cancer_in_scotland.R"))
 source(here::here("R/phs_data_info.R"))
 source(here::here("R/screening.R"))
 source(here::here("R/theming.R"))
@@ -38,8 +39,9 @@ theme_set(theme_cancer_in_scotland())
 ```{r}
 screening_bowel_cancer_screening_update <- "Bowel Cancer Screening Uptake"
 ```
+## Background
 
-## Scottish Bowel Screening Programme
+### Scottish Bowel Screening Programme
 
 Commenced in 2007 with a full rollout across all health boards by 2009.
 
@@ -82,7 +84,9 @@ skimr::skim(screening_bowel_cancer_takeup_all)
 head(screening_bowel_cancer_takeup_all)
 ```
 
-## All Scotland
+## Analysis
+
+### All Scotland
 
 ```{r}
 screening_caption_screening_bowel_cancer_takeup <- 
@@ -92,15 +96,11 @@ screening_bowel_cancer_takeup_scotland <- get_screening_bowel_cancer_takeup_scot
 
 ```{r}
 # Draw bar chart
-plot_screening_bowel_cancer_takeup <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
-plot_screening_bowel_cancer_takeup
-ggsave(
-  here::here(screening_bowel_cancer_uptake_plot_filepath),
-  plot_screening_bowel_cancer_takeup
-)
+plot_screening_bowel_cancer_uptake <- plot_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_scotland)
+do_cis_plot(plot_screening_bowel_cancer_uptake, screening_bowel_cancer_uptake_plot_filepath)
 ```
 The 
-red dotted horizontal line marks the Health Improvement Scotland standard **target 
+red dashed horizontal line marks the Health Improvement Scotland standard **target 
 of `r screening_bowel_cancer_uptake_target`%**.
 
 This shows that in the current Bowel Cancer Screening latest results around 2/3 
@@ -137,35 +137,15 @@ general public making more efforts to target males.
 
 **Conclusion: `r screening_bowel_cancer_uptake_target`% target is being met but room for improvement**.
 
-## All Uptake by Health Board and Sex
+### All Uptake by Health Board and Sex
 
 ```{r}
 screening_bowel_cancer_uptake_all_means <- screening_bowel_cancer_takeup_all %>%
   group_by(area, sex, uptake_pct) %>%
   summarize(value = mean(uptake_pct))
 
-plot_screening_bowel_cancer_uptake_all <- function(df) {
-  plot_screening <- df %>%
-    filter(sex != "All persons") %>%
-    ggplot(aes(
-      x = fct_reorder(area, value),
-      y = uptake_pct,
-      fill = sex
-    )) +
-    geom_col(position = "dodge") +
-    scale_fill_cis_qualitative(cis_palette_sex) +
-    scale_y_continuous(limits = c(0, 100)) +
-    coord_flip() +
-    labs(
-      caption = source_phs,
-      x = "Health Board",
-      y = "",
-      fill = "Sex"
-    )
-  return(plot_screening)
-}
-
-plot_screening_bowel_cancer_uptake_all(screening_bowel_cancer_uptake_all_means)
+plot_screening_bowel_cancer <- plot_screening_bowel_cancer_uptake_all(screening_bowel_cancer_uptake_all_means)
+do_cis_plot(plot_screening_bowel_cancer, screening_bowel_cancer_uptake_all_plot_filepath)
 rm(screening_bowel_cancer_uptake_all_means)
 ```
 
@@ -187,13 +167,12 @@ screening_bowel_cancer_takeup_health_boards <-
   )
 get_screening_bowel_cancer_takeup_scotland(screening_bowel_cancer_takeup_health_boards)
 ```
-## Conclusion
 
 * Highest: Shetland (`r round(max(screening_bowel_cancer_takeup_health_boards$uptake_pct), digits = 1)`%) 
 * Lowest: Greater Glasgow and Clyde (`r round(min(screening_bowel_cancer_takeup_health_boards$uptake_pct), digits = 1)`%) 
 
 There is almost 12% difference between the highest and lowest uptakes between
-health boards, this seems seems relatively large. In general the further the 
+health boards, this seems seems relatively large. In general, the further the 
 health board is from the Central Belt of Scotland the better the public 
 participation.
 
@@ -210,7 +189,8 @@ teasing out.
 There should be some greater examination of what other health 
 boards can learn about the roll out in more successful areas like Shetland.
 In general the further away from the central belt, the more successful. 
-And more efforts to educate and inform the public, particularly males over 60.
+And more efforts to educate and inform the public, particularly males over 60 
+and other age groups more at risk.
 
 Try the interactive Cancer Risk Tool that 
 accompanies the analysis report on incidences
