@@ -161,7 +161,7 @@ plot_incidences_boxplot <- plot_incidences_by_year_boxplot(incidences_by_year)
 do_cis_plot(plot_incidences_boxplot, cancer_incidence_plot_box_plot_filepath)
 ```
 
-```{r, warning = FALSE}
+```{r eval=FALSE, warning=FALSE, include=FALSE}
 # Model 1
 # "outcome ~ predictor"
 no_all_sex <- incidences_by_year %>%
@@ -293,7 +293,7 @@ What age are people when they are newly diagnosed. Would knowing the demographic
 incidences_all_cancer_site_age_range <- get_cancer_site_age_range(incidence)
 ```
 
-### Top Incidences by Cancer Site, Age Group and Sex
+#### Top Incidences by Cancer Site, Age Group and Sex
 This is a list of those cancer sites, age groups and sexes most at risk of having 
 a new cancer diagnosed.
 
@@ -301,30 +301,38 @@ a new cancer diagnosed.
 table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
                                                     top = 10)
 table_incidences_cancer_sites_age_range(table_age_range, "Top 10 All")
+# 
+# table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+#                                                     top = 5,
+#                                                     filter_sex = "Females")
+# table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Female")
+# 
+# table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+#                                                     top = 5,
+#                                                     filter_sex = "Male")
+# table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Male")
+```
 
-table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-                                                    top = 5,
-                                                    filter_sex = "Females")
-table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Female")
+An example of how greatly the kinds of cancer differ by age.
 
-table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-                                                    top = 5,
-                                                    filter_sex = "Male")
-table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Male")
-
+```{r}
 table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
                                                     top = 5,
                                                     filter_sex = "Females",
                                                     filter_age = 
                                                       c("20-24", "25-29"))
 table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Females 20-29")
+```
 
-table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-                                                    top = 5,
-                                                    filter_sex = "Male",
-                                                    filter_age = 
-                                                      c("20-24", "25-29"))
-table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Male 20-29")
+An example of who might be more at risk of a particular cancer type.
+
+```{r}
+# table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
+#                                                     top = 5,
+#                                                     filter_sex = "Male",
+#                                                     filter_age = 
+#                                                       c("20-24", "25-29"))
+# table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Male 20-29")
 
 table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
                                                     top = 5,
@@ -333,7 +341,6 @@ table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_a
 table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Hodgkin lymphoma")
 rm(table_age_range)
 ``` 
-
 
 #### Incidences by Age Range, Sex and Cancer Site
 
@@ -348,14 +355,15 @@ do_cis_plot(plot_age_range, cancer_incidence_by_age_range_plot_filepath)
 ```
 
 We see 4 main cancers dominating in terms of numbers Colorectal/Lung/Breast and 
-prostate. The pattern over many cancers in terms of age range is that most of 
+Prostate. The pattern over many cancers in terms of age range is that most of 
 them really become much more prevalent from middle age onwards, peaking for new 
 cases when we are in our 70s.
 
 The ones that buck that trend tend to be the ones associates with female 
 reproductive organs.
 
-Suggestion:
+**Suggestion:**
+
 * Is the public aware of the increased risk simply by ageing? Are there 
 opportunities to raise awareness among people engaging with other health or 
 public sector organisations to be watchful for early symptoms.
@@ -363,8 +371,21 @@ public sector organisations to be watchful for early symptoms.
 * There are already screening programmes for breast/bowel and cervical cancer.
 Lung and Prostate cancer are some of the top in terms of numbers. Is there some equivalent of screening for these two in particular? If not, keep informed of any developments in early detection of these two.
 
+## Project Output: Cancer Risk Tool
+
+In the course of this analysis an interactive Cancer Risk Tool has been produced that allows users to experiment with changing age/sex and cancer site 
+and getting an idea of what the risk of that combination might be. This is 
+leveraging the value of a multi-decade dataset in capturing risk in Scotland.
+
+**Technical Note:**
+
+The tool will be found in the "cancer_risk_tool" folder that accompanies this report. It is an experimental demo and requires the user to run the *Shiny R Markdown* document by opening the file and clicking "Run Document".
+
+Here is a screenshot of the tool in action
+
+TODO screenshot
+
 ***
-TODO cleanup
 ```{r}
 # rm(list = ls(pattern = "incidences_"))
 # rm(list = ls(pattern = "incidence"))
