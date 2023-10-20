@@ -16,6 +16,8 @@ source(here::here("R/phs_data_info.R"))
 cancer_waiting_times_number_referrals_plot_filepath <- 
   "images/plot/plot_cancer_waiting_times_number_referrals.png"
 
+cancer_waiting_times_targets_met_plot_filepath <-
+  "images/plot/plot_cancer_waiting_times_targets_met.png"
 
 waiting_times_all_standards_totals_title <-
   "Cancer Waiting Times in Scotland"
