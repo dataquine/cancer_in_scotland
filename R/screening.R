@@ -16,15 +16,19 @@ screening_filter_sex_female <- "Females"
 
 screening_filter_area_scotland <- "Scotland"
 
-screening_bowel_cancer_uptake_target = 60
+screening_bowel_cancer_uptake_target <- 60
 
 # Plot
-screening_bowel_cancer_uptake_plot_filepath = "images/plot/plot_screening_bowel_cancer_uptake.png"
+screening_bowel_cancer_uptake_plot_filepath <- "images/plot/plot_screening_bowel_cancer_uptake.png"
 
-screening_bowel_cancer_uptake_plot_title = "Bowel Cancer Screening uptake"
-screening_bowel_cancer_uptake_plot_subtitle = "Completed a home bowel screening test May 2020 to April 2022"
-screening_bowel_cancer_uptake_plot_x = "Uptake"
-screening_bowel_cancer_uptake_plot_y ="Sex"
+screening_bowel_cancer_uptake_plot_title <- "Bowel Cancer Screening uptake"
+screening_bowel_cancer_uptake_plot_subtitle <- "Completed a home bowel cancer screening test May 2020 to April 2022"
+screening_bowel_cancer_uptake_plot_x <- "Uptake"
+screening_bowel_cancer_uptake_plot_y <-"Sex"
+
+screening_bowel_cancer_uptake_plot_filepath <- "images/plot/plot_screening_bowel_cancer_uptake.png"
+screening_bowel_cancer_uptake_all_plot_filepath <- "images/plot/plot_screening_bowel_cancer_uptake_all.png"
+
 
 # Default to all of Scotland only and all sexes
 get_screening_bowel_cancer_takeup <- function(df,
@@ -108,7 +112,7 @@ plot_y = screening_bowel_cancer_uptake_plot_y) {
     geom_hline(
       colour = "red",
       alpha = 0.7,
-      linetype = 3,
+      linetype = "dashed",
       linewidth = 2,
       yintercept = screening_bowel_cancer_uptake_target
     )+
@@ -140,4 +144,26 @@ plot_y = screening_bowel_cancer_uptake_plot_y) {
 
   # scale_fill_continuous(labels = scales::label_comma())
   return(plot)
+}
+
+plot_screening_bowel_cancer_uptake_all <- function(df) {
+  plot_screening <- df %>%
+    filter(sex != "All persons") %>%
+    ggplot(aes(
+      x = fct_reorder(area, value),
+      y = uptake_pct,
+      fill = sex
+    )) +
+    geom_col(position = "dodge") +
+    scale_fill_cis_qualitative(cis_palette_sex) +
+    scale_y_continuous(limits = c(0, 100),
+                       label = scales::label_percent(scale=1)) +
+    coord_flip() +
+    labs(
+      caption = source_phs,
+      x = "Health Board",
+      y = "",
+      fill = "Sex"
+    )
+  return(plot_screening)
 }
