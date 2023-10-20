@@ -28,7 +28,6 @@ library(readr)
 library(skimr)
 library(stringr)
 library(tidyr)
-# library(tidyverse)
 ```
 
 ```{r}
@@ -45,7 +44,7 @@ theme_set(theme_cancer_in_scotland())
 ```
 
 ```{r}
-# Read in clean cancer death data
+# Read in clean cancer death data ----
 death_cause <- read_csv(here::here(
   "data_clean", nrs_death_cause_filepath
 ))
@@ -74,8 +73,9 @@ latest_year_nrs_data <- 2022
 
 We wish to see where cancer fits into the overall pattern of death in Scotland.
 The [National Records of Scotland](https://www.nrscotland.gov.uk/) (NRS) 
-maintain official death statistics for Scotland. 
-This analysis utilises NRS data.
+maintain official death statistics for Scotland.
+
+This analysis utilises NRS data which is © Crown Copyright 2023.
 
 When a death is registered, it is common for a number of diseases or conditions 
 to be recorded on the death certificate. NRS apply the WHO rules to determine 
@@ -137,12 +137,13 @@ death_rate_average <- death_cause_recent %>%
   ungroup()
 # death_rate_average
 
+# All Causes
 cancer_death_rate_latest <- get_death_by_year_cause_simple(death_cause_recent,
   filter_cause_simple = label_cause_all_causes,
   filter_year = latest_year_nrs_data
 )
 
-# cancer_death_rate_latest
+# Causes = Cancer
 cancer_death_rate_cancer_latest <- get_death_by_year_cause_simple(death_cause_recent,
   filter_cause_simple = label_cause_cancer,
   filter_year = latest_year_nrs_data
@@ -167,13 +168,8 @@ plot_death_rate <- plot_death_rate_cancer(cancer_death_proportion,
     "\nLatest year:", latest_year_nrs_data
   )
 )
-plot_death_rate
-if (enable_plot_saving) {
-  ggsave(
-    here::here(plot_death_cause_simple_plot_filepath),
-    plot_death_rate
-  )
-}
+
+do_cis_plot(plot_death_rate, plot_death_cause_simple_plot_filepath)
 ```
 
 This shows the proportion of deaths from cancer compared to all other 
@@ -183,14 +179,16 @@ At time of writing cancer accounts for almost exactly a quarter of all deaths.
 
 #### Change over time for all causes of death
 
+##### By proportion
+
 ```{r}
 ### Selected causes
 death_selected_cause_simple <- get_death_selected_cause_simple(death_cause_recent)
 # death_cause_simple)
 # head(death_selected_cause_simple)
 
-plot_death_selected_cause_simple <- plot_death_cause_simple(death_selected_cause_simple)
-plot_death_selected_cause_simple
+plot_death_selected_cause_time <- plot_death_cause_simple(death_selected_cause_simple)
+do_cis_plot(plot_death_selected_cause_time, plot_death_selected_cause_time_plot_filepath)
 ```
 
 This shows how the **proportion** of deaths is changing over time by cause.  
@@ -203,7 +201,8 @@ You can see this in the precise numbers if you filter the following table by
 
 N.B. This **does not** show changes in *amount*. What it does show is the 
 relationship between all possible causes. If a particular cause bar is 
-getting larger like dementia it is becoming worse or if it is decreasing like circulatory then people are becoming less likely to die from that cause.
+getting larger like dementia it is becoming worse or if it is decreasing like 
+circulatory then people are becoming less likely to die from that cause.
 
 For the latter it would indicate change in that a condition that people used to 
 die of more in the past they're now dying of *something else* instead, so in 
@@ -215,16 +214,25 @@ new cause instead of the kind of thing they would normally have died of,
 including cancer. People with cancer and due to certain treatments can have 
 weaker immune systems and be more vulnerable to disease. The bar for cancer 
 certainly seems to shrink more than other causes in 2020. A further suggestion 
-would be to investigate if more people with Cancer and/or Respitory were more 
+would be to investigate if more people with Cancer and/or Respiratory were more 
 likely to die if they subsequently caught COVID.
 
-And another interpretation 
-can be that treatments other factors are improving things. e.g. we might 
-comment that things lke circulatory/heart/cerebrovascular disease have improved 
-over the long term considerably since the start of the data in 1994 - could 
-this be an example of improved emphasis on preventative work treating things
-like e.g. High Blood Pressure with medication and lifestyle changes? Is so, 
-that would be an encouraging example that change is possible.
+##### By Rate
+
+```{r}
+plot_death_selected_cause_time_individual <- plot_death_cause_simple_individual(death_selected_cause_simple)
+do_cis_plot(plot_death_selected_cause_time_individual, plot_death_selected_cause_time_individual_plot_filepath)
+```
+
+The good news is that rates of cancer have reduced from 1994 - 2022.
+However, the degree of reduction is gradual and isn't as high as for other causes.
+
+Other good news relating to other causes us the impressive reductions in death from circulatory/heart/cerebrovasular (usually strokes). This should serve as 
+an inspiring example of improved emphasis on preventative work treating things
+like e.g. High Blood Pressure with medication and paramedics being able to administer clot-busting drugs in emergencies reduced the death toll. If so, 
+that would be an encouraging example that change is possible when better treatments become available.
+
+Of note is Dementia and Alzheimer's which seems very out of step with other causes. It is the only one to have sustained growth from the first available year. These conditions are often associated with old age and at the start of the data "baby boomers" born during/after the Second World War have aged from their 50s to 80s.
 
 #### Table: Rate of death compared to other causes by year
 
