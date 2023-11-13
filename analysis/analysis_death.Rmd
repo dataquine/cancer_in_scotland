@@ -51,7 +51,6 @@ death_cause <- read_csv(here::here(
 ```
 
 ```{r}
-# View(death_cause)
 # Extract list of names of causes of death
 causes_of_death <- death_cause %>%
   arrange(str_to_upper(cause)) %>%
@@ -89,8 +88,8 @@ NRS Last update: 19 September 2023.
 Definition: `rate` is deaths per 100,000 people in Scotland using. The NRS data 
 is age-standardised using the European Standard Population.
 
-There are **`r count(causes_of_death) %>% pull()`** categories of causes recorded
-in the dataset.
+There are **`r count(causes_of_death) %>% pull()`** categories of causes 
+recorded in the dataset.
 
 ```{r}
 causes_of_death %>% pull()
@@ -115,21 +114,18 @@ skimr::skim(death_cause)
 ```
 ### How does death from cancer in Scotland compare to other causes?
 #### Overview
-```{r}
-# View(death_cause)
-# death_cause
 
+```{r}
 # Create table of available death causes ordered by year high to low to show
 # most recent first, then by rate high to low, then alphabetical by cause_simple
 death_cause_recent <- death_cause %>%
   select(year, rate, cause_simple) %>%
   mutate(rate = round(rate, 2)) %>%
   arrange(desc(year), desc(rate), cause_simple)
-# death_cause_recent
 ```
 
 ```{r}
-# #### Cancer death rate as a percentage of death rate from all causes.
+# Cancer death rate as a percentage of death rate from all causes.
 death_rate_average <- death_cause_recent %>%
   group_by(cause_simple) %>%
   summarise(average_rate = mean(rate)) %>%
@@ -162,6 +158,7 @@ cancer_death_proportion <- tibble(
       scales::percent(percent, accuracy = 0.1, scale = 1)
   )
 
+# Show death rate from cancer for most recently available year
 plot_death_rate <- plot_death_rate_cancer(cancer_death_proportion,
   plot_title = paste(
     plot_death_cause_simple_title,
@@ -225,14 +222,23 @@ do_cis_plot(plot_death_selected_cause_time_individual, plot_death_selected_cause
 ```
 
 The good news is that rates of cancer have reduced from 1994 - 2022.
-However, the degree of reduction is gradual and isn't as high as for other causes.
-
-Other good news relating to other causes us the impressive reductions in death from circulatory/heart/cerebrovasular (usually strokes). This should serve as 
-an inspiring example of improved emphasis on preventative work treating things
-like e.g. High Blood Pressure with medication and paramedics being able to administer clot-busting drugs in emergencies reduced the death toll. If so, 
-that would be an encouraging example that change is possible when better treatments become available.
+However, the degree of reduction is gradual and isn't reducing as quickly as 
+for some other causes.
 
 Of note is Dementia and Alzheimer's which seems very out of step with other causes. It is the only one to have sustained growth from the first available year. These conditions are often associated with old age and at the start of the data "baby boomers" born during/after the Second World War have aged from their 50s to 80s.
+
+It's worth considering whether the rise in dementia as a 
+cause of death might be partially contributing to lowering the main cause of death being listed as cancer. Are more older people dying of dementia *instead* 
+of cancer which may then make it look as if cancer rates have improved more than 
+is really the case? Again this may require further analysis by those who know 
+which people have been living with *multiple* conditions at the time of death.
+
+Other good news relating to other causes is the long-term impressive reductions 
+in death from circulatory/heart/cerebrovasular (usually strokes). This should serve as an inspiring example of improved emphasis on preventative work treating things like e.g. High Blood Pressure with medication and paramedics being able 
+to administer clot-busting drugs in emergencies may have reduced the rate of death. If so, that would be an encouraging example that substantial change is possible when better prevention strategies/treatments become available.
+
+The slight uptick in some conditions since the start of COVID-19 should be 
+watched carefully. Health practitioners are still discovering more features of e.g. "Long COVID-19" which may be worsening some pre-existing conditions.
 
 #### Table: Rate of death compared to other causes by year
 
@@ -283,6 +289,7 @@ best_rate_change <- recent_change %>%
 DT::datatable(best_rate_change,
   options = list(searching = FALSE, paging = FALSE)
 )
+rm(best_rate_change)
 ```
 
 Conclusion: **rates of cancer deaths have improved for the most recent year**.
@@ -309,6 +316,7 @@ worst_rate_change <- recent_change %>%
 DT::datatable(worst_rate_change,
   options = list(searching = FALSE, paging = FALSE)
 )
+rm(worst_rate_change, recent_change)
 ```
 
 
@@ -327,13 +335,6 @@ the most in the last two years.
 More work needs to be done to target these.
 
 ```{r}
-## All Scotland
-
-### All causes
-# death_all_cause_simple <- get_death_all_cause_simple(death_cause_recent)
-# death_cause_simple)
-# head(death_all_cause_simple)
-
-# plot_death_all_cause_simple <- plot_death_cause_simple(death_all_cause_simple)
-# plot_death_all_cause_simple
+rm(list = ls(pattern = "causes_"))
+rm(list = ls(pattern = "death_"))
 ```

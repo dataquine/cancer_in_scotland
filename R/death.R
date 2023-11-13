@@ -89,13 +89,6 @@ plot_death_cause_simple <- function(df, plot_title = plot_death_cause_simple_all
       alpha = 0.7,
       linetype = 3
     ) + # ?geom_vline
-    # annotate(geom="text", x=plot_year_covid,
-    #           y = 400,
-    #         label="start of \nCOVID-19",
-    #        #x=as.Date("2020-03-16"), y = 150, label="state of\nemergency",
-    #       col = "dodgerblue4") +
-    # scale_colour_cis_qualitative()+
-    # scale_fill_cis_qualitative()+
     scale_y_continuous(label = scales::label_comma(scale = 1)) +
     scale_x_continuous(breaks = seq(
       from = plot_year_start,
@@ -110,17 +103,10 @@ plot_death_cause_simple <- function(df, plot_title = plot_death_cause_simple_all
       x = paste0("\n", plot_xaxis_title),
       fill = ""
     ) +
-    # scale_fill_cis_sequential()+
-    #   scale_fill_cis_qualitative()+
     theme(
       panel.grid.major.y = ggplot2::element_blank(),
       axis.text.y = element_blank()
-      #  axis.ticks.x = ggplot2::element_line()
-      # ggplot2::element_blank(),
     )
-  # theme_bw(base_size = 15)
-  # theme(legend.position = "bottom")
-  # View(plot_df)
   return(plot)
 }
 
@@ -144,18 +130,8 @@ plot_death_cause_simple_individual <- function(df, plot_title = plot_death_cause
         TRUE ~ FALSE
       )
     ) %>%
-    #   ggplot(aes(x = year, y = rate, colour = highlight, alpha = alpha_cancer)) +
     ggplot(aes(x = year, y = rate, alpha = alpha_cancer)) +
     geom_area(fill = cis_colour_cancer, colour = cis_colour_cancer)+
-#    geom_col(
-#      aes(
-#        fill = cause_simple,
-#        alpha = alpha_cancer
-#      ),
-# #position = "fill", 
-#      #position = "dodge", 
-#      colour = "white"
-#    ) + 
     facet_wrap(~cause_simple)+
     scale_alpha_manual(
       values = c("TRUE" = 1, "FALSE" = 0.8),
@@ -208,14 +184,13 @@ plot_death_rate_cancer <- function(df, plot_title = plot_death_cause_simple_titl
   plot <- df %>%
     # Basic piechart with percentage labels
     ggplot(aes(x = "", y = percent, fill = category)) +
-    #  geom_col(color = "white", width = 10) +
     geom_col() +
     geom_label(aes(label = percent_labels),
       position = position_stack(vjust = 0.5),
       colour = "white",
       show.legend = FALSE # hide the 'a' symbol
     ) +
-    # come back with custom palette for cancer/con-cancer
+    # custom palette for cancer/con-cancer
     scale_fill_manual(values = c(cis_colour_cancer, cis_colour_noncancer)) +
     # Pacman :-)
     # scale_fill_manual(values = c("red", "yellow")) +
