@@ -7,9 +7,8 @@ output:
   html_document:
     toc: true
     toc_depth: 4
-#    toc_float: true
-   
-  df_print: paged
+    toc_float: true
+    df_print: paged
 ---
 ```{r setup_death, include=FALSE}
 knitr::opts_chunk$set(
@@ -92,14 +91,14 @@ There are **`r count(causes_of_death) %>% pull()`** categories of causes
 recorded in the dataset.
 
 ```{r}
-causes_of_death %>% pull()
+causes_of_death
 ```
 
 As you can see these are formal technical names. For simplifying ongoing work 
 the following substitutions have been made and called `cause_simple`.
 
 ```{r}
-causes_of_death_simple %>% pull()
+causes_of_death_simple
 ```
 
 ## Analysis

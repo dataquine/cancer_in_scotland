@@ -6,6 +6,7 @@ output:
   html_document:
     toc: true
     toc_depth: 4
+    toc_float: true
     df_print: paged
 ---
 ```{r setup_screening, include=FALSE}
