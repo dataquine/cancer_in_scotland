@@ -89,11 +89,6 @@ write_csv(
   )
 )
 
-# Write death data for shiny app ----
-saveRDS(death_cause, file = here::here(
-  nrs_death_cause_shiny_filepath
-))
-
 rm(list = ls(pattern = "nrs_death"))
 rm(list = ls(pattern = "cause"))
 rm(rate_column)
