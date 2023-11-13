@@ -35,9 +35,20 @@ incidence_raw <- read_csv(
   #  )
   phs_incidence_url
   # warning this is a remote file URL
-) %>%
-  janitor::clean_names()
+) 
 
+# Save a copy of the raw incidence data ----
+# We don't use this but good to have a backup copy in case of remote failures
+write_csv(
+  incidence_raw,
+  here::here(
+    "data_raw",
+    phs_incidence_raw_filepath
+  )
+)
+
+incidence_raw <- incidence_raw %>%
+  janitor::clean_names()
 
 incidence_raw %>% skim()
 
@@ -202,13 +213,9 @@ write_csv(
   )
 )
 
-# Write death data for shiny app ----
-saveRDS(incidence_clean, file = here::here(
-  phs_incidence_shiny_filepath
-))
-
 rm(list = ls(pattern = "column_"))
 rm(list = ls(pattern = "icd10_cancers"))
 rm(list = ls(pattern = "incidence_"))
 rm(list = ls(pattern = "incidences_"))
 rm(list = ls(pattern = "phs_"))
+rm(source_phs)
