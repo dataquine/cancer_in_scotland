@@ -1,0 +1,350 @@
+---
+title: "Project Plan"
+subtitle: "Cancer in Scotland"
+author: "Lesley Duff"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Context
+
+#### Business intelligence and data-driven decision making
+>What insights can the business/organisation gain from your analysis and how 
+will your analysis help the business/organisation make better decisions?
+
+This project simulates the response to a **fictional** request by the Scottish Government. 
+
+Reducing the burden of the death and disease cancer on individuals living in Scotland is a long term aim of health policy and attempts have spanned many
+years. 
+
+This analysis will examine:
+
+* Death (Long-term effectiveness of public health prevention campaigns and 
+medical treatments. How does cancer compare to other causes of death in Scotland)
+* Incidences (New diagnosed cases of cancer. Tracking past, existing and 
+emerging issues)
+* Bowel Cancer Screening programme (Early detection, take-up by citizens)
+* Waiting times for treatment (Better outcomes, shorter = better)
+
+Together these items should give an indication of where resources should be 
+deployed to have more effect in reducing death. Prevention is also a key aim but in order to target public awareness campaigns information is required which will explain which cancers different age groups and sexes may be more at risk of.
+
+An output of this project is an experimental interactive **Cancer Risk Tool** 
+for quickly testing combinations of Age Range, Sex and Type of Cancer to see the 
+incidences in Scotland since 1997.
+
+#### Domain knowledge and the business context
+> Briefly describe the business/organisation and where your analysis fits within its aims/activity.
+
+The organisation is the Scottish Government. The Scottish Government is the devolved government for Scotland and has a range of responsibilities that 
+include: the economy, education, health, justice, rural affairs, housing, environment, equal opportunities, consumer advocacy and advice, transport and taxation.
+
+For this analysis I am envisioning a request has been made by politicians such 
+as health ministers or financial resource planners and formally requested via civil servants. I am assuming that the end audience has no special knowledge of 
+cancer so will attempt to explain terms used in common datasets.
+
+There is a plethora of statistics gathered by a range of government funded 
+bodies. There is the comprehensive [Scottish Cancer Registry and Intelligence Service (SCRIS)](https://publichealthscotland.scot/our-areas-of-work/conditions-and-diseases/cancer/scottish-cancer-registry-and-intelligence-service-scris/overview/) which holds copious and detailed information but which for patient 
+confientiality reasons is not intended to be open access. It cannot be easily 
+accessed either by professionals outside the NHS or the general public.
+
+It can sometimes be difficult to get a simple high-level view of how the disease is affecting people. The aim of this analysis is to provide someone like a politician or decision maker a snapshot of the latest data available in plain english to explain the current situation. For long-term planning we also want 
+to look as far back as datasets will allow other future exercises that map past 
+policy measures to identify any changes that improved the situation. The trends from past data will also help make people aware of things that might be changing more recently especially since COVID-19 and new threats to be considered in National Health resourcing.
+
+## Data
+
+#### Internal and external data sources
+
+>Briefly describe your data sources and which were internal (provided by the organisation) and external (not sourced from the organisation's data)
+
+As this is a fictional request I initially had to source suitable sources to 
+start the analysis. This involved an initial research phase looking at data 
+relating to death made available by the **National Records of Scotland (NRS)** 
+- a non-ministerial department of the Scottish Government. [National Records of Scotland](https://www.nrscotland.gov.uk/),  © Crown Copyright 2023.
+
+Also health cancer 
+data as open data published by **Public Health Scotland (PHS)** which is 
+aggregated from the Scottish Cancer Registry. PHS is an NHS Board sponsored by 
+the Scottish Government and the Convention of Scottish Local Authorities (COSLA)
+on behalf of local government. [Public Health Scotland](),  
+Contains public sector information licensed 
+under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
+
+##### Data sources
+For reference elsewhere in this document I will use the codes listed in the 
+Code column in the following table.
+
+| Code | Organisation | Dataset |
+|------|--------------|---------|
+|[A]   | NRS          | [Age-standardised Death Rates Calculated Using the European Standard Population](https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/deaths/age-standardised-death-rates-calculated-using-the-esp). <br /> Table 1: All ages age-standardised death rates for all causes and certain selected causes, Scotland, 1994 to 2022.  <br /> https://www.nrscotland.gov.uk/files//statistics/age-standardised-death-rates-esp/2022/age-standard-death-rates-22-tab1.xlsx |
+| [B]  | PHS          | [Annual Cancer Incidence](https://www.opendata.nhs.scot/dataset/annual-cancer-incidence) <br /> Annual data of new cancer incidence cases in Scotland. Incidence at Scotland Level. <br /> https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv|
+| [C] | PHS          | [Scottish bowel screening programme statistics](https://publichealthscotland.scot/publications/scottish-bowel-screening-programme-statistics/scottish-bowel-screening-programme-statistics-for-the-period-of-invitations-from-may-2020-to-april-2022/) <br />For the period of invitations from May 2020 to April 2022. <br /> https://publichealthscotland.scot/media/17689/2023-02-21-bowel-screening-kpi-report.xlsx|
+| [D] | PHS          | [Cancer Wait Time - 31 Day Standard](https://www.opendata.nhs.scot/dataset/cancer-waiting-times/resource/58527343-a930-4058-bf9e-3c6e5cb04010) <br /> 31 day waiting standard split by health board of treatment and health board of residence as well as cancer type. <br /> https://www.opendata.nhs.scot/dataset/11c61a02-205b-43f6-9297-243679103617/resource/58527343-a930-4058-bf9e-3c6e5cb04010/download/cwt_31_day_standard.csv|
+| [E] | PHS          | [Cancer Wait Time - 62 Day Standard](https://www.opendata.nhs.scot/dataset/cancer-waiting-times/resource/23b3bbf7-7a37-4f86-974b-6360d6748e08) <br /> 62 day waiting standard split by health board of treatment and health board of residence as well as cancer type. <br /> https://www.opendata.nhs.scot/dataset/11c61a02-205b-43f6-9297-243679103617/resource/23b3bbf7-7a37-4f86-974b-6360d6748e08/download/cwt_62_day_standard.csv|
+
+#### Types of data
+
+>What kind of data did you work with? E.g. categorical and numerical data and their sub-types.
+
+* [A], 33 rows, 14 columns, Sheet:"data for chart", Range: "A4:N34"
+  * discrete numerical: year of death rate data
+  * continuous numerical: death rates for each type of cancer including a summary "All causes" column (x13)
+
+* [B], 3400 rows, columns 60
+  * categorical: Country code, CancerSiteICD10Code, CancerSite, Sex, SexQF
+  * discrete numerical: Year, Incidences(x20)
+  * continuous numerical: Rates(x23), 
+  * Unused Crude Rate and EASR/WASR, StandardisedIncidence columns 
+  
+* [C], 3 Rows, Columns 16,  Sheet:"KPI_1", Range:"B16:Q20"
+  * categorical: sex, 
+  * continuous numerical: percentage uptake by Health Board (x15) including summary for "Scotland"
+  
+* [D], 19287 Rows, 10 Columns  
+HB = Health Board, QF = Qualitfier, T=Treatment
+  * datetime: quarter 
+  * categorical: HB, HBT, HBTQF, CancerType, CancerTypeQF, NumberOfEligibleReferrals31DayStandardQF, NumberOfEligibleReferralsTreatedWithin31DaysQF
+  * discrete numeric: NumberOfEligibleReferrals31DayStandard, NumberOfEligibleReferralsTreatedWithin31Days
+  
+* [E]. 17562 Rows, 10 Columns
+HB = Health Board, QF = Qualifier
+  * datetime: quarter 
+  * categorical: HB, HBQF, HBT, CancerType, CancerTypeQF, NumberOfEligibleReferrals62DayStandardQF, NumberOfEligibleReferralsTreatedWithin62Days
+  * discrete numeric: NumberOfEligibleReferrals62DayStandard, NumberOfEligibleReferralsTreatedWithin62Days
+  
+#### Data formats
+> What format did your data come in? E.g. all downloaded flat files (CSV) or any data from APIs, scraping etc.
+
+The data was a mixture of spreadsheets and comma separated value (CSV) static 
+files. Where possible the R code attempted to fetch automatically via the URL 
+during cleaning as some of these datasets may be updated with amendments and 
+corrections in the future.
+
+* [A] and [C], Excel spreadsheet, .xlsx
+* [B] and [D] and [E], Comma Separated Value (CSV), .csv
+
+#### Data quality and bias
+
+>Briefly describe the quality of the data and whether you have any reasons to suggest the data is biased e.g. only data from a specific demographic even 
+though a broader demographic would be of interest to the organisation.
+
+For both neither provider had tidy data by default so things like cleaning 
+column names, replacing missing values and turning wide data into long were 
+performed.
+
+Quality: NRS
+Death data generally high quality, no direct NAs but they do have a habit of 
+filling cells with a fullstop e.g. covid in 1994 which I assume should be 
+interpreted as NAs. Occasinally spreadsheet columns don't have names so need to 
+be substituted with a value.
+
+Bias: NRS data is prepared by Scottish Government funded statisticians. It is 
+not known how much political concerns are or are not represented in the type of 
+statistics gathered. Death data for cause of death hinges on certificates 
+completed by medical practitioners. I'm aware that in the past NRS has issued guidelines as there were areas of inconsitency between how medics were choosing
+the cause of death. So as it's a human judgment it's possible that individuals 
+will interpret the same scenario differently and record a different reason. This 
+may become an increasing issue with an ageing population and increasing 
+comorbidity in the population of Scotland (having more condition at the same time).
+
+Quality: PHS
+There were some inconsistencies in naming between different parts of the NHS 
+system e.g. "Colerectal cancer" in one place in incidences but in screening it's called "Bowel Cancer" when communicating with the general public so there is a tension between whether medically 'correct' terminnology should be used, or 
+names that more people would understand the meaning of. Also in the list of 
+cancer 'sites' (the technical term for the type of cancer) they have frequently created categories that are themselves collections of sub-types of cancers. This 
+appears to by related to the use of the [ICD-10 World Health Organisation](https://icd.who.int/browse10/2019/en) 
+standard and is likely done to enable datasets to be compared internationally 
+but it can cause confusion when there are a few cancer sites with very similar labels for names.
+
+Bias: PHS
+PHS data is prepared by professional statisticians and data analysts.
+Cancer Incidence data is extracted from the Scottish Cancer Registry. As the 
+registry is closed to the general public it is very difficult to get information 
+about how their data is gathered so to some extent bias is unknown. 
+
+## Ethics
+
+#### Ethical issues in data sourcing and extraction
+
+> Do you have any ethical concerns regarding the sourcing and extraction of your data?
+
+NRS:
+The dead are unable to provide consent so we are relying largely on the ethical 
+and moral behaviour of doctors. Many rules were tightened after serial killer GP [Harold Shipman](https://en.wikipedia.org/wiki/Harold_Shipman) abused the death certification process to cover up his murders.
+
+PHS: 
+We know they claim to aggregate data to make sure the data is sufficiently anonymised and will exclude some datasets such those where the numbers fall so 
+it could only apply to particular people.
+
+As this data ultimately relies on patient data we would be careful that there is 
+no data that could identify particular individuals in public without their 
+consent. Some health data is not always use a consent model for GDPR. In 
+Scotland patient data is collated and associated with a "Community
+Health Index (CHI) number.". In theory only that ID needs to be exchanged when 
+uniqueness needs to be determined without disclosing personal information like 
+name/address and other personal protected characteristics.
+
+They may 
+have a 'legitimate interest'. e.g. ["Right to restrict processing"](https://publichealthscotland.scot/our-privacy-notice/your-rights/#:~:text=Right%20to%20object,historical%20research%2C%20or%20statistical%20purposes.) 
+
+>"if the personal data are being used, for example, to calculate total numbers of people using a health or social care service for our national statistics outputs, where no individual is identified in the outputs, data protection law permits us to continue to process your personal information."  
+
+They saw that some places they may use "automated profiling" which includes
+
+>for example, determining geographical boundaries where individuals within defined age groupings live with certain types of cancer clusters so as to understand patterns of cancer incidence and prevalence across the population.
+
+The datasets are 
+explicitly listed in their open data portal so there is an extra level of 
+consideration being given to the dataset being suitable for any and all public 
+sharing and combining with other datasets via the terms of the  Open Government Licence.
+
+#### Ethical implications of business requirements
+
+>Are there any ethical implications of the business requirements?
+
+I feel that in this project the high-level and highly aggregated data that is 
+being worked with do not in themselves cause ethical issues in terms of what the 
+client is requesting by way of analysis.
+
+Scottish Government: the intentions are for saving human life not for any 
+commericial purpose.
+
+## Analysis
+
+#### Stages in the data analysis process
+
+> What were the main stages in your data analysis process?
+
+* Wrote a fictional brief
+* Researched what datasets were available that might be appropriate. 
+* Created a Google Doc with a high level plan outlining the main stages to 
+cover during analysis.
+* Initially had wanted to create a Shiny App to display plots produced and 
+wanted to use featured of the new bslib library. However when I had problems 
+installing it, with the help of an instructor found the features I had wanted 
+to use were part of a development version. I delayed progress for a few days to 
+see if there was any progress towards a stable version. As there was none I 
+abandoned this idea. I did however pivot to producing the Shiny Document version 
+of the Cancer Risk Tool
+* Created R cleaning scripts for each dataset
+* Created a custom theme and colour palette using colours that are used in 
+cancer charity ribbons
+* Did some basic exploration of datasets
+* Wrote helper functions that could be used in either R Markdown or Shiny 
+documents. Especially for creating plots/tables.
+* Created 4 separate analysis documents, one for each area of questions. In 
+each there are plots and explanations to support the questions in the brief.
+* Created a R Markdown document to combine the 4 individual analysis as child 
+documents.
+* Created interactive Shiny Document Cancer Risk Tool
+* Worked on presentation using plots saved with ggsave
+* Worked on README files
+* Produced PDA planning document (this document)
+
+#### Tools for data analysis
+
+>What were the main tools you used for your analysis?
+
+Programatic development in R and documentation in R Markdown and interactive
+Shiny documents
+
+* RStudio Version 2023.09.0+463 (2023.09.0+463)
+* R version 4.3.1
+* Plots created using ggplot2
+
+**R Packages used:**
+
+* assertr
+* bslib
+* dplyr
+* forcats
+* ggfortify
+* ggplot2
+* gt
+* here
+* janitor
+* lubridate
+* readr
+* readxl
+* scales
+* shiny
+* skimr
+* stringr
+* tidyr
+* tidyverse
+* zoo
+
+**Other tools utilised:**
+
+* Google Docs for initial high-level outline of steps to compleet
+* Github repository/Git for storing R code and project documentation. I used the 
+[Github Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects) feature for intial setting up and during research of datasets put 
+issues in the Issue Queue
+* Zoom for video conferencing with instructors
+* Slack for written communication with instructors
+* Microsoft PowerPoint used for creating presentation
+
+#### Descriptive, diagnostic, predictive and prescriptive analysis
+
+>Please report under which of the below categories your analysis falls **and why** (can be more than one) 
+
+::: {.emphasis}
+> **Descriptive Analytics** tells you what happened in the past.
+
+The majority of the analysis is descriptive. We aggregate on categorical data 
+and provide summary statistics. Most of the analysis started by working with as many years of data as we could find. So for incidences we could go as far back 
+as 1997. This age of data enabled us to see patterns of how different rates of death varied over the years, similarly for which cancers and the number of incidences. The Cancer Risk Tool is largely based on the legacy incidences data, the length of time helps ∂even out variations from year to year and even COVID-19.
+
+> **Diagnostic Analytics** helps you understand why something happened in the past.
+
+With the death data we wanted to find out what got ‘better’ in terms of death 
+rate between the latest two years of data. We were assessing percentage when the  cancer rates changed was it getting better or worse? (very slightly getting 
+better).
+
+> **Predictive Analytics** predicts what is most likely to happen in the future.
+
+Not directly via modelling but there was one part of the waiting times figures 
+where a target standard had been met but only by the tiniest of margins, 0.04 of 
+a percent, right on the boundary of failure so alerted that there was a high 
+degree of danger that the next year might miss the target. The continual failure
+to meet the 62 waiting target with **absolutely no signs of improvement, just 
+worsening** was flagged up as an area requiring a major rethink. However this 
+would a different exercise with the involvement of clinicians to review 
+working practices rather than solely a statistics/analytics project.
+
+> **Prescriptive Analytics** recommends actions you can take to affect those outcomes.
+
+None
+:::
+
+
+# PDA Outcomes
+
+### Working with Data (J4Y6 35)
+
+#### 1. Plan an analysis to provide business intelligence
+
+-   1.1 Business intelligence and data-driven decision making
+-   1.2 Domain knowledge and the business context
+-   1.4 Internal and external data sources
+-   1.5 Data quality
+-   1.6 Stages in the data analysis process
+-   1.7 Descriptive, diagnostic, predictive and prescriptive analysis
+-   1.9 Ethical implications of business requirements
+-   1.10 Tools for data analysis
+
+#### 2. Extract data from a variety of sources
+
+-   2.1 Tools for querying data sources
+-   2.2 Types of data (categorical and numerical data and their sub-types)
+-   2.3 Data formats
+-   2.6 Data quality including data bias
+-   2.7 Ethical issues in data sourcing and extraction
+
+#### 4. Analyse data to provide business intelligence
+
+-   4.7 Role of domain knowledge in interpreting analyses
