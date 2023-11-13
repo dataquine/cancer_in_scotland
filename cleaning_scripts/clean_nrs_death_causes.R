@@ -29,8 +29,8 @@ cause_simple_column <- "cause_simple"
 rate_column <- "rate"
 
 # Download the file from the remote source ----
-# Should onely need to do this once
-# Warning be mindful of not runing scipt too frequently
+# Should only need to do this once
+# Warning be mindful of not runing script too frequently
 download.file(nrs_death_cause_url,
   destfile = here::here(
     "data_raw", nrs_death_cause_raw_filepath
