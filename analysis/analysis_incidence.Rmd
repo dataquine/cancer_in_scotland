@@ -41,7 +41,6 @@ theme_set(theme_cancer_in_scotland()) # base_size=14))
 # If TRUE then we will save plots the images folder for use in presentations etc.
 ```
 
-
 # Incidence
 ```{r}
 # Read in clean cancer death data

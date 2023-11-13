@@ -12,8 +12,6 @@ library(ggfortify)
 library(gt) # Styled tables
 library(stringr) # Sorting strings
 
-# library(ggrepel)
-
 # Plot
 # Plot 1 Linechart
 cancer_incidence_plot_filepath <- "images/plot/plot_cancer_incidence.png"
@@ -134,12 +132,9 @@ get_incidences_by_year <- function(df) {
   df <- incidence %>%
     # mutate(cancer_site = str_trunc(cancer_site, 30)) %>%
     # Only interested in top level numbers
-    filter(cancer_site == "All cancer types") %>%
-    # Only interested in all sexes
-    # TODO GENDERS
-    # filter(sex == "All") %>%
+    filter(cancer_site == incidence_cancer_site_all_value) %>%
     # Only interested in all age ranges
-    filter(incidences_age_range == "All ages") %>%
+    filter(incidences_age_range == incidence_cancer_site_all_ages_value) %>%
     # select(year, cancer_site,sex,incidences_age_range) %>%
     group_by(year, cancer_site, sex, incidences_age_range, incidences_age) %>%
     summarise() %>%
@@ -158,9 +153,9 @@ get_incidences_by_cancer_site <- function(df) {
   incidences_by_cancer_site <- df %>%
     # Remove All cancer types
     # cancer_site:"All cancer types"
-    filter(cancer_site != "All cancer types") %>% # "All cancer types"
-    filter(incidences_age_range == "All ages") %>% # "All ages"
-    filter(sex != "All") %>% # "All"
+    filter(cancer_site != incidence_cancer_site_all_value) %>% # "All cancer types"
+    filter(incidences_age_range == incidence_cancer_site_all_ages_value) %>% # "All ages"
+    filter(sex != incidence_cancer_site_all_sex_value) %>% # "All"
 
     group_by(
       year, cancer_site, cancer_site_short, sex,
@@ -194,10 +189,7 @@ get_cancer_site <- function(df) {
   cancer_site <- df %>%
     select(cancer_site, incidences_age) %>%
     group_by(cancer_site) %>%
-    summarise(
-      average = mean(incidences_age),
-      total = sum(incidences_age)
-    ) %>%
+    summarise(total = sum(incidences_age)) %>%
     arrange(desc(total)) %>%
     ungroup()
   return(cancer_site)
@@ -214,22 +206,23 @@ get_incidents_sorted_age_range <- function(df) {
 # Retrieve incidences for age categories and sex
 get_cancer_site_age_range <- function(df) {
   age_range <- df %>%
-    filter(cancer_site != "All cancer types") %>% # "All cancer types"
-    filter(incidences_age_range != "All ages") %>% # "All ages"
-    filter(sex != "All") %>% # "All"
-    # #  #  filter(cancer_site == "Acute lymphoblastic leukaemia") %>%
-    # #  #   filter(year == 2021) %>%
-    # #  group_by(cancer_site, cancer_site_short, incidences_age_range, sex, incidences_age) %>%
-    # #  summarise() %>%
-    # # # arrange(sex) %>%
-    # #
-    group_by(incidences_age_range, sex, cancer_site, cancer_site_short) %>%
-    #  #cancer_site, cancer_site_short, incidences_age_range, sex, incidences_age, year) %>%
+    filter(cancer_site != incidence_cancer_site_all_value) %>% # "All cancer types"
+    filter(incidences_age_range != incidence_cancer_site_all_ages_value) %>% # "All ages"
+    filter(sex != incidence_cancer_site_all_sex_value) %>% # "All"
+
+    group_by(cancer_site, cancer_site_short, sex, year, incidences_age_range, incidences_age) %>%
+    summarise() %>%
+    ungroup() %>%
+
+    group_by(cancer_site, cancer_site_short, sex, incidences_age_range) %>%
     summarise(total_incidences = sum(incidences_age)) %>%
-    ungroup()
-  return(age_range)
+    ungroup() %>%     
+    
+    return(age_range)
 }
 
+# Filter by sex, age and cancer site retrieving the top n entries
+# This is used by the Cancer Risk Tool
 get_top_incidences_age_range_sex <- function(df,
                                              top = 10,
                                              filter_sex = c("Male", "Females"),
@@ -289,28 +282,25 @@ plot_incidences_by_year <- function(df,
     #   linetype = 1
     # ) +
     geom_point(size = 3) +
-    scale_colour_cis_qualitative() +
+    scale_colour_cis_qualitative(cis_palette_sex) +
     scale_y_continuous(label = scales::label_comma()) +
     scale_x_continuous(breaks = seq(
       from = min(df$year),
       to = max(df$year),
       by = 2
     )) +
-    theme(
-      panel.grid.major.y = element_blank()
-      #   panel.grid.major.x = ggplot2::element_line()
-    ) +
+    theme(axis.ticks.x = ggplot2::element_line()) + # Add back ticks to line up points
     labs(
       title = plot_title,
       subtitle = paste(min(df$year), max(df$year), sep = "-"),
-      x = plot_x,
-      y = plot_y,
+      x = paste0("\n", plot_x),
+      y = paste0(plot_y, "\n"),
       caption = source_phs,
       colour = plot_sex
     )
   if (show_covid) {
     plot <- plot + geom_vline(
-      xintercept = 2020, # The year it started
+      xintercept = 2020, # The year COVID-19 started
       colour = "red",
       alpha = 0.7,
       linetype = 3
@@ -328,17 +318,20 @@ plot_incidences_by_year <- function(df,
   return(plot)
 }
 
-# Plot INCIDENCE 2, Yearly incidences - a box plot
+# Plot INCIDENCE 2, incidences by sex - a box plot
 plot_incidences_by_year_boxplot <- function(df,
-                                            plot_x = incidence_incidences_label,
+                                            plot_x = "",
+                                            plot_y = incidence_incidences_label,
                                             plot_fill = incidence_sex_label) {
   plot <- df %>%
-    ggplot(aes(x = incidences_age, fill = sex)) +
-    geom_boxplot(color = "black") +
-    scale_fill_cis_qualitative() +
-    scale_x_continuous(label = scales::label_comma()) +
+    ggplot(aes(y = incidences_age, fill = sex)) +
+    geom_boxplot() +
+    scale_fill_cis_qualitative(cis_palette_sex) +
+    scale_y_continuous(label = scales::label_comma()) +
     labs(
+      title = "Yearly Incidences by Sex",
       x = paste0("\n", plot_x),
+      y = paste0(plot_y, "\n"),
       caption = source_phs,
       fill = plot_fill
     )
@@ -349,13 +342,11 @@ plot_incidences_by_year_boxplot <- function(df,
 plot_incidences_by_year_cancer_site <- function(df, start_year, end_year) {
   df %>%
     ggplot(aes(x = year, y = incidences_age, fill = sex)) +
-    # geom_line(colour = cis_colour_cancer) +
     geom_area(aes(colour = sex)) +
     facet_wrap(~cancer_site_short, ncol = 9) +
     scale_y_continuous(label = scales::label_comma()) +
-    #     breaks = c(2000, 4000)) +
-    scale_fill_cis_qualitative() +
-    scale_colour_cis_qualitative() +
+    scale_fill_cis_qualitative(cis_palette_sex) +
+    scale_colour_cis_qualitative(cis_palette_sex) +
     theme(
       strip.text = element_text(size = 9),
       axis.text.x = element_blank()
@@ -378,7 +369,6 @@ plot_all_cancer_site_age_sex_range <- function(df, plot_x = incidence_age_ranges
                                                plot_title = incidence_cancer_site_age_sex_range_title,
                                                plot_subtitle = incidence_cancer_site_age_sex_range_subtitle) {
   age_range <- get_incidents_sorted_age_range(df)
-
   plot <- df %>%
     mutate(incidences_age_range = fct_relevel(
       incidences_age_range,
@@ -423,6 +413,27 @@ table_shortened_cancer_site <- function(df,
       cancer_site = html("Cancer Site")
     )
   return(table)
+}
+
+# Table showing highest and lowest incidences and which years
+table_summary_incidences_sex <- function(
+    df,
+    title = "Summary statistics Incidences by Sex",
+    lowest_year, highest_year) {
+  df %>%
+    gt() %>%
+    tab_header(
+      title = title,
+      subtitle = glue::glue("Data between: {lowest_year} and {highest_year}")
+    ) %>%
+    cols_label(
+      sex = html(incidence_result_label),
+      total = html("Total"),
+      mean = html("Mean"),
+      median = html("Median"),
+    ) %>%
+    tab_source_note(source_note = source_phs) %>%
+    fmt_number(columns = c(total, mean, median), decimals = 0)
 }
 
 # Table showing highest and lowest incidences and which years
@@ -474,15 +485,15 @@ table_incidences_cancer_sites_between <- function(df, lowest_year,
     ) %>%
     cols_label(
       total = html("Total"),
-      average = html("Average"),
+      #  mean = html("Mean"),
       cancer_site = html("Cancer Site")
     ) %>%
     tab_source_note(source_note = source_phs) %>%
-    fmt_number(columns = c(average, total), decimals = 0)
+    fmt_number(columns = c(total), decimals = 0)
   return(table)
 }
 
-table_incidences_cancer_sites_age_range <- function(df, 
+table_incidences_cancer_sites_age_range <- function(df,
                                                     table_title = "",
                                                     table_subtitle = "") {
   table <- df %>%
