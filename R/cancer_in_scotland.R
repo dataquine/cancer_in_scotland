@@ -8,7 +8,7 @@
 
 library(here)
 
-enable_plot_saving <- FALSE
+enable_plot_saving <- TRUE
 
 do_cis_plot <- function(cis_plot,
                     save_path = "",
