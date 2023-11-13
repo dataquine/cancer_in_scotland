@@ -83,7 +83,7 @@ waiting_times <- waiting_times_clean %>%
 ```
 
 ```{r}
-wt_info <- waiting_times %>%
+waiting_times_info <- waiting_times %>%
   distinct(quarter_time) %>%
   summarise(
     count_quarters = n(),
@@ -95,8 +95,8 @@ wt_info <- waiting_times %>%
 # 11 complete years of data
 ```
 
-We have  **`r wt_info$count_quarters`**  quarters of Waiting Times data 
-available ranging from **`r wt_info$oldest_quarter`** to **`r wt_info$newest_quarter`**.
+We have  **`r waiting_times_info$count_quarters`**  quarters of Waiting Times data 
+available ranging from **`r waiting_times_info$oldest_quarter`** to **`r waiting_times_info$newest_quarter`**.
 We will combine these to look at complete year totals.
 
 ```{r}
@@ -142,6 +142,8 @@ totals_quarter_62 <- waiting_times %>%
 all_standards_totals <- totals_quarter_31 %>%
   left_join(totals_quarter_62) %>%
   filter(year_new != 2023) # remove partial year
+
+rm(totals_quarter_31, totals_quarter_62)
 ```
 
 ```{r}
