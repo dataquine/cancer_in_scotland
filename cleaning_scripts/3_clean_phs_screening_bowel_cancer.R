@@ -70,11 +70,7 @@ write_csv(
   )
 )
 
-# Write KP1 data for shiny app ----
-saveRDS(screening_bowel_uptake, file = here::here(
-  phs_screening_bowel_uptake_shiny_filepath
-))
-
 rm(list = ls(pattern = "screening_bowel_"))
 rm(list = ls(pattern = "phs_"))
+rm(source_phs)
 
