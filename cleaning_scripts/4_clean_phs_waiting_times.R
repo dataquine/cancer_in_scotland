@@ -43,6 +43,16 @@ waiting_times_31_days_raw <- read_csv(
   # warning this is a remote file URL
 )
 
+# Save a copy of the raw waiting_times_31_days data ----
+# We don't use this but good to have a backup copy in case of remote failures
+write_csv(
+  waiting_times_31_days_raw,
+  here::here(
+    "data_raw",
+    phs_waiting_times_31_days_raw_filepath
+  )
+)
+
 # names(waiting_times_31_days_raw)
 
 waiting_times_62_days_raw <- read_csv(
@@ -52,6 +62,16 @@ waiting_times_62_days_raw <- read_csv(
   #    )
   phs_waiting_times_62_days_url
   # warning this is a remote file URL
+)
+
+# Save a copy of the raw waiting_times_62_days data ----
+# We don't use this but good to have a backup copy in case of remote failures
+write_csv(
+  waiting_times_62_days_raw,
+  here::here(
+    "data_raw",
+    phs_waiting_times_62_days_raw_filepath
+  )
 )
 
 # Examine raw data ----
@@ -248,3 +268,6 @@ write_csv(
 
 # Clean up environment ----
 rm(list = ls(pattern = "waiting_times_"))
+rm(list = ls(pattern = "phs_"))
+rm(source_phs)
+
