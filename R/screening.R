@@ -108,7 +108,7 @@ plot_y = screening_bowel_cancer_uptake_plot_y) {
   plot <- df %>%
     mutate(uptake_pct = round(uptake_pct, digits = 2)) %>%
     ggplot(aes(sex, uptake_pct, fill=sex)) +
-    geom_col(fill = cis_colour_cancer) +
+    geom_col() +
     geom_hline(
       colour = "red",
       alpha = 0.7,
@@ -135,7 +135,7 @@ plot_y = screening_bowel_cancer_uptake_plot_y) {
       x = paste0("\n", plot_y),
       caption = source_phs
     ) +
-    #scale_fill_cis_qualitative(cis_palette_sex)+
+    scale_fill_cis_qualitative(cis_palette_sex)+
     guides(fill = "none") 
     theme(
       axis.title = element_blank(),

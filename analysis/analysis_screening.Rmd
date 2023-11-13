@@ -46,7 +46,8 @@ screening_bowel_cancer_screening_update <- "Bowel Cancer Screening Uptake"
 Commenced in 2007 with a full rollout across all health boards by 2009.
 
 People aged 50-74 years are invited every two years to complete a home bowel 
-screening test. 75 and over can self-refer. 
+screening test.  
+75 and over can self-refer. 
 
 ### Uptake
 
@@ -197,12 +198,7 @@ accompanies the analysis report on incidences
 with the settings **(All age ranges, Male, Colorectal cancer) **
 
 ```{r}
-# screening_bowel_cancer_takeup_kpi <-
-#  get_screening_bowel_cancer_takeup_kpi1(screening_bowel_cancer_takeup)
-# screening_bowel_cancer_takeup_kpi
-```
-
-```{r}
 rm(list = ls(pattern = "screening"))
+rm(list = ls(pattern = "plot"))
 ```
 
