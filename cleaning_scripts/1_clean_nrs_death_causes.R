@@ -91,4 +91,4 @@ write_csv(
 
 rm(list = ls(pattern = "nrs_death"))
 rm(list = ls(pattern = "cause"))
-rm(rate_column)
+rm(rate_column, source_nrs)
