@@ -74,7 +74,6 @@ incidence_all <- read_csv(here::here(
 # Do not progress further and alert user that dataset may have changed.
 # TODO: remember to uncomment before production
 # valid <- check_valid_icd10(incidence_all)
-
 incidence <- simplify_cancer_site(incidence_all)
 ```
 
@@ -106,7 +105,7 @@ Technical terms used relating to this dataset.
 | Term    | Description |
 | -------- | ------- |
 | **incidence** | The total number of new cases (registrations) of the cancer diagnosed in Scotland for the given period. |
-| **cancer site** | The place where a cancer starts in the body.  This is represented as a code and also a human readable name |
+| **cancer site** | The place where a cancer starts in the body. This is represented as a code and also a human readable name. |
 ----------------------
 
 The [Scottish Cancer Registry and Intelligence Service](https://publichealthscotland.scot/our-areas-of-work/conditions-and-diseases/cancer/scottish-cancer-registry-and-intelligence-service-scris/overview/) (SCRIS) 
@@ -131,7 +130,9 @@ registrations in Scotland by sex and age. Reports include data from 1997 to 2021
 **Source:**  [Incidence at Scotland Level](https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/72c852b8-ee28-4fd8-84a9-5f415f4bc325/download/opendata_inc9721_scotland.csv). 
 PHS Last update: 29 March 2023.
  
-This analysis utilises PHS data.
+This analysis utilises PHS data. 
+Their sex data uses 'Females' plural but "Male" singular, this has been left to 
+match the original.
 
 ### Important! When is a medical cancer a 'cancer' in official reports?
 
@@ -146,7 +147,7 @@ To December 2021](https://publichealthscotland.scot/publications/cancer-incidenc
 
 ## Analysis
 
-This dataset is since `r format(oldest_incidences_year)`.
+This dataset covers years `r oldest_incidences_year`-`r newest_incidences_year`.
 
 ### Time: Cancer Incidences by Year and Sex
 ```{r}
@@ -155,20 +156,69 @@ plot_incidences <- plot_incidences_by_year(incidences_by_year)
 do_cis_plot(plot_incidences, cancer_incidence_plot_filepath)
 ```
 
+The higher the incidences, the more people have been formally diagnosed as 
+having a new case of cancer. Shows incidences in general, started increasing in 
+number in 1998 to 2018. Then dropped from 2019 to 2020 (start of COVID). In most
+recent year of results available 2021 numbers rose sharply to the highest level 
+ever.
+
+### Summary: Incidences by Sex
+
 ```{r}
-# Plot INCIDENCE 2, Yearly incidences - a box plot
-plot_incidences_boxplot <- plot_incidences_by_year_boxplot(incidences_by_year)
-do_cis_plot(plot_incidences_boxplot, cancer_incidence_plot_box_plot_filepath)
+# Show the total and mean incidences across years
+summary_incidences_by_sex <- incidences_by_year %>%
+  group_by(sex) %>%
+  summarise(
+    total = sum(incidences_age),
+    mean = mean(incidences_age),
+    median = median(incidences_age)
+  ) %>%
+  ungroup()
+
+table_summary_incidences_sex(summary_incidences_by_sex,
+  lowest_year = oldest_incidences_year,
+  highest_year = newest_incidences_year
+)
 ```
 
-```{r eval=FALSE, warning=FALSE, include=FALSE}
-# Model 1
-# "outcome ~ predictor"
-no_all_sex <- incidences_by_year %>%
+On average in Scotland there are almost 30,000 new incidences of cancer each 
+year. Females have a higher average(mean) and median number of incidences per 
+year than males but bear in mind there is a slightly higher number of females in
+the population of Scotland. These figures are relatively close in spite of sexes
+having some completely different types of cancer risk due to different organs.
+
+> The 2021 estimates for Scotland's population produced by National Records of 
+Scotland (NRS) show that Scotland's overall population stands at 5.48 million: 
+2.67 million males and 2.8 million females.  
+[Population: estimates, Scotland, Scottish Public Health Observatory](https://www.scotpho.org.uk/population-dynamics/population-estimates-and-projections/data/population-estimates/#:~:text=Scotland,males%20and%202.8%20million%20females.) 
+
+```{r}
+incidences_by_year_sex <- incidences_by_year %>%
+  # Remove All sexes
   filter(sex != "All")
-model_year_incidences <- build_model_year_incidences(no_all_sex)
+
+# Plot INCIDENCE 2, Total incidences by sex - a box plot
+plot_total_incidences_sex_boxplot <- # plot_total_incidences_by_year_sex_boxplot(total_incidences_by_sex)
+  plot_incidences_boxplot <- plot_incidences_by_year_boxplot(incidences_by_year_sex)
+do_cis_plot(plot_total_incidences_sex_boxplot, cancer_incidence_plot_box_plot_filepath)
+```
+<!-- The lower and upper hinges correspond to the first and third quartiles 
+(the 25th and 75th percentiles).  -->
+
+Displays the summary statistics for yearly incidences for both sexes. 
+Even taking COVID-19 in to account there are no outliers - no years stand out as 
+being significantly different from the others. The median for females is 
+higher and males and the distribution is more negatively skewed.
+
+```{r eval=FALSE, warning=FALSE, include=FALSE}
+# Model 1 - ignore, just experimenting
+# "outcome ~ predictor"
+model_year_incidences <- build_model_year_incidences(incidences_by_year_sex)
 model_year_incidences
-rm(no_all_sex, model_year_incidences)
+rm(model_year_incidences)
+```
+```{r}
+rm(incidences_by_year_sex)
 ```
 
 ```{r}
@@ -195,8 +245,8 @@ year of COVID-19 itself might have been part of an already decreasing trend. The
 was widespread disruption to health services and daily life. All manner 
 of primary care (e.g. GP practices) and diagnostic services were interrupted 
 completely or on heavily reduced capacity which may give some administrative 
-reasons for a drop in formal diagnoses. The steep rise 2020-2021 may have part 
-of a backlog of cases as part of that increase.
+reasons for a drop in formal diagnoses. The steep rise 2020-2021 may have a 
+backlog of previously undiagnosed cases as part of that increase.
 
 GPs commented at the time that a lot of patients weren't coming to them. they are often the first point of contact for those with symptoms/concerns eventually leading to a formal cancer diagnosis.
 ["GPs are worried about “missing patients” and the backlog which has built up in chronic disease management, screening, immunisation and cancer referrals." DEEP END REPORT 36 General Practice in the time of Covid-19](https://www.gla.ac.uk/media/Media_728030_smxx.pdf) June 2020.
@@ -232,16 +282,18 @@ incidences_number_of_cancer_sites <- nrow(incidences_cancer_site)
 ```
 #### Incidences by Year and Cancer Sites
 
-In Scotland cancers are categorised (coded) to World Health Organisation standards.
+In Scotland cancers are categorised (coded) to World Health Organisation 
+standards.
 
 Here are the **recorded*** cancers for the all the years available (`r oldest_incidences_year`-`r newest_incidences_year`) in the dataset. 
 
-There are **`r incidences_number_of_cancer_sites`** types of cancer (cancer sites). 
+There are **`r incidences_number_of_cancer_sites`** types of cancer (cancer 
+sites). Some of these names are themselves umbrella categories of other more specific sub-categories e.g. 'Leukaemias' and 'Colorectal cancer' (Colon+Rectum) might be better known by the public as 'Bowel' cancer.
 
 These represent multiple years and all ages and sexes.  
 * Some excluded from all cancer reporting e.g. non-malignant skin cancer.
 
-```{r}
+```{r  fig.height = 8, fig.width = 10}
 # Plot INCIDENCE 3, incidences_by_year_cancer_site
 plot_incidences_bycs <- plot_incidences_by_year_cancer_site(
   incidences_by_cancer_site, oldest_incidences_year, newest_incidences_year
@@ -258,6 +310,15 @@ table_incidences_cancer_sites_between(
   oldest_incidences_year, newest_incidences_year
 )
 ```
+```{r}
+# Lung, Breast, Bowel and Prostate
+largest_types <- ((125189 + 107964 + 93160 + 75673) / 749411) * 100
+# =  53.6402588
+rm(largest_types)
+```
+
+Lung, Breast, Bowel and Prostate alone account for over 53% of the total.
+
 ##### Most recent year available (`r highest_incidences_year`)
 
 For comparison here is the list only for the latest year of data.
@@ -284,60 +345,62 @@ table_incidences_cancer_sites(incidences_cancer_site_recent, oldest_incidences_y
 # min_rank(desc(cancer_site_recent$total_incidences))
 ```
 
+What might be worth watching is which cancer sites are in a higher position in 
+the 2021 table as this may show cancers that are starting to become more 
+prevalent. e.g. "Malignant melanoma of the skin" and "Head and neck" have moved 
+to positions ahead of "Rectum and rectosigmoid junction" and "Kidney" now makes 
+the top 10 whereas "Non-Hodgkin lymphoma" drops to 11th.
+
 ### Age Range
 
-What age are people when they are newly diagnosed. Would knowing the demographics of different diseases affect what kind of public health information and awareness raising needs to be done?
+What age are people when they are newly diagnosed. Would knowing the 
+demographics of different diseases affect what kind of public health information
+and awareness raising needs to be done? The next tables are based on all of the 
+years of data available.
 
 ```{r}
 # Get Cancers incidences by age range and sex
 incidences_all_cancer_site_age_range <- get_cancer_site_age_range(incidence)
 ```
 
-#### Top Incidences by Cancer Site, Age Group and Sex
-This is a list of those cancer sites, age groups and sexes most at risk of having 
-a new cancer diagnosed.
+#### Top Incidences by Cancer Site, Age Range and Sex
+
+This is a list of those cancer sites, age groups and sexes most at risk of 
+having a new cancer diagnosed. 
 
 ```{r}
-table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-                                                    top = 10)
+# Show top 10 across all
+table_age_range <- get_top_incidences_age_range_sex(
+  incidences_all_cancer_site_age_range,
+  top = 10
+)
 table_incidences_cancer_sites_age_range(table_age_range, "Top 10 All")
-# 
-# table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-#                                                     top = 5,
-#                                                     filter_sex = "Females")
-# table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Female")
-# 
-# table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-#                                                     top = 5,
-#                                                     filter_sex = "Male")
-# table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Male")
 ```
 
-An example of how greatly the kinds of cancer differ by age.
+Next an example of how different the top risks by cancer site can be by age 
+and sex.
 
 ```{r}
+# Top 5 by Females 20-29
 table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-                                                    top = 5,
-                                                    filter_sex = "Females",
-                                                    filter_age = 
-                                                      c("20-24", "25-29"))
+  top = 5,
+  filter_sex = "Females",
+  filter_age =
+    c("20-24", "25-29")
+)
 table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Females 20-29")
 ```
 
-An example of who might be more at risk of a particular cancer type.
+Next, an example of what age range and sex might be more at risk of a 
+specific cancer type.
 
 ```{r}
-# table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-#                                                     top = 5,
-#                                                     filter_sex = "Male",
-#                                                     filter_age = 
-#                                                       c("20-24", "25-29"))
-# table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Male 20-29")
-
+# Top 5 by cancer site "Hodgkin lymphoma"
 table_age_range <- get_top_incidences_age_range_sex(incidences_all_cancer_site_age_range,
-                                                    top = 5,
-                                                    filter_sex = NULL,
-                                                    filter_cancer_site = "Hodgkin lymphoma")
+  top = 5,
+  filter_sex = NULL,
+  filter_cancer_site = "Hodgkin lymphoma"
+)
 table_incidences_cancer_sites_age_range(table_age_range, "Top 5 Hodgkin lymphoma")
 rm(table_age_range)
 ``` 
@@ -348,7 +411,7 @@ Here we have age-related data where incidences have been provided in 5-year
 categories  from 0, .. to 90+. This data gives us the chance to consider the 
 relationship between ageing and risk of being diagnosed with a new cancer.
 
-```{r}
+```{r  fig.height = 8, fig.width = 10}
 # Plot INCIDENCE 4, incidences_all_cancer_site_age_range
 plot_age_range <- plot_all_cancer_site_age_sex_range(incidences_all_cancer_site_age_range)
 do_cis_plot(plot_age_range, cancer_incidence_by_age_range_plot_filepath)
@@ -357,16 +420,20 @@ do_cis_plot(plot_age_range, cancer_incidence_by_age_range_plot_filepath)
 We see 4 main cancers dominating in terms of numbers Colorectal/Lung/Breast and 
 Prostate. The pattern over many cancers in terms of age range is that most of 
 them really become much more prevalent from middle age onwards, peaking for new 
-cases when we are in our 70s.
+cases for most sites when we are in our 70s. 
 
-The ones that buck that trend tend to be the ones associates with female 
-reproductive organs.
+Of these big 4 "Breast" seems 
+highest at younger ages than the other 3 so awareness raising should start in 
+younger age groups. The ones that buck that trend higher more in the first half 
+of life tend to be the ones associated with "Cervix uteri" (Cervical) in females
+and "Testis" (Testicular) in males.
 
 **Suggestion:**
 
 * Is the public aware of the increased risk simply by ageing? Are there 
 opportunities to raise awareness among people engaging with other health or 
-public sector organisations to be watchful for early symptoms.
+public sector organisations to be watchful for early symptoms that might be 
+higher risks according to the age of the person.
 
 * There are already screening programmes for breast/bowel and cervical cancer.
 Lung and Prostate cancer are some of the top in terms of numbers. Is there some equivalent of screening for these two in particular? If not, keep informed of any developments in early detection of these two.
