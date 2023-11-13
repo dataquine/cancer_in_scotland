@@ -47,9 +47,3 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
-
-# Hide raw data while exploring
-data_raw
-
-# Miscellaneous temporary files for working not for sharing
-ignore
