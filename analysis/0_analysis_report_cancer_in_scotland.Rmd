@@ -1,0 +1,42 @@
+---
+title: "Cancer in Scotland"
+author: "Lesley Duff"
+date: "`r format(Sys.Date())`"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    toc_depth: 4
+    toc_float: true
+---
+```{r setup_report, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  error = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+library(here)
+```
+
+```{r}
+source(here::here("R/theming.R"))
+```
+
+```{r}
+# Set custom theme
+theme_set(theme_cancer_in_scotland())
+```
+
+```{r, child=c('1_analysis_death.Rmd')}
+```
+
+```{r, child=c('2_analysis_incidence.Rmd')}
+```
+
+```{r, child=c('3_analysis_screening.Rmd')}
+```
+```{r, child=c('4_analysis_waiting_times.Rmd')}
+```
