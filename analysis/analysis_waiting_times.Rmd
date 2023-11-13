@@ -76,13 +76,10 @@ waiting_times <- waiting_times_clean %>%
   # add helper variables for visualisation
   mutate(
     quarter_time = zoo::as.yearqtr(quarter_time),
-    #   quarter_new = as_factor(quarter(quarter_time)),
-    #   year_new = as_factor(year(quarter_time)),
     quarter_new = quarter(quarter_time),
     year_new = as_factor(year(quarter_time)),
     .after = quarter_time
   )
-# waiting_times
 ```
 
 ```{r}
@@ -95,7 +92,7 @@ wt_info <- waiting_times %>%
     res = newest_quarter - oldest_quarter
   )
 
-# 12 years of data
+# 11 complete years of data
 ```
 
 We have  **`r wt_info$count_quarters`**  quarters of Waiting Times data 
@@ -114,10 +111,6 @@ We will combine these to look at complete year totals.
 # [17] "referrals_treated_qf"         "referrals_treated_qf_values"
 ```
 
-```{r}
-# waiting_times %>%
-#  distinct(cancer_type)
-```
 ```{r}
 waiting_times_all_cancer_types <- "All Cancer Types"
 
@@ -149,12 +142,9 @@ totals_quarter_62 <- waiting_times %>%
 all_standards_totals <- totals_quarter_31 %>%
   left_join(totals_quarter_62) %>%
   filter(year_new != 2023) # remove partial year
-# print(all_standards_totals)
-# head(all_standards_totals)
 ```
 
 ```{r}
-# all_standards_totals_combined <- all_standards_totals %>%
 all_standards_totals_filtered <- all_standards_totals %>%
   pivot_longer(
     cols = c(
@@ -191,20 +181,20 @@ do_cis_plot(plot_all_standards, cancer_waiting_times_number_referrals_plot_filep
 ```
 
 The trend is for increasing numbers of referrals being made.
-Of concern is the between 2021 and 2022 the gap between those referred and 
+Of concern is between 2021 and 2022 the gap between those referred and 
 those treated within the target windows of time is at its largest. 
 It is likely that the referral system is still processing a lot of people who 
 developed symptoms during the year COVID-19 started (2020) but did not seek or 
-were not able to be referred. It's possible that people are presenting with 
+were not able to be referred. Is it possible that people are presenting with 
 conditions at a more advanced stage of the disease and now need more complex 
 diagnostic procedures taking longer to reach the right treatment?
 
 **Suggestion:**
 
 It seems that more resources need to be directed towards improving getting 
-treatment underway to undo the immediate delays from COVID. If there are any 
-administrative processes that could be hastened or improvements in information/
-communication that would be helpful for reducing the wait for patients.
+treatment underway to undo the immediate delays from COVID-19. If there are any 
+administrative processes that could be hastened or improvements in 
+information/communication that would be helpful for reducing the wait for patients.
 
 ### Are Cancer Waiting Time targets being met?
 
@@ -226,24 +216,47 @@ The dashed red line indicates the 95% target.
 * 31 Day targets are being met.
 * 62 Day targets are being missed.
 
+The 31 day targets have been met for the last 4 years in a row so this suggests 
+there is a 'good enough' system in place, though it could always be better. The 
+31 day target relates to reaching the *decision* to treat quickly so this 
+likely requires fewer people and resources to review the patient details than 
+having to commence delivering the actual treatment.
+
+However, although it was met, the 31 day target was achieved in 2022 but barely 
+scraped by on 95.04%.
+
+**The 31 day target is also at high risk of being missed in 2023** and being 
+November 2023 at time of writing, little time to put new measures in place.
+
+In the course of this analysis we've become aware that there are places where 
+metrics about lab processing of tests such as number of tests successful, 
+processing time taken etc. are being recorded. It is encouraging to read in 
+screening reports that at various points tests are routinely upgraded to those 
+more sensitive or delivering more accurate or quicker results. So it appears 
+all measures withing the control of laborotaries are already being done. Do 
+clinicians prefer to wait longer to get a more comprehensive set of tests 
+completed before deciding on a suitable treatment plan for better longer-term 
+outcomes? Does there need to be more laboratory resources for diagnostic tests 
+allocated? Are there enough scanners/radiographers? Is the bottleneck more due 
+to lower than ideal staffing levels? The latter would likely require 
+considerably more financial and time investment.
+
 There seems to be a chronic problem achieving the 62 day target as it has 
 not been achieved even as far back as 2012 though other reports indicate it 
-was achieved in 2011. The target must have been considered achievable when 
+*was* achieved in 2011. The target must have been considered achievable when 
 it was drawn up. What has changed?
 
 The gap is widening as the years go by except for a brief improvement in 2020 
 the year COVID-10 started. If nothing tried so far has worked then this maybe 
-needs a major rethink about how services are allocated and delivered. 
+needs a more major rethink about how services are allocated and delivered. 
 
-The 31 day target was achieved in 2022 but barely scraped pass on 95.04%.  
-**The 31 day target is also at high risk of being missed in 2023** and being 
-October 2023 at time of writing, little time to put new measures in place.
 
 **Suggestion**
 
-Set up a focus group to review what's been tried already and reasons 
-for failure. It is noted that the NHS in England too is experiencing similar 
-missed targets. 
-There they are making adjustments to the reporting process"...following a consultation on the cancer waiting times standards..." [
+Set up a focus group to review what's been tried already and reasons for 
+failure to make any real inroads for improvement. It is noted that the NHS in 
+England too is experiencing similar missed targets. There they are making 
+adjustments to the reporting process"...following a consultation on the cancer 
+waiting times standards..." [
 Changes to Cancer Waiting Times standards and Official Statistics](https://www.england.nhs.uk/statistics/statistical-work-areas/cancer-waiting-times/). They appear to be about to break categories down into greater 
 detail in the data.
