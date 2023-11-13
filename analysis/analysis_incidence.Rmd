@@ -75,6 +75,7 @@ incidence_all <- read_csv(here::here(
 # TODO: remember to uncomment before production
 # valid <- check_valid_icd10(incidence_all)
 incidence <- simplify_cancer_site(incidence_all)
+rm(incidence_all)
 ```
 
 ```{r}
@@ -179,6 +180,7 @@ table_summary_incidences_sex(summary_incidences_by_sex,
   lowest_year = oldest_incidences_year,
   highest_year = newest_incidences_year
 )
+rm(summary_incidences_by_sex)
 ```
 
 On average in Scotland there are almost 30,000 new incidences of cancer each 
@@ -448,12 +450,13 @@ leveraging the value of a multi-decade dataset in capturing risk in Scotland.
 
 The tool will be found in the "cancer_risk_tool" folder that accompanies this report. It is an experimental demo and requires the user to run the *Shiny R Markdown* document by opening the file and clicking "Run Document".
 
-Here is a screenshot of the tool in action
+Below is a screenshot of the tool in action.
 
-TODO screenshot
+![Cancer Risk Tool Screenshot](images/screenshot_cancer_risk_tool.png "Demo of Cancer Risk Tool - Show Cancer Site by Age Range and Sex")
 
 ***
 ```{r}
-# rm(list = ls(pattern = "incidences_"))
-# rm(list = ls(pattern = "incidence"))
+rm(list = ls(pattern = "incidences_"))
+rm(list = ls(pattern = "incidence"))
+rm(list = ls(pattern = "plot_"))
 ```

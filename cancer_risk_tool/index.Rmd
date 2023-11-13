@@ -1,8 +1,8 @@
 ---
 title: "Cancer Risk Tool"
 subtitle: 'Age Range and Sex'
-author: "Lesley Duff"
-date: "`r Sys.Date()`"
+#author: "Lesley Duff"
+#date: "`r Sys.Date()`"
 output: 
   html_document: 
 runtime: shiny
