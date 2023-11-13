@@ -96,3 +96,14 @@ trying plotting
   
 * Screening:
   * Tidy up plots/palettes and more commentary
+
+## 2023-10-19 Thursday
+* Work on presentation
+
+## 2023-10-20 Friday
+* Presentation
+
+## 2023-11-13 Monday
+* Clean up code and structure final analysis report
+* Write README files
+* Write final PDA report
