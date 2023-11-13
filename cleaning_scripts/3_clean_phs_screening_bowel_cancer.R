@@ -32,7 +32,7 @@ screening_bowel_uptake_range <- "B16:Q20"
 # Uptake KP1 ----
 
 # Download the file from the remote source ----
-# Should onely need to do this once
+# Should only need to do this once
 # Warning be mindful of not runing scipt too frequently
 download.file(phs_screening_bowel_url,
               destfile = here::here(
