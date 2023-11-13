@@ -451,7 +451,7 @@ The tool will be found in the "cancer_risk_tool" folder that accompanies this re
 
 Below is a screenshot of the tool in action.
 
-![Cancer Risk Tool Screenshot](images/screenshot_cancer_risk_tool.png "Demo of Cancer Risk Tool - Show Cancer Site by Age Range and Sex")
+![](images/screenshot_cancer_risk_tool.png "Demo of Cancer Risk Tool - Show Cancer Site by Age Range and Sex")
 
 ***
 ```{r}
