@@ -5,23 +5,28 @@ Final individual project of CodeClan DR22 Professional Data Analysis Course.
 For this a fictional brief was created to simulate a request from the Scottish 
 Government to take a high-level look at cancer statistics in Scotland.
 
-* **Project Brief**  
-[documents/project_brief_cancer_in_scotland.pdf](documents/project_brief_cancer_in_scotland.pdf)
+## Project Brief
+[Brief](documents/project_brief_cancer_in_scotland.pdf) (PDF).
 
-* **Analysis Report**  
-The main analysis report combines 4 different analysis reports together in one 
-larger document for convenience.
-[analysis/0_analysis_report_cancer_in_scotland.html](analysis/0_analysis_report_cancer_in_scotland.html)
+## Analysis Report 
+The main analysis report combines four different analysis reports together into one document for convenience.  
+`analysis/0_analysis_report_cancer_in_scotland.html`
 
-* **Cancer Risk Tool**  
-One project output is a prototype of an interactive tool to let people try 
-different combinations of Cancer type, age range and sex and see which cancers 
-that combination is most at risk of according to over two decades of Scottish 
-health data from 1997 and 2021 relating to cancer incidences.
+## Presentation 
+>Lessons from death for life.
 
-The tool runs in R using R Studio.
+Remote presentation given at end of project to instructors and the rest of course cohort.  
+Contains several of the plots from the analysis.  
+[Cancer in Scotland](https://github.com/dataquine/cancer_in_scotland/blob/main/presentation/cancer_in_scotland_lesleyduff_codeclan_dr22_2023-10.pdf) (PDF).
 
-To run the tool:
+## Cancer Risk Tool 
+One project output is a prototype of an interactive tool to let the general public see cancer risk for different combinations of cancer type, age range and sex. 
+
+This is leveraging the longitudinal dataset that covers over **two decades** of Scottish cancer incidence health data from 1997 and 2021.
+
+The tool runs in R as an R Shiny Interactive Document.
+
+To run the tool locally using R Studio:
 
 1. clone this project
 2. in R Studio open the file `cancer_risk_tool/index.Rmd`
